@@ -1,0 +1,505 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2214DCC21B661CD2003E3EF1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2214DCC11B661CD2003E3EF1 /* main.m */; };
+		2214DCC51B661CD2003E3EF1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2214DCC41B661CD2003E3EF1 /* AppDelegate.m */; };
+		2214DCC81B661CD2003E3EF1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2214DCC71B661CD2003E3EF1 /* ViewController.m */; };
+		2214DCCB1B661CD2003E3EF1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2214DCC91B661CD2003E3EF1 /* Main.storyboard */; };
+		2214DCCD1B661CD2003E3EF1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2214DCCC1B661CD2003E3EF1 /* Images.xcassets */; };
+		2214DCD01B661CD2003E3EF1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2214DCCE1B661CD2003E3EF1 /* LaunchScreen.xib */; };
+		2214DCDC1B661CD2003E3EF1 /* TOSMBClientExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2214DCDB1B661CD2003E3EF1 /* TOSMBClientExampleTests.m */; };
+		2214DCF31B662632003E3EF1 /* libdsm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2214DCF21B662632003E3EF1 /* libdsm.a */; };
+		2214DCF61B666766003E3EF1 /* TONetBIOSNameService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2214DCF51B666766003E3EF1 /* TONetBIOSNameService.m */; };
+		2214DCF91B6678C8003E3EF1 /* TONetBIOSNameServiceEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 2214DCF81B6678C8003E3EF1 /* TONetBIOSNameServiceEntry.m */; };
+		2214DCFC1B66847B003E3EF1 /* TOSMBConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 2214DCFB1B66847B003E3EF1 /* TOSMBConstants.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2214DCD61B661CD2003E3EF1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2214DCB41B661CD2003E3EF1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2214DCBB1B661CD2003E3EF1;
+			remoteInfo = TOSMBClientExample;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		2214DCBC1B661CD2003E3EF1 /* TOSMBClientExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TOSMBClientExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2214DCC01B661CD2003E3EF1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2214DCC11B661CD2003E3EF1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2214DCC31B661CD2003E3EF1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		2214DCC41B661CD2003E3EF1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		2214DCC61B661CD2003E3EF1 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		2214DCC71B661CD2003E3EF1 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		2214DCCA1B661CD2003E3EF1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		2214DCCC1B661CD2003E3EF1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		2214DCCF1B661CD2003E3EF1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		2214DCD51B661CD2003E3EF1 /* TOSMBClientExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TOSMBClientExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2214DCDA1B661CD2003E3EF1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2214DCDB1B661CD2003E3EF1 /* TOSMBClientExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TOSMBClientExampleTests.m; sourceTree = "<group>"; };
+		2214DCE81B662632003E3EF1 /* bdsm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bdsm.h; sourceTree = "<group>"; };
+		2214DCEA1B662632003E3EF1 /* netbios_defs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = netbios_defs.h; sourceTree = "<group>"; };
+		2214DCEB1B662632003E3EF1 /* netbios_ns.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = netbios_ns.h; sourceTree = "<group>"; };
+		2214DCEC1B662632003E3EF1 /* smb_defs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smb_defs.h; sourceTree = "<group>"; };
+		2214DCED1B662632003E3EF1 /* smb_file.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smb_file.h; sourceTree = "<group>"; };
+		2214DCEE1B662632003E3EF1 /* smb_session.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smb_session.h; sourceTree = "<group>"; };
+		2214DCEF1B662632003E3EF1 /* smb_share.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smb_share.h; sourceTree = "<group>"; };
+		2214DCF01B662632003E3EF1 /* smb_stat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smb_stat.h; sourceTree = "<group>"; };
+		2214DCF11B662632003E3EF1 /* smb_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smb_types.h; sourceTree = "<group>"; };
+		2214DCF21B662632003E3EF1 /* libdsm.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libdsm.a; sourceTree = "<group>"; };
+		2214DCF41B666766003E3EF1 /* TONetBIOSNameService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TONetBIOSNameService.h; sourceTree = "<group>"; };
+		2214DCF51B666766003E3EF1 /* TONetBIOSNameService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TONetBIOSNameService.m; sourceTree = "<group>"; };
+		2214DCF71B6678C7003E3EF1 /* TONetBIOSNameServiceEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TONetBIOSNameServiceEntry.h; sourceTree = "<group>"; };
+		2214DCF81B6678C8003E3EF1 /* TONetBIOSNameServiceEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TONetBIOSNameServiceEntry.m; sourceTree = "<group>"; };
+		2214DCFA1B66847B003E3EF1 /* TOSMBConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TOSMBConstants.h; sourceTree = "<group>"; };
+		2214DCFB1B66847B003E3EF1 /* TOSMBConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOSMBConstants.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2214DCB91B661CD2003E3EF1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2214DCF31B662632003E3EF1 /* libdsm.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2214DCD21B661CD2003E3EF1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2214DCB31B661CD2003E3EF1 = {
+			isa = PBXGroup;
+			children = (
+				2214DCE51B662632003E3EF1 /* TOSMBClient */,
+				2214DCBE1B661CD2003E3EF1 /* TOSMBClientExample */,
+				2214DCD81B661CD2003E3EF1 /* TOSMBClientExampleTests */,
+				2214DCBD1B661CD2003E3EF1 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2214DCBD1B661CD2003E3EF1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2214DCBC1B661CD2003E3EF1 /* TOSMBClientExample.app */,
+				2214DCD51B661CD2003E3EF1 /* TOSMBClientExampleTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2214DCBE1B661CD2003E3EF1 /* TOSMBClientExample */ = {
+			isa = PBXGroup;
+			children = (
+				2214DCC31B661CD2003E3EF1 /* AppDelegate.h */,
+				2214DCC41B661CD2003E3EF1 /* AppDelegate.m */,
+				2214DCC61B661CD2003E3EF1 /* ViewController.h */,
+				2214DCC71B661CD2003E3EF1 /* ViewController.m */,
+				2214DCC91B661CD2003E3EF1 /* Main.storyboard */,
+				2214DCCC1B661CD2003E3EF1 /* Images.xcassets */,
+				2214DCCE1B661CD2003E3EF1 /* LaunchScreen.xib */,
+				2214DCBF1B661CD2003E3EF1 /* Supporting Files */,
+			);
+			path = TOSMBClientExample;
+			sourceTree = "<group>";
+		};
+		2214DCBF1B661CD2003E3EF1 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2214DCC01B661CD2003E3EF1 /* Info.plist */,
+				2214DCC11B661CD2003E3EF1 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2214DCD81B661CD2003E3EF1 /* TOSMBClientExampleTests */ = {
+			isa = PBXGroup;
+			children = (
+				2214DCDB1B661CD2003E3EF1 /* TOSMBClientExampleTests.m */,
+				2214DCD91B661CD2003E3EF1 /* Supporting Files */,
+			);
+			path = TOSMBClientExampleTests;
+			sourceTree = "<group>";
+		};
+		2214DCD91B661CD2003E3EF1 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2214DCDA1B661CD2003E3EF1 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2214DCE51B662632003E3EF1 /* TOSMBClient */ = {
+			isa = PBXGroup;
+			children = (
+				2214DCE61B662632003E3EF1 /* libdsm */,
+				2214DCFA1B66847B003E3EF1 /* TOSMBConstants.h */,
+				2214DCFB1B66847B003E3EF1 /* TOSMBConstants.m */,
+				2214DCF41B666766003E3EF1 /* TONetBIOSNameService.h */,
+				2214DCF51B666766003E3EF1 /* TONetBIOSNameService.m */,
+				2214DCF71B6678C7003E3EF1 /* TONetBIOSNameServiceEntry.h */,
+				2214DCF81B6678C8003E3EF1 /* TONetBIOSNameServiceEntry.m */,
+			);
+			path = TOSMBClient;
+			sourceTree = "<group>";
+		};
+		2214DCE61B662632003E3EF1 /* libdsm */ = {
+			isa = PBXGroup;
+			children = (
+				2214DCE71B662632003E3EF1 /* bdsm */,
+				2214DCF21B662632003E3EF1 /* libdsm.a */,
+			);
+			path = libdsm;
+			sourceTree = "<group>";
+		};
+		2214DCE71B662632003E3EF1 /* bdsm */ = {
+			isa = PBXGroup;
+			children = (
+				2214DCE81B662632003E3EF1 /* bdsm.h */,
+				2214DCEA1B662632003E3EF1 /* netbios_defs.h */,
+				2214DCEB1B662632003E3EF1 /* netbios_ns.h */,
+				2214DCEC1B662632003E3EF1 /* smb_defs.h */,
+				2214DCED1B662632003E3EF1 /* smb_file.h */,
+				2214DCEE1B662632003E3EF1 /* smb_session.h */,
+				2214DCEF1B662632003E3EF1 /* smb_share.h */,
+				2214DCF01B662632003E3EF1 /* smb_stat.h */,
+				2214DCF11B662632003E3EF1 /* smb_types.h */,
+			);
+			path = bdsm;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2214DCBB1B661CD2003E3EF1 /* TOSMBClientExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2214DCDF1B661CD2003E3EF1 /* Build configuration list for PBXNativeTarget "TOSMBClientExample" */;
+			buildPhases = (
+				2214DCB81B661CD2003E3EF1 /* Sources */,
+				2214DCB91B661CD2003E3EF1 /* Frameworks */,
+				2214DCBA1B661CD2003E3EF1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TOSMBClientExample;
+			productName = TOSMBClientExample;
+			productReference = 2214DCBC1B661CD2003E3EF1 /* TOSMBClientExample.app */;
+			productType = "com.apple.product-type.application";
+		};
+		2214DCD41B661CD2003E3EF1 /* TOSMBClientExampleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2214DCE21B661CD2003E3EF1 /* Build configuration list for PBXNativeTarget "TOSMBClientExampleTests" */;
+			buildPhases = (
+				2214DCD11B661CD2003E3EF1 /* Sources */,
+				2214DCD21B661CD2003E3EF1 /* Frameworks */,
+				2214DCD31B661CD2003E3EF1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2214DCD71B661CD2003E3EF1 /* PBXTargetDependency */,
+			);
+			name = TOSMBClientExampleTests;
+			productName = TOSMBClientExampleTests;
+			productReference = 2214DCD51B661CD2003E3EF1 /* TOSMBClientExampleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2214DCB41B661CD2003E3EF1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0640;
+				ORGANIZATIONNAME = TimOliver;
+				TargetAttributes = {
+					2214DCBB1B661CD2003E3EF1 = {
+						CreatedOnToolsVersion = 6.4;
+					};
+					2214DCD41B661CD2003E3EF1 = {
+						CreatedOnToolsVersion = 6.4;
+						TestTargetID = 2214DCBB1B661CD2003E3EF1;
+					};
+				};
+			};
+			buildConfigurationList = 2214DCB71B661CD2003E3EF1 /* Build configuration list for PBXProject "TOSMBClientExample" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2214DCB31B661CD2003E3EF1;
+			productRefGroup = 2214DCBD1B661CD2003E3EF1 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2214DCBB1B661CD2003E3EF1 /* TOSMBClientExample */,
+				2214DCD41B661CD2003E3EF1 /* TOSMBClientExampleTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2214DCBA1B661CD2003E3EF1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2214DCCB1B661CD2003E3EF1 /* Main.storyboard in Resources */,
+				2214DCD01B661CD2003E3EF1 /* LaunchScreen.xib in Resources */,
+				2214DCCD1B661CD2003E3EF1 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2214DCD31B661CD2003E3EF1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2214DCB81B661CD2003E3EF1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2214DCC81B661CD2003E3EF1 /* ViewController.m in Sources */,
+				2214DCF61B666766003E3EF1 /* TONetBIOSNameService.m in Sources */,
+				2214DCC51B661CD2003E3EF1 /* AppDelegate.m in Sources */,
+				2214DCC21B661CD2003E3EF1 /* main.m in Sources */,
+				2214DCF91B6678C8003E3EF1 /* TONetBIOSNameServiceEntry.m in Sources */,
+				2214DCFC1B66847B003E3EF1 /* TOSMBConstants.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2214DCD11B661CD2003E3EF1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2214DCDC1B661CD2003E3EF1 /* TOSMBClientExampleTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2214DCD71B661CD2003E3EF1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2214DCBB1B661CD2003E3EF1 /* TOSMBClientExample */;
+			targetProxy = 2214DCD61B661CD2003E3EF1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		2214DCC91B661CD2003E3EF1 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2214DCCA1B661CD2003E3EF1 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		2214DCCE1B661CD2003E3EF1 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2214DCCF1B661CD2003E3EF1 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2214DCDD1B661CD2003E3EF1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2214DCDE1B661CD2003E3EF1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2214DCE01B661CD2003E3EF1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = TOSMBClientExample/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/TOSMBClient/libdsm",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		2214DCE11B661CD2003E3EF1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = TOSMBClientExample/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/TOSMBClient/libdsm",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		2214DCE31B661CD2003E3EF1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = TOSMBClientExampleTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TOSMBClientExample.app/TOSMBClientExample";
+			};
+			name = Debug;
+		};
+		2214DCE41B661CD2003E3EF1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = TOSMBClientExampleTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TOSMBClientExample.app/TOSMBClientExample";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2214DCB71B661CD2003E3EF1 /* Build configuration list for PBXProject "TOSMBClientExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2214DCDD1B661CD2003E3EF1 /* Debug */,
+				2214DCDE1B661CD2003E3EF1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2214DCDF1B661CD2003E3EF1 /* Build configuration list for PBXNativeTarget "TOSMBClientExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2214DCE01B661CD2003E3EF1 /* Debug */,
+				2214DCE11B661CD2003E3EF1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		2214DCE21B661CD2003E3EF1 /* Build configuration list for PBXNativeTarget "TOSMBClientExampleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2214DCE31B661CD2003E3EF1 /* Debug */,
+				2214DCE41B661CD2003E3EF1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2214DCB41B661CD2003E3EF1 /* Project object */;
+}
