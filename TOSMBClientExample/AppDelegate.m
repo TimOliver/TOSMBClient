@@ -23,8 +23,16 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     self.nameService = [[TONetBIOSNameService alloc] init];
-    NSString *name = [self.nameService lookupNetworkNameForIPAddress:@"192.168.1.3"];
-    NSLog(@"NAME IS %@", name);
+    
+    id addedEvent = ^(TONetBIOSNameServiceEntry *entry) {
+        NSLog(@"Found entry '%@/%@'", entry.group, entry.name);
+    };
+
+    id removedEvent = ^(TONetBIOSNameServiceEntry *entry) {
+        NSLog(@"Removed entry '%@/%@'", entry.group, entry.name);
+    };
+    
+    [self.nameService startDiscoveryWithTimeOut:4.0f added:addedEvent removed:removedEvent];
     
     return YES;
 }
