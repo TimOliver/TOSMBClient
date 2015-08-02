@@ -21,12 +21,22 @@
 // -------------------------------------------------------------------------------
 
 #import <Foundation/Foundation.h>
+#import "netbios_defs.h"
+#import "smb_defs.h"
 
+/** NetBIOS Service Device Types */
 typedef NS_ENUM(NSInteger, TONetBIOSNameServiceType) {
     TONetBIOSNameServiceTypeWorkStation,
     TONetBIOSNameServiceTypeMessenger,
     TONetBIOSNameServiceTypeFileServer,
     TONetBIOSNameServiceTypeDomainMaster
+};
+
+typedef NS_ENUM(NSInteger, TOSMBSessionState) {
+    TOSMBSessionStateError = SMB_STATE_ERROR,
+    TOSMBSessionStateNetBIOSOK = SMB_STATE_NEW,
+    TOSMBSessionStateDialectOK = SMB_STATE_NETBIOS_OK,
+    TOSMBSessionStateSessionOK = SMB_STATE_SESSION_OK
 };
 
 extern TONetBIOSNameServiceType TONetBIOSNameServiceTypeForCType(char type);

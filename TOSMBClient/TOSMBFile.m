@@ -1,5 +1,5 @@
 //
-// TOSMBConstants.m
+// TOSMBFile.m
 // Copyright 2015 Timothy Oliver
 //
 // This file is dual-licensed under both the MIT License, and the LGPL v2.1 License.
@@ -20,26 +20,34 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 // -------------------------------------------------------------------------------
 
-#import "TOSMBConstants.h"
+#import "TOSMBFile.h"
 
-TONetBIOSNameServiceType TONetBIOSNameServiceTypeForCType(char type)
+@interface TOSMBFile ()
+
+@property (nonatomic, assign) BOOL isShareRoot; /** If this item represents the root network share */
+
+@property (nonatomic, readwrite) TOSMBSession *session;
+
+@property (nonatomic, strong, readwrite) NSString *name;
+@property (nonatomic, assign, readwrite) NSInteger fileSize;
+@property (nonatomic, assign, readwrite) NSInteger allocationSize;
+@property (nonatomic, strong, readwrite) NSDate *creationTime;
+@property (nonatomic, strong, readwrite) NSDate *accessTime;
+@property (nonatomic, strong, readwrite) NSDate *writeTime;
+@property (nonatomic, strong, readwrite) NSDate *modificationTime;
+
+@end
+
+@implementation TOSMBFile
+
+- (instancetype)init
 {
-    switch (type) {
-        default:
-        case NETBIOS_WORKSTATION:   return TONetBIOSNameServiceTypeWorkStation;
-        case NETBIOS_MESSENGER:     return TONetBIOSNameServiceTypeMessenger;
-        case NETBIOS_FILESERVER:    return TONetBIOSNameServiceTypeFileServer;
-        case NETBIOS_DOMAINMASTER:  return TONetBIOSNameServiceTypeDomainMaster;
+    if (self = [super init]) {
+        _fileSize = -1;
+        _allocationSize = -1;
     }
+    
+    return self;
 }
 
-char TONetBIOSNameServiceCTypeForType(char type)
-{
-    switch (type) {
-        default:
-        case TONetBIOSNameServiceTypeWorkStation:   return NETBIOS_WORKSTATION;
-        case TONetBIOSNameServiceTypeMessenger:     return NETBIOS_MESSENGER;
-        case TONetBIOSNameServiceTypeFileServer:    return NETBIOS_FILESERVER;
-        case TONetBIOSNameServiceTypeDomainMaster:  return NETBIOS_DOMAINMASTER;
-    }
-}
+@end

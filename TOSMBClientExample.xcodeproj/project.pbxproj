@@ -18,6 +18,10 @@
 		2214DCF61B666766003E3EF1 /* TONetBIOSNameService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2214DCF51B666766003E3EF1 /* TONetBIOSNameService.m */; };
 		2214DCF91B6678C8003E3EF1 /* TONetBIOSNameServiceEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 2214DCF81B6678C8003E3EF1 /* TONetBIOSNameServiceEntry.m */; };
 		2214DCFC1B66847B003E3EF1 /* TOSMBConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 2214DCFB1B66847B003E3EF1 /* TOSMBConstants.m */; };
+		22236CF91B67C2C700176C34 /* TOSMBSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 22236CF81B67C2C700176C34 /* TOSMBSession.m */; };
+		22236CFC1B687DB100176C34 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 22236CFB1B687DB100176C34 /* libiconv.dylib */; };
+		22236CFE1B687E1300176C34 /* libtasn1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 22236CFD1B687E1300176C34 /* libtasn1.a */; };
+		22301F701B6DED2500326F84 /* TOSMBFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 22301F6F1B6DED2500326F84 /* TOSMBFile.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +64,13 @@
 		2214DCF81B6678C8003E3EF1 /* TONetBIOSNameServiceEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TONetBIOSNameServiceEntry.m; sourceTree = "<group>"; };
 		2214DCFA1B66847B003E3EF1 /* TOSMBConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TOSMBConstants.h; sourceTree = "<group>"; };
 		2214DCFB1B66847B003E3EF1 /* TOSMBConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOSMBConstants.m; sourceTree = "<group>"; };
+		22236CF71B67C2C700176C34 /* TOSMBSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TOSMBSession.h; sourceTree = "<group>"; };
+		22236CF81B67C2C700176C34 /* TOSMBSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOSMBSession.m; sourceTree = "<group>"; };
+		22236CFA1B68791800176C34 /* libtasn1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libtasn1.h; sourceTree = "<group>"; };
+		22236CFB1B687DB100176C34 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
+		22236CFD1B687E1300176C34 /* libtasn1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtasn1.a; sourceTree = "<group>"; };
+		22301F6E1B6DED2500326F84 /* TOSMBFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TOSMBFile.h; sourceTree = "<group>"; };
+		22301F6F1B6DED2500326F84 /* TOSMBFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOSMBFile.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +78,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22236CFC1B687DB100176C34 /* libiconv.dylib in Frameworks */,
+				22236CFE1B687E1300176C34 /* libtasn1.a in Frameworks */,
 				2214DCF31B662632003E3EF1 /* libdsm.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -151,6 +164,10 @@
 				2214DCF51B666766003E3EF1 /* TONetBIOSNameService.m */,
 				2214DCF71B6678C7003E3EF1 /* TONetBIOSNameServiceEntry.h */,
 				2214DCF81B6678C8003E3EF1 /* TONetBIOSNameServiceEntry.m */,
+				22236CF71B67C2C700176C34 /* TOSMBSession.h */,
+				22236CF81B67C2C700176C34 /* TOSMBSession.m */,
+				22301F6E1B6DED2500326F84 /* TOSMBFile.h */,
+				22301F6F1B6DED2500326F84 /* TOSMBFile.m */,
 			);
 			path = TOSMBClient;
 			sourceTree = "<group>";
@@ -159,6 +176,8 @@
 			isa = PBXGroup;
 			children = (
 				2214DCE71B662632003E3EF1 /* bdsm */,
+				22236CFB1B687DB100176C34 /* libiconv.dylib */,
+				22236CFD1B687E1300176C34 /* libtasn1.a */,
 				2214DCF21B662632003E3EF1 /* libdsm.a */,
 			);
 			path = libdsm;
@@ -167,6 +186,7 @@
 		2214DCE71B662632003E3EF1 /* bdsm */ = {
 			isa = PBXGroup;
 			children = (
+				22236CFA1B68791800176C34 /* libtasn1.h */,
 				2214DCE81B662632003E3EF1 /* bdsm.h */,
 				2214DCEA1B662632003E3EF1 /* netbios_defs.h */,
 				2214DCEB1B662632003E3EF1 /* netbios_ns.h */,
@@ -283,6 +303,8 @@
 				2214DCC81B661CD2003E3EF1 /* ViewController.m in Sources */,
 				2214DCF61B666766003E3EF1 /* TONetBIOSNameService.m in Sources */,
 				2214DCC51B661CD2003E3EF1 /* AppDelegate.m in Sources */,
+				22301F701B6DED2500326F84 /* TOSMBFile.m in Sources */,
+				22236CF91B67C2C700176C34 /* TOSMBSession.m in Sources */,
 				2214DCC21B661CD2003E3EF1 /* main.m in Sources */,
 				2214DCF91B6678C8003E3EF1 /* TONetBIOSNameServiceEntry.m in Sources */,
 				2214DCFC1B66847B003E3EF1 /* TOSMBConstants.m in Sources */,
@@ -490,6 +512,7 @@
 				2214DCE11B661CD2003E3EF1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2214DCE21B661CD2003E3EF1 /* Build configuration list for PBXNativeTarget "TOSMBClientExampleTests" */ = {
 			isa = XCConfigurationList;
@@ -498,6 +521,7 @@
 				2214DCE41B661CD2003E3EF1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

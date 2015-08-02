@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 
+#import "TOSMBSession.h"
 #import "TONetBIOSNameService.h"
 #import "TONetBIOSNameServiceEntry.h"
 
@@ -22,7 +23,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    self.nameService = [[TONetBIOSNameService alloc] init];
+    /*self.nameService = [[TONetBIOSNameService alloc] init];
     
     id addedEvent = ^(TONetBIOSNameServiceEntry *entry) {
         NSLog(@"Found entry '%@/%@'", entry.group, entry.name);
@@ -32,7 +33,10 @@
         NSLog(@"Removed entry '%@/%@'", entry.group, entry.name);
     };
     
-    [self.nameService startDiscoveryWithTimeOut:4.0f added:addedEvent removed:removedEvent];
+    [self.nameService startDiscoveryWithTimeOut:4.0f added:addedEvent removed:removedEvent];*/
+    
+    TOSMBSession *session = [TOSMBSession new];
+    [session connect];
     
     return YES;
 }

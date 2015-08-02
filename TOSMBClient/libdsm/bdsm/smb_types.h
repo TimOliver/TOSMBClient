@@ -38,6 +38,7 @@
 
 #include <netinet/ip.h>
 #include <stddef.h>
+#include "libtasn1.h"
 #include <stdbool.h>
 
 /**
