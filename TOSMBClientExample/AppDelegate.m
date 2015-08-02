@@ -35,8 +35,12 @@
     
     [self.nameService startDiscoveryWithTimeOut:4.0f added:addedEvent removed:removedEvent];*/
     
-    TOSMBSession *session = [TOSMBSession new];
-    [session connect];
+    /*TOSMBSession *session = [TOSMBSession new];
+    [session connect];*/
+    
+    TOSMBSession *session = [[TOSMBSession alloc] initWithHostName:@"TITANNAS" ipAddress:@"192.168.1.3"];
+    NSArray *shares = [session requestContentsOfDirectoryAtFilePath:@"/" error:nil];
+    NSLog(@"%@", shares);
     
     return YES;
 }

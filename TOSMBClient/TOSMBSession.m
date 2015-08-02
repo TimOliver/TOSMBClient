@@ -23,6 +23,7 @@
 #import <arpa/inet.h>
 
 #import "TOSMBSession.h"
+#import "TOSMBFile.h"
 #import "TONetBIOSNameService.h"
 
 #import "smb_session.h"
@@ -32,7 +33,9 @@
 @interface TOSMBSession ()
 
 @property (nonatomic, assign) smb_session *session;
-@property (nonatomic, strong) NSOperationQueue *operationQueue;
+@property (nonatomic, assign, readwrite) NSInteger guest;
+
+- (NSError *)attemptConnection;
 
 @end
 
@@ -88,6 +91,82 @@
 {
     self.userName = userName;
     self.password = password;
+}
+
+#pragma mark - Requests -
+- (NSError *)attemptConnection
+{
+    if (self.state == TOSMBSessionStateSessionOK)
+        return nil;
+    
+    if (self.ipAddress.length == 0 && self.hostName.length == 0) {
+        return [NSError errorWithDomain:@"TOSMBClient"
+                                   code:1001
+                               userInfo:@{NSLocalizedDescriptionKey:NSLocalizedString(@"Insufficient login information supplied.", @"")}];
+    }
+        
+    struct in_addr addr;
+    inet_aton([self.ipAddress cStringUsingEncoding:NSASCIIStringEncoding], &addr);
+    
+    const char *hostName = [self.hostName cStringUsingEncoding:NSASCIIStringEncoding];
+    if (!smb_session_connect(self.session, hostName, addr.s_addr, SMB_TRANSPORT_TCP)) {
+        return [NSError errorWithDomain:@"TOSMBClient"
+                                   code:1002
+                               userInfo:@{NSLocalizedDescriptionKey:NSLocalizedString(@"Unable to connect to host.", @"")}];
+    }
+    
+    //If the username or password wasn't supplied, use empty strings as oppsoed to NULL
+    const char *userName = (self.userName ? [self.userName cStringUsingEncoding:NSASCIIStringEncoding] : "");
+    const char *password = (self.password ? [self.password cStringUsingEncoding:NSASCIIStringEncoding] : "");
+    
+    smb_session_set_creds(self.session, hostName, userName, password);
+    
+    if (smb_session_login(self.session)) {
+        self.guest = smb_session_is_guest(self.session);
+    }
+    else
+    {
+        return [NSError errorWithDomain:@"TOSMBClient"
+                                   code:1003
+                               userInfo:@{NSLocalizedDescriptionKey:NSLocalizedString(@"Unable to authenticate.", @"")}];
+    }
+    
+    return nil;
+}
+
+- (NSArray *)requestContentsOfDirectoryAtFilePath:(NSString *)path error:(NSError **)error
+{
+    //Attempt a connection attempt (If it has not already been done)
+    [self attemptConnection];
+    
+    //If the path is nil, or '/', we'll be specifically requesting the
+    //parent network share names
+    if (path.length == 0 || [path isEqualToString:@"/"]) {
+        smb_share_list list;
+        size_t shareCount = smb_share_get_list(self.session, &list);
+        if (shareCount == 0)
+            return nil;
+        
+        NSMutableArray *shareList = [NSMutableArray array];
+        for (NSInteger i = 0; i < shareCount; i++) {
+            const char *shareName = smb_share_list_at(list, i);
+            
+            //Skip system shares suffixed by '$'
+            if (shareName[strlen(shareName)-1] == '$')
+                continue;
+            
+            TOSMBFile *share = [[TOSMBFile alloc] initWithShareName:[NSString stringWithCString:shareName encoding:NSASCIIStringEncoding] session:self];
+            [shareList addObject:share];
+        }
+        
+        smb_share_list_destroy(list);
+        
+        return [NSArray arrayWithArray:shareList];
+    }
+    
+    
+    
+    return nil;
 }
 
 - (void)connect
