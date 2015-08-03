@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 
 #import "TOSMBSession.h"
+#import "TOSMBFile.h"
 #import "TONetBIOSNameService.h"
 #import "TONetBIOSNameServiceEntry.h"
 
@@ -38,9 +39,12 @@
     /*TOSMBSession *session = [TOSMBSession new];
     [session connect];*/
     
-    TOSMBSession *session = [[TOSMBSession alloc] initWithHostName:@"TITANNAS" ipAddress:@"192.168.1.3"];
-    NSArray *shares = [session requestContentsOfDirectoryAtFilePath:@"/" error:nil];
-    NSLog(@"%@", shares);
+    /*TOSMBSession *session = [[TOSMBSession alloc] initWithHostName:@"TITANNAS" ipAddress:@"192.168.1.3"];
+    NSArray *shares = [session requestContentsOfDirectoryAtFilePath:@"/Books/" error:nil];
+    
+    for (TOSMBFile *file in shares) {
+        NSLog(@"Name: %@ | Dir %d | Date %@", file.name, file.directory, file.modificationTime);
+    }*/
     
     return YES;
 }

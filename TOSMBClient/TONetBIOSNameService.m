@@ -34,12 +34,17 @@ const NSTimeInterval kTONetBIOSNameServiceDiscoveryTimeOut = 4.0f;
 @interface TONetBIOSNameService ()
 
 @property (nonatomic, assign) netbios_ns *nameService;
-
 @property (nonatomic, assign, readwrite) BOOL discovering;
 
 /* Internal copies of the blocks that are executed during name discovery */
 @property (nonatomic, copy) TONetBIOSNameServiceDiscoveryEvent discoveryAddedEvent;
 @property (nonatomic, copy) TONetBIOSNameServiceDiscoveryEvent discoveryRemovedEvent;
+
+/* Operation queue for asynchronously resolving hosts */
+@property (nonatomic, strong) NSOperationQueue *operationQueue;
+
+/* Lazy load the operation queue when and if we need it. */
+- (void)setupOperationQueue;
 
 @end
 
@@ -93,6 +98,7 @@ static void on_entry_removed(void *p_opaque, netbios_ns_entry *entry)
 
 - (void)dealloc
 {
+    [self.operationQueue cancelAllOperations];
     netbios_ns_destroy(self.nameService);
 }
 
@@ -126,22 +132,38 @@ static void on_entry_removed(void *p_opaque, netbios_ns_entry *entry)
         return;
     }
     
-    dispatch_async(dispatch_get_global_queue(0, DISPATCH_QUEUE_PRIORITY_DEFAULT), ^{
-        NSString *ipAddress = [self resolveIPAddressWithName:name type:type];
+    NSBlockOperation *blockOperation = [[NSBlockOperation alloc] init];
+    
+    __weak typeof (self) weakSelf = self;
+    __weak NSBlockOperation *weakOperation = blockOperation;
+    id executionBlock = ^{
+        //Make sure the queue wasn't cancelled before it even started
+        if (weakOperation.isCancelled)
+            return;
+        
+        NSString *ipAddress = [weakSelf resolveIPAddressWithName:name type:type];
+        
+        //Ensure the queue wasn't cancelled while the lookup was occurring
+        if (weakOperation.isCancelled)
+            return;
+        
         if (ipAddress == nil) {
             if (failure) {
-                dispatch_async(dispatch_get_main_queue(), ^{ failure(); });
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{ failure(); }];
             }
             
             return;
         }
         
         if (success) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                success(ipAddress);
-            });
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{ success(ipAddress); }];
         }
-    });
+    };
+    
+    [blockOperation addExecutionBlock:executionBlock];
+    
+    [self setupOperationQueue];
+    [self.operationQueue addOperation:blockOperation];
 }
 
 - (NSString *)lookupNetworkNameForIPAddress:(NSString *)address
@@ -168,22 +190,47 @@ static void on_entry_removed(void *p_opaque, netbios_ns_entry *entry)
         return;
     }
     
-    dispatch_async(dispatch_get_global_queue(0, DISPATCH_QUEUE_PRIORITY_DEFAULT), ^{
-        NSString *name = [self lookupNetworkNameForIPAddress:address];
+    NSBlockOperation *blockOperation = [[NSBlockOperation alloc] init];
+    
+    __weak typeof (self) weakSelf = self;
+    __weak NSBlockOperation *weakOperation = blockOperation;
+    id executionBlock = ^{
+        //Make sure the queue wasn't cancelled before it even started
+        if (weakOperation.isCancelled)
+            return;
+        
+        NSString *name = [weakSelf lookupNetworkNameForIPAddress:address];
+        
+        //Ensure the queue wasn't cancelled while the lookup was occurring
+        if (weakOperation.isCancelled)
+            return;
+        
+        //Followup if the lookup failed and a failure block was supplied
         if (name == nil) {
             if (failure) {
-                dispatch_async(dispatch_get_main_queue(), ^{ failure(); });
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{ failure(); }];
             }
             
             return;
         }
         
         if (success) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                success(name);
-            });
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{ success(name); }];
         }
-    });
+    };
+    [blockOperation addExecutionBlock:executionBlock];
+    
+    [self setupOperationQueue];
+    [self.operationQueue addOperation:blockOperation];
+}
+
+#pragma mark - Operation Queue Management -
+- (void)setupOperationQueue
+{
+    if (self.operationQueue)
+        return;
+    
+    self.operationQueue = [[NSOperationQueue alloc] init];
 }
 
 #pragma mark - Network Device Name Discovery -

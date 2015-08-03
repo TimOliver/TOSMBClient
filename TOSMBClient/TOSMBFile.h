@@ -45,8 +45,9 @@
  * 
  * @param stat The opaque pointer for this stat value
  * @param session The session in which this item belongs to
+ * @param path The absolute file path to this file's parent directory. Used to generate this file's own file path.
 */
-- (instancetype)initWithStatPointer:(smb_stat *)stat session:(TOSMBSession *)session;
+- (instancetype)initWithStat:(smb_stat)stat session:(TOSMBSession *)session parentDirectoryFilePath:(NSString *)path;
 
 /**
  * Init a new instance representing the share itself, which in the case of libSMD, is simply another directory

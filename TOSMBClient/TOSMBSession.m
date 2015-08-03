@@ -23,6 +23,7 @@
 #import <arpa/inet.h>
 
 #import "TOSMBSession.h"
+#import "TOSMBShare.h"
 #import "TOSMBFile.h"
 #import "TONetBIOSNameService.h"
 
@@ -32,10 +33,18 @@
 
 @interface TOSMBSession ()
 
+@property (nonatomic, strong) NSMapTable *shareConnections;
+
 @property (nonatomic, assign) smb_session *session;
 @property (nonatomic, assign, readwrite) NSInteger guest;
 
+// Connection/Authentication handling
 - (NSError *)attemptConnection;
+- (TOSMBShare *)connectToShareWithName:(NSString *)name;
+
+// File path parsing
+- (NSString *)shareNameFromPath:(NSString *)path;
+- (NSString *)filePathExcludingSharePathFromPath:(NSString *)path;
 
 @end
 
@@ -45,6 +54,7 @@
 - (instancetype)init
 {
     if (self = [super init]) {
+        _shareConnections = [[NSMapTable alloc] initWithKeyOptions:NSMapTableStrongMemory valueOptions:NSMapTableWeakMemory capacity:10];
         _session = smb_session_new();
         if (_session == NULL)
             return nil;
@@ -104,7 +114,16 @@
                                    code:1001
                                userInfo:@{NSLocalizedDescriptionKey:NSLocalizedString(@"Insufficient login information supplied.", @"")}];
     }
+    
+    if (self.ipAddress.length == 0 || self.hostName.length == 0) {
+        TONetBIOSNameService *nameService = [[TONetBIOSNameService alloc] init];
         
+        if (self.ipAddress == nil)
+            self.ipAddress = [nameService resolveIPAddressWithName:self.hostName type:TONetBIOSNameServiceTypeFileServer];
+        else
+            self.hostName = [nameService lookupNetworkNameForIPAddress:self.ipAddress];
+    }
+    
     struct in_addr addr;
     inet_aton([self.ipAddress cStringUsingEncoding:NSASCIIStringEncoding], &addr);
     
@@ -134,10 +153,38 @@
     return nil;
 }
 
+- (TOSMBShare *)connectToShareWithName:(NSString *)name
+{
+    //See if we already have an existing connection
+    TOSMBShare *share = [self.shareConnections objectForKey:name];
+    if (share)
+        return share;
+    
+    //If not, make a new connection
+    const char *cStringName = [name cStringUsingEncoding:NSASCIIStringEncoding];
+    smb_tid shareID = smb_tree_connect(self.session, cStringName);
+    if (shareID == 0)
+        return nil;
+    
+    share = [[TOSMBShare alloc] initWithShareID:shareID sessionPointer:self.session];
+    if (share == nil)
+        return nil;
+    
+    [self.shareConnections setObject:share forKey:name];
+    return share;
+}
+
 - (NSArray *)requestContentsOfDirectoryAtFilePath:(NSString *)path error:(NSError **)error
 {
     //Attempt a connection attempt (If it has not already been done)
-    [self attemptConnection];
+    NSError *resultError = [self attemptConnection];
+    if (error && resultError)
+        *error = resultError;
+    
+    if (resultError)
+        return nil;
+    
+    //-----------------------------------------------------------------------------
     
     //If the path is nil, or '/', we'll be specifically requesting the
     //parent network share names
@@ -155,7 +202,8 @@
             if (shareName[strlen(shareName)-1] == '$')
                 continue;
             
-            TOSMBFile *share = [[TOSMBFile alloc] initWithShareName:[NSString stringWithCString:shareName encoding:NSASCIIStringEncoding] session:self];
+            NSString *shareNameString = [NSString stringWithCString:shareName encoding:NSUTF8StringEncoding];
+            TOSMBFile *share = [[TOSMBFile alloc] initWithShareName:shareNameString session:self];
             [shareList addObject:share];
         }
         
@@ -164,59 +212,102 @@
         return [NSArray arrayWithArray:shareList];
     }
     
+    //-----------------------------------------------------------------------------
     
+    //Replace any backslashes with forward slashes
+    path = [path stringByReplacingOccurrencesOfString:@"\\" withString:@"/"];
     
-    return nil;
-}
+    //Work out just the share name from the path (The first directory in the string)
+    NSString *shareName = [self shareNameFromPath:path];
+    
+    //Connect to that share
+    TOSMBShare *share = [self connectToShareWithName:shareName];
+    if (share == nil) {
+        if (error) {
+            resultError = [NSError errorWithDomain:@"TOSMBClient"
+                                              code:1004
+                                          userInfo:@{NSLocalizedDescriptionKey:NSLocalizedString(@"Unable to connect to share.", @"")}];
+            
+            *error = resultError;
+        }
+        
+        return nil;
+    }
+    
+    //work out the remainder of the file path and create the search query
+    NSString *relativePath = [self filePathExcludingSharePathFromPath:path];
+    
+    //Append a slash at the end if one isn't already present
+    if ([relativePath characterAtIndex:relativePath.length-1] != '/')
+        relativePath = [relativePath stringByAppendingString:@"/"];
+    
+    relativePath = [relativePath stringByAppendingString:@"*"]; //wildcard to search for all files
 
-- (void)connect
-{
-    struct in_addr addr;
-    smb_tid tid;
-    
-    inet_aton("192.168.1.3", &addr);
-    
-    if (!smb_session_connect(self.session, "TITANNAS", addr.s_addr, SMB_TRANSPORT_TCP))
-    {
-        printf("Unable to connect to host\n");
-        return;
-    }
-    
-    smb_session_set_creds(self.session, "TITANNAS", "", "");
-    if (smb_session_login(self.session))
-    {
-        if (smb_session_is_guest(self.session))
-            printf("Logged in as GUEST \n");
-        else
-            printf("Successfully logged in\n");
-    }
-    else
-    {
-        printf("Auth failed\n");
-        return;
-    }
-    
-    smb_share_list list;
-    size_t shareCount = smb_share_get_list(self.session, &list);
-    for (NSInteger i = 0; i < shareCount; i++)
-        printf("Name %s \n", smb_share_list_at(list, i));
-    
-    
-    tid = smb_tree_connect(self.session, "Books");
-    if (!tid)
-    {
-        printf("Unable to connect to share\n");
-        return;
-    }
-    
-    smb_stat_list statList = smb_find(self.session, tid, "\\Manga\\ラブひな\\*");
+    //Query for a list of files in this directory
+    smb_stat_list statList = smb_find(self.session, share.shareID, [relativePath cStringUsingEncoding:NSUTF8StringEncoding]);
     size_t listCount = smb_stat_list_count(statList);
+    if (listCount == 0)
+        return nil;
+    
+    NSMutableArray *fileList = [NSMutableArray array];
+    
     for (NSInteger i = 0; i < listCount; i++) {
         smb_stat item = smb_stat_list_at(statList, i);
-        printf("Item : %s\n", smb_stat_name(item));
+        const char* name = smb_stat_name(item);
+        if (name[0] == '.') {
+            continue;
+        }
+        
+        TOSMBFile *file = [[TOSMBFile alloc] initWithStat:item session:self parentDirectoryFilePath:path];
+        [fileList addObject:file];
+    }
+    smb_stat_list_destroy(statList);
+    
+    if (fileList.count == 0)
+        return nil;
+    
+    return [fileList sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
+}
+
+#pragma mark - String Parsing -
+- (NSString *)shareNameFromPath:(NSString *)path
+{
+    path = [path copy];
+    
+    //Remove any potential slashes at the start
+    if ([[path substringToIndex:2] isEqualToString:@"//"]) {
+        path = [path substringFromIndex:2];
+    }
+    else if ([[path substringToIndex:1] isEqualToString:@"/"]) {
+        path = [path substringFromIndex:1];
     }
     
-    NSLog(@"WOO");
+    NSRange range = [path rangeOfString:@"/"];
+    
+    if (range.location != NSNotFound)
+        path = [path substringWithRange:NSMakeRange(0, range.location)];
+    
+    return path;
+}
+
+- (NSString *)filePathExcludingSharePathFromPath:(NSString *)path
+{
+    path = [path copy];
+    
+    //Remove any potential slashes at the start
+    if ([[path substringToIndex:2] isEqualToString:@"//"]) {
+        path = [path substringFromIndex:2];
+    }
+    else if ([[path substringToIndex:1] isEqualToString:@"/"]) {
+        path = [path substringFromIndex:1];
+    }
+    
+    NSRange range = [path rangeOfString:@"/"];
+    
+    if (range.location != NSNotFound)
+        path = [path substringFromIndex:range.location+1];
+    
+    return path;
 }
 
 #pragma mark - Accessors -

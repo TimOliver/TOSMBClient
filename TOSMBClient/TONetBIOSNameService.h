@@ -22,6 +22,7 @@
 
 #import <Foundation/Foundation.h>
 #import "TOSMBConstants.h"
+#import "TONetBIOSNameServiceEntry.h"
 
 @class TONetBIOSNameServiceEntry;
 
