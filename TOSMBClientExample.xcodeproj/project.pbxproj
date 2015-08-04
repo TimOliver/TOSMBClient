@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2214DCC21B661CD2003E3EF1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2214DCC11B661CD2003E3EF1 /* main.m */; };
-		2214DCC51B661CD2003E3EF1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2214DCC41B661CD2003E3EF1 /* AppDelegate.m */; };
-		2214DCC81B661CD2003E3EF1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2214DCC71B661CD2003E3EF1 /* ViewController.m */; };
+		2214DCC51B661CD2003E3EF1 /* TOAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2214DCC41B661CD2003E3EF1 /* TOAppDelegate.m */; };
+		2214DCC81B661CD2003E3EF1 /* TORootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2214DCC71B661CD2003E3EF1 /* TORootViewController.m */; };
 		2214DCCB1B661CD2003E3EF1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2214DCC91B661CD2003E3EF1 /* Main.storyboard */; };
 		2214DCCD1B661CD2003E3EF1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2214DCCC1B661CD2003E3EF1 /* Images.xcassets */; };
 		2214DCD01B661CD2003E3EF1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2214DCCE1B661CD2003E3EF1 /* LaunchScreen.xib */; };
@@ -23,6 +23,7 @@
 		22236CFE1B687E1300176C34 /* libtasn1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 22236CFD1B687E1300176C34 /* libtasn1.a */; };
 		22301F701B6DED2500326F84 /* TOSMBFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 22301F6F1B6DED2500326F84 /* TOSMBFile.m */; };
 		22301F761B6F0C7B00326F84 /* TOSMBShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 22301F751B6F0C7B00326F84 /* TOSMBShare.m */; };
+		22416F681B7125A3007B8A8B /* TOFilesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22416F671B7125A3007B8A8B /* TOFilesTableViewController.m */; };
 		22AE8B881B6F66E4008412CF /* TOSMBDownloadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 22AE8B871B6F66E4008412CF /* TOSMBDownloadTask.m */; };
 /* End PBXBuildFile section */
 
@@ -40,10 +41,10 @@
 		2214DCBC1B661CD2003E3EF1 /* TOSMBClientExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TOSMBClientExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2214DCC01B661CD2003E3EF1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2214DCC11B661CD2003E3EF1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		2214DCC31B661CD2003E3EF1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		2214DCC41B661CD2003E3EF1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		2214DCC61B661CD2003E3EF1 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		2214DCC71B661CD2003E3EF1 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		2214DCC31B661CD2003E3EF1 /* TOAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOAppDelegate.h; sourceTree = "<group>"; };
+		2214DCC41B661CD2003E3EF1 /* TOAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TOAppDelegate.m; sourceTree = "<group>"; };
+		2214DCC61B661CD2003E3EF1 /* TORootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TORootViewController.h; sourceTree = "<group>"; };
+		2214DCC71B661CD2003E3EF1 /* TORootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TORootViewController.m; sourceTree = "<group>"; };
 		2214DCCA1B661CD2003E3EF1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2214DCCC1B661CD2003E3EF1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		2214DCCF1B661CD2003E3EF1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -75,6 +76,9 @@
 		22301F6F1B6DED2500326F84 /* TOSMBFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOSMBFile.m; sourceTree = "<group>"; };
 		22301F741B6F0C7B00326F84 /* TOSMBShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TOSMBShare.h; sourceTree = "<group>"; };
 		22301F751B6F0C7B00326F84 /* TOSMBShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOSMBShare.m; sourceTree = "<group>"; };
+		22416F661B7125A3007B8A8B /* TOFilesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TOFilesTableViewController.h; sourceTree = "<group>"; };
+		22416F671B7125A3007B8A8B /* TOFilesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOFilesTableViewController.m; sourceTree = "<group>"; };
+		22416F691B712BE7007B8A8B /* TOSMBClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOSMBClient.h; sourceTree = "<group>"; };
 		22AE8B861B6F66E4008412CF /* TOSMBDownloadTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TOSMBDownloadTask.h; sourceTree = "<group>"; };
 		22AE8B871B6F66E4008412CF /* TOSMBDownloadTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOSMBDownloadTask.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -122,10 +126,12 @@
 		2214DCBE1B661CD2003E3EF1 /* TOSMBClientExample */ = {
 			isa = PBXGroup;
 			children = (
-				2214DCC31B661CD2003E3EF1 /* AppDelegate.h */,
-				2214DCC41B661CD2003E3EF1 /* AppDelegate.m */,
-				2214DCC61B661CD2003E3EF1 /* ViewController.h */,
-				2214DCC71B661CD2003E3EF1 /* ViewController.m */,
+				2214DCC31B661CD2003E3EF1 /* TOAppDelegate.h */,
+				2214DCC41B661CD2003E3EF1 /* TOAppDelegate.m */,
+				2214DCC61B661CD2003E3EF1 /* TORootViewController.h */,
+				2214DCC71B661CD2003E3EF1 /* TORootViewController.m */,
+				22416F661B7125A3007B8A8B /* TOFilesTableViewController.h */,
+				22416F671B7125A3007B8A8B /* TOFilesTableViewController.m */,
 				2214DCC91B661CD2003E3EF1 /* Main.storyboard */,
 				2214DCCC1B661CD2003E3EF1 /* Images.xcassets */,
 				2214DCCE1B661CD2003E3EF1 /* LaunchScreen.xib */,
@@ -164,6 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				2214DCE61B662632003E3EF1 /* libdsm */,
+				22416F691B712BE7007B8A8B /* TOSMBClient.h */,
 				2214DCFA1B66847B003E3EF1 /* TOSMBConstants.h */,
 				2214DCFB1B66847B003E3EF1 /* TOSMBConstants.m */,
 				2214DCF41B666766003E3EF1 /* TONetBIOSNameService.h */,
@@ -310,9 +317,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2214DCC81B661CD2003E3EF1 /* ViewController.m in Sources */,
+				22416F681B7125A3007B8A8B /* TOFilesTableViewController.m in Sources */,
+				2214DCC81B661CD2003E3EF1 /* TORootViewController.m in Sources */,
 				2214DCF61B666766003E3EF1 /* TONetBIOSNameService.m in Sources */,
-				2214DCC51B661CD2003E3EF1 /* AppDelegate.m in Sources */,
+				2214DCC51B661CD2003E3EF1 /* TOAppDelegate.m in Sources */,
 				22301F701B6DED2500326F84 /* TOSMBFile.m in Sources */,
 				22AE8B881B6F66E4008412CF /* TOSMBDownloadTask.m in Sources */,
 				22301F761B6F0C7B00326F84 /* TOSMBShare.m in Sources */,

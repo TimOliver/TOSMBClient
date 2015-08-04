@@ -112,6 +112,7 @@
     return self;
 }
 
+//SO Answer by Dave DeLong - http://stackoverflow.com/a/11978614/599344
 - (NSDate *)dateFromLDAPTimeStamp:(uint64_t)timestamp
 {
     NSDateComponents *base = [[NSDateComponents alloc] init];

@@ -21,7 +21,7 @@
 // -------------------------------------------------------------------------------
 
 #import <Foundation/Foundation.h>
-#import  "TOSMBConstants.h"
+#import "TOSMBConstants.h"
 
 @interface TOSMBSession : NSObject
 

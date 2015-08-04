@@ -33,10 +33,17 @@
 
 @interface TOSMBSession ()
 
+/* Weakly holds onto share connections until no other related objects are. */
 @property (nonatomic, strong) NSMapTable *shareConnections;
 
+/* The session pointer responsible for this object. */
 @property (nonatomic, assign) smb_session *session;
+
+/* 1 == Guest, 0 == Logged in, -1 == Logged out */
 @property (nonatomic, assign, readwrite) NSInteger guest;
+
+@property (nonatomic, strong) NSOperationQueue *requestQueue; /* Operation queue for asynchronous requests. */
+@property (nonatomic, strong) NSOperationQueue *downloadsQueue; /* Operation queue for file downloads. */
 
 // Connection/Authentication handling
 - (NSError *)attemptConnection;
@@ -238,7 +245,7 @@
     NSString *relativePath = [self filePathExcludingSharePathFromPath:path];
     
     //Append a slash at the end if one isn't already present
-    if ([relativePath characterAtIndex:relativePath.length-1] != '/')
+    if (relativePath.length > 0 && [relativePath characterAtIndex:relativePath.length-1] != '/')
         relativePath = [relativePath stringByAppendingString:@"/"];
     
     relativePath = [relativePath stringByAppendingString:@"*"]; //wildcard to search for all files

@@ -1,5 +1,5 @@
 //
-//  AppDelegate.h
+//  ViewController.h
 //  TOSMBClientExample
 //
 //  Created by Tim Oliver on 7/27/15.
@@ -8,9 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface TORootViewController : UITableViewController
 
-@property (strong, nonatomic) UIWindow *window;
 
 
 @end
