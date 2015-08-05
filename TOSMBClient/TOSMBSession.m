@@ -240,7 +240,7 @@
             continue;
         }
         
-        TOSMBFile *file = [[TOSMBFile alloc] initWithStat:item share:share session:self parentDirectoryFilePath:path];
+        TOSMBFile *file = [[TOSMBFile alloc] initWithStat:item session:self parentDirectoryFilePath:path];
         [fileList addObject:file];
     }
     smb_stat_list_destroy(statList);

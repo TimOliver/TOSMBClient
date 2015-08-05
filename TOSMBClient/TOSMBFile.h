@@ -23,8 +23,6 @@
 #import <Foundation/Foundation.h>
 #import "smb_stat.h"
 
-@class TOSMBShare;
-
 @class TOSMBSession;
 
 @interface TOSMBFile : NSObject
@@ -49,7 +47,7 @@
  * @param session The session in which this item belongs to
  * @param path The absolute file path to this file's parent directory. Used to generate this file's own file path.
 */
-- (instancetype)initWithStat:(smb_stat)stat share:(TOSMBShare *)share session:(TOSMBSession *)session parentDirectoryFilePath:(NSString *)path;
+- (instancetype)initWithStat:(smb_stat)stat session:(TOSMBSession *)session parentDirectoryFilePath:(NSString *)path;
 
 /**
  * Init a new instance representing the share itself, which in the case of libSMD, is simply another directory
