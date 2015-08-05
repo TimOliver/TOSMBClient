@@ -168,12 +168,12 @@
         return share;
     
     //If not, make a new connection
-    const char *cStringName = [name cStringUsingEncoding:NSASCIIStringEncoding];
+    const char *cStringName = [name cStringUsingEncoding:NSUTF8StringEncoding];
     smb_tid shareID = smb_tree_connect(self.session, cStringName);
     if (shareID == 0)
         return nil;
     
-    share = [[TOSMBShare alloc] initWithShareID:shareID sessionPointer:self.session];
+    share = [[TOSMBShare alloc] initWithName:name shareID:shareID sessionPointer:self.session];
     if (share == nil)
         return nil;
     
@@ -249,7 +249,7 @@
         relativePath = [relativePath stringByAppendingString:@"/"];
     
     relativePath = [relativePath stringByAppendingString:@"*"]; //wildcard to search for all files
-
+    
     //Query for a list of files in this directory
     smb_stat_list statList = smb_find(self.session, share.shareID, [relativePath cStringUsingEncoding:NSUTF8StringEncoding]);
     size_t listCount = smb_stat_list_count(statList);
@@ -265,7 +265,7 @@
             continue;
         }
         
-        TOSMBFile *file = [[TOSMBFile alloc] initWithStat:item session:self parentDirectoryFilePath:path];
+        TOSMBFile *file = [[TOSMBFile alloc] initWithStat:item share:share session:self parentDirectoryFilePath:path];
         [fileList addObject:file];
     }
     smb_stat_list_destroy(statList);

@@ -78,7 +78,4 @@
 - (void)requestContentsOfDirectoryAtFilePath:(NSString *)path success:(void (^)(NSArray *files))successHandler error:(void (^)(NSError *))error;
 
 
-
-- (void)connect;
-
 @end

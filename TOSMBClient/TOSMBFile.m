@@ -21,10 +21,12 @@
 // -------------------------------------------------------------------------------
 
 #import "TOSMBFile.h"
+#import "TOSMBShare.h"
 #import "smb_stat.h"
 
 @interface TOSMBFile ()
 
+@property (nonatomic, strong) TOSMBShare *share;
 @property (nonatomic, strong, readwrite) NSString *filePath;
 
 @property (nonatomic, assign) smb_stat stat;
@@ -65,7 +67,7 @@
     return self;
 }
 
-- (instancetype)initWithStat:(smb_stat)stat session:(TOSMBSession *)session parentDirectoryFilePath:(NSString *)path
+- (instancetype)initWithStat:(smb_stat)stat share:(TOSMBShare *)share session:(TOSMBSession *)session parentDirectoryFilePath:(NSString *)path
 {
     if (stat == NULL)
         return nil;
@@ -73,6 +75,7 @@
     if (self = [self init]) {
         _stat = stat;
         _session = session;
+        _share = share;
         
         const char *name = smb_stat_name(stat);
         _name = [[NSString alloc] initWithBytes:name length:strlen(name) encoding:NSUTF8StringEncoding];

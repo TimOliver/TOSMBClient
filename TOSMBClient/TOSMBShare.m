@@ -24,6 +24,7 @@
 
 @interface TOSMBShare()
 
+@property (nonatomic, assign, readwrite) NSString *name;
 @property (nonatomic, assign, readwrite) smb_session *session;
 @property (nonatomic, assign, readwrite) smb_tid shareID;
 
@@ -31,11 +32,12 @@
 
 @implementation TOSMBShare
 
-- (instancetype)initWithShareID:(smb_tid)share sessionPointer:(smb_session *)session
+- (instancetype)initWithName:(NSString *)name shareID:(smb_tid)share sessionPointer:(smb_session *)session
 {
     if (self = [super init]) {
         _shareID = share;
         _session = session;
+        _name = name;
     }
     
     return self;
