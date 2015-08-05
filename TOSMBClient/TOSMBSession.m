@@ -23,7 +23,6 @@
 #import <arpa/inet.h>
 
 #import "TOSMBSession.h"
-#import "TOSMBShare.h"
 #import "TOSMBFile.h"
 #import "TONetBIOSNameService.h"
 
@@ -32,9 +31,6 @@
 #import "smb_stat.h"
 
 @interface TOSMBSession ()
-
-/* Weakly holds onto share connections until no other related objects are. */
-@property (nonatomic, strong) NSMapTable *shareConnections;
 
 /* The session pointer responsible for this object. */
 @property (nonatomic, assign) smb_session *session;
@@ -47,7 +43,6 @@
 
 // Connection/Authentication handling
 - (NSError *)attemptConnection;
-- (TOSMBShare *)connectToShareWithName:(NSString *)name;
 
 // File path parsing
 - (NSString *)shareNameFromPath:(NSString *)path;
@@ -61,7 +56,6 @@
 - (instancetype)init
 {
     if (self = [super init]) {
-        _shareConnections = [[NSMapTable alloc] initWithKeyOptions:NSMapTableStrongMemory valueOptions:NSMapTableWeakMemory capacity:10];
         _session = smb_session_new();
         if (_session == NULL)
             return nil;
@@ -160,27 +154,6 @@
     return nil;
 }
 
-- (TOSMBShare *)connectToShareWithName:(NSString *)name
-{
-    //See if we already have an existing connection
-    TOSMBShare *share = [self.shareConnections objectForKey:name];
-    if (share)
-        return share;
-    
-    //If not, make a new connection
-    const char *cStringName = [name cStringUsingEncoding:NSASCIIStringEncoding];
-    smb_tid shareID = smb_tree_connect(self.session, cStringName);
-    if (shareID == 0)
-        return nil;
-    
-    share = [[TOSMBShare alloc] initWithShareID:shareID sessionPointer:self.session];
-    if (share == nil)
-        return nil;
-    
-    [self.shareConnections setObject:share forKey:name];
-    return share;
-}
-
 - (NSArray *)requestContentsOfDirectoryAtFilePath:(NSString *)path error:(NSError **)error
 {
     //Attempt a connection attempt (If it has not already been done)
@@ -228,8 +201,10 @@
     NSString *shareName = [self shareNameFromPath:path];
     
     //Connect to that share
-    TOSMBShare *share = [self connectToShareWithName:shareName];
-    if (share == nil) {
+    //If not, make a new connection
+    const char *cStringName = [shareName cStringUsingEncoding:NSASCIIStringEncoding];
+    smb_tid shareID = smb_tree_connect(self.session, cStringName);
+    if (shareID == 0) {
         if (error) {
             resultError = [NSError errorWithDomain:@"TOSMBClient"
                                               code:1004
@@ -251,7 +226,7 @@
     relativePath = [relativePath stringByAppendingString:@"*"]; //wildcard to search for all files
 
     //Query for a list of files in this directory
-    smb_stat_list statList = smb_find(self.session, share.shareID, [relativePath cStringUsingEncoding:NSUTF8StringEncoding]);
+    smb_stat_list statList = smb_find(self.session, shareID, [relativePath cStringUsingEncoding:NSUTF8StringEncoding]);
     size_t listCount = smb_stat_list_count(statList);
     if (listCount == 0)
         return nil;
@@ -269,6 +244,7 @@
         [fileList addObject:file];
     }
     smb_stat_list_destroy(statList);
+    smb_tree_disconnect(self.session, shareID);
     
     if (fileList.count == 0)
         return nil;
