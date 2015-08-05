@@ -22,7 +22,6 @@
 		22236CFC1B687DB100176C34 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 22236CFB1B687DB100176C34 /* libiconv.dylib */; };
 		22236CFE1B687E1300176C34 /* libtasn1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 22236CFD1B687E1300176C34 /* libtasn1.a */; };
 		22301F701B6DED2500326F84 /* TOSMBFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 22301F6F1B6DED2500326F84 /* TOSMBFile.m */; };
-		22301F761B6F0C7B00326F84 /* TOSMBShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 22301F751B6F0C7B00326F84 /* TOSMBShare.m */; };
 		22416F681B7125A3007B8A8B /* TOFilesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22416F671B7125A3007B8A8B /* TOFilesTableViewController.m */; };
 		22AE8B881B6F66E4008412CF /* TOSMBDownloadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 22AE8B871B6F66E4008412CF /* TOSMBDownloadTask.m */; };
 /* End PBXBuildFile section */
@@ -74,8 +73,6 @@
 		22236CFD1B687E1300176C34 /* libtasn1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtasn1.a; sourceTree = "<group>"; };
 		22301F6E1B6DED2500326F84 /* TOSMBFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TOSMBFile.h; sourceTree = "<group>"; };
 		22301F6F1B6DED2500326F84 /* TOSMBFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOSMBFile.m; sourceTree = "<group>"; };
-		22301F741B6F0C7B00326F84 /* TOSMBShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TOSMBShare.h; sourceTree = "<group>"; };
-		22301F751B6F0C7B00326F84 /* TOSMBShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOSMBShare.m; sourceTree = "<group>"; };
 		22416F661B7125A3007B8A8B /* TOFilesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TOFilesTableViewController.h; sourceTree = "<group>"; };
 		22416F671B7125A3007B8A8B /* TOFilesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOFilesTableViewController.m; sourceTree = "<group>"; };
 		22416F691B712BE7007B8A8B /* TOSMBClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOSMBClient.h; sourceTree = "<group>"; };
@@ -179,8 +176,6 @@
 				2214DCF81B6678C8003E3EF1 /* TONetBIOSNameServiceEntry.m */,
 				22236CF71B67C2C700176C34 /* TOSMBSession.h */,
 				22236CF81B67C2C700176C34 /* TOSMBSession.m */,
-				22301F741B6F0C7B00326F84 /* TOSMBShare.h */,
-				22301F751B6F0C7B00326F84 /* TOSMBShare.m */,
 				22301F6E1B6DED2500326F84 /* TOSMBFile.h */,
 				22301F6F1B6DED2500326F84 /* TOSMBFile.m */,
 				22AE8B861B6F66E4008412CF /* TOSMBDownloadTask.h */,
@@ -323,7 +318,6 @@
 				2214DCC51B661CD2003E3EF1 /* TOAppDelegate.m in Sources */,
 				22301F701B6DED2500326F84 /* TOSMBFile.m in Sources */,
 				22AE8B881B6F66E4008412CF /* TOSMBDownloadTask.m in Sources */,
-				22301F761B6F0C7B00326F84 /* TOSMBShare.m in Sources */,
 				22236CF91B67C2C700176C34 /* TOSMBSession.m in Sources */,
 				2214DCC21B661CD2003E3EF1 /* main.m in Sources */,
 				2214DCF91B6678C8003E3EF1 /* TONetBIOSNameServiceEntry.m in Sources */,

@@ -23,7 +23,6 @@
 #import "TOSMBConstants.h"
 
 #import "TOSMBSession.h"
-#import "TOSMBShare.h"
 #import "TOSMBFile.h"
 #import "TOSMBDownloadTask.h"
 
