@@ -46,7 +46,7 @@ NSString * const kTOSMBClientDownloadsFolderName = @"TOSMBClient";
 
 @property (nonatomic, strong, readwrite) NSString *sourceFilePath;
 @property (nonatomic, strong, readwrite) NSString *destinationFilePath;
-@property (nonatomic, strong) NSString * tempFilePath;
+@property (nonatomic, strong) NSString *tempFilePath;
 
 @property (nonatomic, weak, readwrite) TOSMBSession *session;
 @property (nonatomic, strong) TOSMBSessionFile *file;
@@ -97,6 +97,8 @@ NSString * const kTOSMBClientDownloadsFolderName = @"TOSMBClient";
         _sourceFilePath = filePath;
         _destinationFilePath = destinationPath;
         _delegate = delegate;
+        
+        _tempFilePath = [self filePathForTemporaryDestination];
     }
     
     return self;
@@ -114,6 +116,8 @@ NSString * const kTOSMBClientDownloadsFolderName = @"TOSMBClient";
         _progressHandler = progressHandler;
         _successHandler = successHandler;
         _failHandler = failHandler;
+        
+        _tempFilePath = [self filePathForTemporaryDestination];
     }
     
     return self;
@@ -171,6 +175,11 @@ NSString * const kTOSMBClientDownloadsFolderName = @"TOSMBClient";
 }
 
 #pragma mark - Feedback Methods -
+- (BOOL)resumeDataExists
+{
+    return [[NSFileManager defaultManager] fileExistsAtPath:self.tempFilePath];
+}
+
 - (void)didSucceedWithFilePath:(NSString *)filePath
 {
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -312,15 +321,10 @@ NSString * const kTOSMBClientDownloadsFolderName = @"TOSMBClient";
         return;
     }
     
+    self.countOfBytesExpectedToReceive = self.file.fileSize;
+    
     //---------------------------------------------------------------------------------------
     //Start downloading
-    
-    self.tempFilePath = [self filePathForTemporaryDestination];
-    
-    //Delete any old data for now.
-    if ([[NSFileManager defaultManager] fileExistsAtPath:self.tempFilePath]) {
-        [[NSFileManager defaultManager] removeItemAtPath:self.tempFilePath error:nil];
-    }
     
     smb_fd fileID = smb_fopen(self.downloadSession, treeID, [pathExcludingShare cStringUsingEncoding:NSUTF8StringEncoding], SMB_MOD_RO);
     if (!fileID) {
@@ -343,25 +347,79 @@ NSString * const kTOSMBClientDownloadsFolderName = @"TOSMBClient";
     //---------------------------------------------------------------------------------------
     //Handle the downloading
     
-    //Create the temp directories/files as needed
     [[NSFileManager defaultManager] createDirectoryAtPath:[self.tempFilePath stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:nil];
-    [[NSFileManager defaultManager] createFileAtPath:self.tempFilePath contents:nil attributes:@{NSFileModificationDate:self.file.modificationTime}];
-
-    char buffer[512];
-    NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingAtPath:self.tempFilePath];
-    [fileHandle seekToEndOfFile];
     
-    NSInteger bytesRead = 0;
+    //Check if there is resume data, or clear it if it's invalid
+    BOOL resumeDataExists = self.resumeDataExists;
+    if (resumeDataExists) {
+        NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:self.tempFilePath error:nil];
+        NSDate *modificationTime = [attributes fileModificationDate];
+        if ([modificationTime isEqual:self.file.modificationTime] == NO) {
+            [[NSFileManager defaultManager] removeItemAtPath:self.tempFilePath error:nil];
+            resumeDataExists = NO;
+        }
+    }
+    
+    //Create a new blank file to write to
+    if (resumeDataExists == NO)
+        [[NSFileManager defaultManager] createFileAtPath:self.tempFilePath contents:nil attributes:nil];
+    
+    //Open a handle to the file and skip ahead if we're resuming
+    NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingAtPath:self.tempFilePath];
+    unsigned long seekOffset = [fileHandle seekToEndOfFile];
+    self.countOfBytesReceived = seekOffset;
+    
+    if (seekOffset > 0)
+        smb_fseek(self.downloadSession, fileID, seekOffset, SMB_SEEK_SET);
+    
+    uint64_t bytesRead = 0;
+    NSInteger bufferSize = 65535;
+    char *buffer = malloc(bufferSize);
+    
     do {
-        bytesRead = smb_fread(self.downloadSession, fileID, buffer, 512);
-        [fileHandle writeData:[NSData dataWithBytes:buffer length:512]];
+        bytesRead = smb_fread(self.downloadSession, fileID, buffer, bufferSize);
+        [fileHandle writeData:[NSData dataWithBytes:buffer length:bufferSize]];
         
         if (weakOperation.isCancelled)
             break;
+        
+        self.countOfBytesReceived += bytesRead;
+        
+        [self didUpdateWriteBytes:bytesRead totalBytesWritten:self.countOfBytesReceived totalBytesExpected:self.countOfBytesExpectedToReceive];
     } while (bytesRead > 0);
     
+    [[NSFileManager defaultManager] setAttributes:@{NSFileModificationDate:self.file.modificationTime} ofItemAtPath:self.tempFilePath error:nil];
+    
+    free(buffer);
+    [fileHandle closeFile];
     smb_fclose(self.downloadSession, fileID);
     smb_tree_disconnect(self.downloadSession, treeID);
+    
+    if (weakOperation.isCancelled) {
+        return;
+    }
+    
+    //---------------------------------------------------------------------------------------
+    //Move the finished file to its destination
+    
+    //Finally, copy the file to its destination
+    NSString *destination = self.destinationFilePath;
+    
+    //Check to ensure the destination isn't referring to a file name
+    NSString *fileName = [destination lastPathComponent];
+    BOOL isFile = ([fileName rangeOfString:@"."].location != NSNotFound && [fileName characterAtIndex:0] != '.');
+    
+    NSString *folderPath = nil;
+    if (isFile) {
+        folderPath = [destination stringByDeletingLastPathComponent];
+    }
+    else {
+        fileName = [self.sourceFilePath lastPathComponent];
+        folderPath = destination;
+    }
+    
+    NSString *finalDestination = [folderPath stringByAppendingPathComponent:fileName];
+    [[NSFileManager defaultManager] moveItemAtPath:self.tempFilePath toPath:finalDestination error:nil];
 }
 
 @end
