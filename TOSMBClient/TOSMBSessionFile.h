@@ -25,7 +25,7 @@
 
 @class TOSMBSession;
 
-@interface TOSMBFile : NSObject
+@interface TOSMBSessionFile : NSObject
 
 @property (nonatomic, readonly) TOSMBSession *session;      /** The SMB session of this file entry. */
 @property (nonatomic, readonly) NSString *filePath;         /** The filepath of this file, excluding the share name. */

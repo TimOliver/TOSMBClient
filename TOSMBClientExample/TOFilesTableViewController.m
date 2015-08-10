@@ -11,17 +11,17 @@
 
 @interface TOFilesTableViewController ()
 
-@property (nonatomic, strong) NSArray *files;
+@property (nonatomic, copy) NSString *directoryTitle;
 @property (nonatomic, strong) TOSMBSession *session;
 
 @end
 
 @implementation TOFilesTableViewController
 
-- (instancetype)initWithSession:(TOSMBSession *)session files:(NSArray *)files
+- (instancetype)initWithSession:(TOSMBSession *)session title:(NSString *)title
 {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
-        _files = files;
+        _directoryTitle = title;
         _session = session;
     }
     
@@ -31,11 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.navigationItem.title = @"Loading...";
 }
 
 - (void)didReceiveMemoryWarning {
@@ -58,7 +54,7 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
-    TOSMBFile *file = self.files[indexPath.row];
+    TOSMBSessionFile *file = self.files[indexPath.row];
     cell.textLabel.text = file.name;
     cell.detailTextLabel.text = file.directory ? @"Directory" : [NSString stringWithFormat:@"File | Size: %ld", (long)file.fileSize];
     
@@ -69,11 +65,24 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    TOSMBFile *file = self.files[indexPath.row];
-    NSArray *files = [self.session requestContentsOfDirectoryAtFilePath:file.filePath error:nil];
-    
-    TOFilesTableViewController *controller = [[TOFilesTableViewController alloc] initWithSession:self.session files:files];
+    TOSMBSessionFile *file = self.files[indexPath.row];
+    TOFilesTableViewController *controller = [[TOFilesTableViewController alloc] initWithSession:self.session title:file.name];
+    controller.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
     [self.navigationController pushViewController:controller animated:YES];
+    
+    [self.session requestContentsOfDirectoryAtFilePath:file.filePath success:^(NSArray *files) {
+        controller.files = files;
+    } error:^(NSError *error) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"SMB Client Error" message:error.localizedDescription delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+        [alert show];
+    }];
+}
+
+- (void)setFiles:(NSArray *)files
+{
+    _files = files;
+    self.navigationItem.title = self.directoryTitle;
+    [self.tableView reloadData];
 }
 
 @end

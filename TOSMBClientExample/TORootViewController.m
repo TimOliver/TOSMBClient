@@ -1,25 +1,17 @@
 //
-//  ViewController.m
+//  TORootViewController.m
 //  TOSMBClientExample
 //
-//  Created by Tim Oliver on 7/27/15.
-//  Copyright (c) 2015 TimOliver. All rights reserved.
+//  Created by Tim Oliver on 8/10/15.
+//  Copyright © 2015 TimOliver. All rights reserved.
 //
 
-#include <arpa/inet.h>
-
 #import "TORootViewController.h"
-#import "TOFilesTableViewController.h"
-#import "TOSMBClient.h"
+#import "TORootTableViewController.h"
 
-@interface TORootViewController () <NSNetServiceBrowserDelegate, NSNetServiceDelegate>
+@interface TORootViewController ()
 
-@property (nonatomic, assign) NSIndexPath *resolvingIndexPath;
-
-@property (nonatomic, strong) NSNetServiceBrowser *serviceBrowser;
-@property (nonatomic, strong) NSMutableArray *nameServiceEntries;
-
-- (void)beginServiceBrowser;
+- (void)cancelButtonTapped:(id)sender;
 
 @end
 
@@ -27,108 +19,34 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    if (self.nameServiceEntries == nil) {
-        self.nameServiceEntries = [NSMutableArray array];
-    }
-    
-    [self beginServiceBrowser];
+    // Do any additional setup after loading the view.
 }
 
-#pragma mark - Bonjour Service -
-- (void)beginServiceBrowser
-{
-    if (self.serviceBrowser)
-        return;
-    
-    self.serviceBrowser = [[NSNetServiceBrowser alloc] init];
-    self.serviceBrowser.includesPeerToPeer = YES;
-    self.serviceBrowser.delegate = self;
-    
-    [self.serviceBrowser searchForServicesOfType:@"_smb._tcp." inDomain:@"local"];
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
-- (void)netServiceBrowser:(NSNetServiceBrowser *)browser didFindService:(NSNetService *)service moreComing:(BOOL)moreComing
+- (IBAction)addButtonTapped:(id)sender
 {
-    [self.nameServiceEntries addObject:service];
-    [self.tableView reloadData];
+    TORootTableViewController *tableController = [[TORootTableViewController alloc] initWithStyle:UITableViewStylePlain];
+    UINavigationController *controller = [[UINavigationController alloc] initWithRootViewController:tableController];
+    controller.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentViewController:controller animated:YES completion:nil];
+    
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonTapped:)];
+    tableController.navigationItem.rightBarButtonItem = item;
 }
 
-- (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didRemoveService:(NSNetService *)aNetService moreComing:(BOOL)moreComing
+- (void)cancelButtonTapped:(id)sender
 {
-    [self.nameServiceEntries removeObject:aNetService];
-    [self.tableView reloadData];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)netServiceDidResolveAddress:(NSNetService *)sender
+- (IBAction)actionButtonTapped:(id)sender
 {
-    NSNetService *service = sender;
-    NSLog(@"Name: %@ Hostname: %@ Address: %@", service.name, service.hostName, service.addresses);
-    if (service.addresses.count == 0)
-        return;
     
-    //resolve the ip address
-    struct sockaddr_in  *socketAddress = nil;
-    NSString            *ipString = nil;
-    
-    socketAddress = (struct sockaddr_in *)[service.addresses[0] bytes];
-    ipString = [NSString stringWithFormat: @"%s", inet_ntoa(socketAddress->sin_addr)];  ///problem here
-    
-    TOSMBSession *session = [[TOSMBSession alloc] initWithHostName:service.hostName ipAddress:ipString];
-    NSArray *directories = [session requestContentsOfDirectoryAtFilePath:@"/" error:nil];
-    
-    TOFilesTableViewController *controller = [[TOFilesTableViewController alloc] initWithSession:session files:directories];
-    [self.navigationController pushViewController:controller animated:YES];
-    
-    self.resolvingIndexPath = nil;
-    [self.tableView reloadData];
 }
 
-- (void)netService:(NSNetService *)sender didNotResolve:(NSDictionary *)errorDict
-{
-    self.resolvingIndexPath = nil;
-    [self.tableView reloadData];
-}
-
-#pragma mark - Table View -
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return self.nameServiceEntries.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *cellName = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellName];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellName];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    }
-    
-    cell.textLabel.text = [self.nameServiceEntries[indexPath.row] name];
-    
-    if (self.resolvingIndexPath && self.resolvingIndexPath.row == indexPath.row) {
-        cell.detailTextLabel.text = @"Resolving";
-    }
-    else
-        cell.detailTextLabel.text = nil;
-    
-    return cell;
-}
-
-- (void)tableView:(nonnull UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
-{
-    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    if (self.resolvingIndexPath)
-        return;
-    
-    self.resolvingIndexPath = indexPath;
-    [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-    
-    NSNetService *service = self.nameServiceEntries[indexPath.row];
-    service.delegate = self;
-    [service resolveWithTimeout:5.0f];
-}
 
 @end

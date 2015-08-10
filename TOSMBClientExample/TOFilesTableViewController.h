@@ -12,6 +12,8 @@
 
 @interface TOFilesTableViewController : UITableViewController
 
-- (instancetype)initWithSession:(TOSMBSession *)session files:(NSArray *)files;
+@property (nonatomic, strong) NSArray *files;
+
+- (instancetype)initWithSession:(TOSMBSession *)session title:(NSString *)title;
 
 @end

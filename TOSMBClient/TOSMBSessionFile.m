@@ -20,10 +20,10 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 // -------------------------------------------------------------------------------
 
-#import "TOSMBFile.h"
+#import "TOSMBSessionFile.h"
 #import "smb_stat.h"
 
-@interface TOSMBFile ()
+@interface TOSMBSessionFile ()
 
 @property (nonatomic, strong, readwrite) NSString *filePath;
 
@@ -53,7 +53,7 @@
 
 @end
 
-@implementation TOSMBFile
+@implementation TOSMBSessionFile
 
 - (instancetype)init
 {
@@ -72,7 +72,6 @@
     
     if (self = [self init]) {
         _stat = stat;
-        _session = session;
         
         const char *name = smb_stat_name(stat);
         _name = [[NSString alloc] initWithBytes:name length:strlen(name) encoding:NSUTF8StringEncoding];

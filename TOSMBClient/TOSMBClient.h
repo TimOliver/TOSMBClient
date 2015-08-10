@@ -23,8 +23,8 @@
 #import "TOSMBConstants.h"
 
 #import "TOSMBSession.h"
-#import "TOSMBFile.h"
-#import "TOSMBDownloadTask.h"
+#import "TOSMBSessionFile.h"
+#import "TOSMBSessionDownloadTask.h"
 
 #import "TONetBIOSNameService.h"
 #import "TONetBIOSNameServiceEntry.h"
