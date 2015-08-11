@@ -21,6 +21,7 @@
 // -------------------------------------------------------------------------------
 
 #import <CommonCrypto/CommonDigest.h>
+#import <UIKit/UIKit.h>
 
 #import "TOSMBSessionDownloadTask.h"
 #import "TOSMBClient.h"
@@ -28,8 +29,6 @@
 #import "smb_share.h"
 #import "smb_file.h"
 #import "smb_defs.h"
-
-NSString * const kTOSMBClientDownloadsFolderName = @"TOSMBClient";
 
 @interface TOSMBSession ()
 
@@ -55,6 +54,8 @@ NSString * const kTOSMBClientDownloadsFolderName = @"TOSMBClient";
 
 @property (assign,readwrite) int64_t countOfBytesReceived;
 @property (assign,readwrite) int64_t countOfBytesExpectedToReceive;
+
+@property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
 
 /** Feedback handlers */
 @property (nonatomic, weak) id<TOSMBSessionDownloadTaskDelegate> delegate;
@@ -130,7 +131,8 @@ NSString * const kTOSMBClientDownloadsFolderName = @"TOSMBClient";
 #pragma mark - Temporary Destination Methods -
 - (NSString *)filePathForTemporaryDestination
 {
-    return [[NSTemporaryDirectory() stringByAppendingPathComponent:kTOSMBClientDownloadsFolderName] stringByAppendingPathComponent:[self hashForFilePath]];
+    NSString *fileName = [[self hashForFilePath] stringByAppendingPathExtension:@"smbclient.data"];
+    return [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];
 }
 
 - (NSString *)hashForFilePath
@@ -369,6 +371,9 @@ NSString * const kTOSMBClientDownloadsFolderName = @"TOSMBClient";
     unsigned long seekOffset = [fileHandle seekToEndOfFile];
     self.countOfBytesReceived = seekOffset;
     
+    //Create a background handle so the download will continue even if the app is suspended
+    self.backgroundTaskIdentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{ [self suspend]; }];
+    
     if (seekOffset > 0)
         smb_fseek(self.downloadSession, fileID, seekOffset, SMB_SEEK_SET);
     
@@ -396,6 +401,7 @@ NSString * const kTOSMBClientDownloadsFolderName = @"TOSMBClient";
     smb_tree_disconnect(self.downloadSession, treeID);
     
     if (weakOperation.isCancelled) {
+        [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskIdentifier];
         return;
     }
     
@@ -420,6 +426,8 @@ NSString * const kTOSMBClientDownloadsFolderName = @"TOSMBClient";
     
     NSString *finalDestination = [folderPath stringByAppendingPathComponent:fileName];
     [[NSFileManager defaultManager] moveItemAtPath:self.tempFilePath toPath:finalDestination error:nil];
+    
+    [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskIdentifier];
 }
 
 @end
