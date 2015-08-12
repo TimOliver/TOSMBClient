@@ -169,21 +169,21 @@
 
 - (NSError *)attemptConnectionWithSessionPointer:(smb_session *)session
 {
+    //There's no point in attempting a potentially costly TCP attempt if we're not even on a local network.
     if ([self deviceIsOnWiFi] == NO) {
-        return [NSError errorWithDomain:@"TOSMBClient"
-                                   code:1000
-                               userInfo:@{NSLocalizedDescriptionKey:NSLocalizedString(@"Device is not presently on a Wi-Fi network.", @"")}];
+        return errorForErrorCode(TOSMBSessionErrorNotOnWiFi);
     }
     
+    //Don't attempt another connection if we already made it through
     if (smb_session_state(session) >= TOSMBSessionStateDialectOK)
         return nil;
     
+    //Ensure at least one piece of connection information was supplied
     if (self.ipAddress.length == 0 && self.hostName.length == 0) {
-        return [NSError errorWithDomain:@"TOSMBClient"
-                                   code:1001
-                               userInfo:@{NSLocalizedDescriptionKey:NSLocalizedString(@"Insufficient login information supplied.", @"")}];
+        return errorForErrorCode(TOSMBSessionErrorCodeUnableToResolveAddress);
     }
     
+    //If only one piece of information was supplied, use NetBIOS to resolve the other
     if (self.ipAddress.length == 0 || self.hostName.length == 0) {
         TONetBIOSNameService *nameService = [[TONetBIOSNameService alloc] init];
         
@@ -193,26 +193,29 @@
             self.hostName = [nameService lookupNetworkNameForIPAddress:self.ipAddress];
     }
     
-    struct in_addr addr;
-    inet_aton([self.ipAddress cStringUsingEncoding:NSASCIIStringEncoding], &addr);
-    
-    const char *hostName = [self.hostName cStringUsingEncoding:NSASCIIStringEncoding];
-    if (!smb_session_connect(session, hostName, addr.s_addr, SMB_TRANSPORT_TCP)) {
-        return [NSError errorWithDomain:@"TOSMBClient"
-                                   code:1002
-                               userInfo:@{NSLocalizedDescriptionKey:NSLocalizedString(@"Unable to connect to host.", @"")}];
+    //If there is STILL no IP address after the resolution, there's no chance of a successful connection
+    if (self.ipAddress == nil) {
+        return errorForErrorCode(TOSMBSessionErrorCodeUnableToResolveAddress);
     }
     
-    //If the username or password wasn't supplied, use empty strings as oppsoed to NULL
-    const char *userName = (self.userName ? [self.userName cStringUsingEncoding:NSASCIIStringEncoding] : "");
-    const char *password = (self.password ? [self.password cStringUsingEncoding:NSASCIIStringEncoding] : "");
+    //Convert the IP Address and hostname values to their C equivalents
+    struct in_addr addr;
+    inet_aton([self.ipAddress cStringUsingEncoding:NSASCIIStringEncoding], &addr);
+    const char *hostName = [self.hostName cStringUsingEncoding:NSUTF8StringEncoding];
     
+    //Attempt a connection
+    if (!smb_session_connect(session, hostName, addr.s_addr, SMB_TRANSPORT_TCP)) {
+        return errorForErrorCode(TOSMBSessionErrorCodeUnableToConnect);
+    }
+    
+    //If the username or password wasn't supplied, use empty strings as opposed to NULL
+    const char *userName = (self.userName ? [self.userName cStringUsingEncoding:NSUTF8StringEncoding] : "");
+    const char *password = (self.password ? [self.password cStringUsingEncoding:NSUTF8StringEncoding] : "");
+    
+    //Attempt a login. Even if we're downgraded to guest, the login call will succeed
     smb_session_set_creds(session, hostName, userName, password);
-    
     if (!smb_session_login(session)) {
-        return [NSError errorWithDomain:@"TOSMBClient"
-                                   code:1003
-                               userInfo:@{NSLocalizedDescriptionKey:NSLocalizedString(@"Unable to authenticate with host.", @"")}];
+        return errorForErrorCode(TOSMBSessionErrorCodeAuthenticationFailed);
     }
     
     return nil;
@@ -232,7 +235,7 @@
     //-----------------------------------------------------------------------------
     
     //If the path is nil, or '/', we'll be specifically requesting the
-    //parent network share names
+    //parent network share names as opposed to the actual file lists
     if (path.length == 0 || [path isEqualToString:@"/"]) {
         smb_share_list list;
         size_t shareCount = smb_share_get_list(self.session, &list);
@@ -267,14 +270,11 @@
     
     //Connect to that share
     //If not, make a new connection
-    const char *cStringName = [shareName cStringUsingEncoding:NSASCIIStringEncoding];
+    const char *cStringName = [shareName cStringUsingEncoding:NSUTF8StringEncoding];
     smb_tid shareID = smb_tree_connect(self.session, cStringName);
     if (shareID == 0) {
         if (error) {
-            resultError = [NSError errorWithDomain:@"TOSMBClient"
-                                              code:1004
-                                          userInfo:@{NSLocalizedDescriptionKey:NSLocalizedString(@"Unable to connect to share.", @"")}];
-            
+            resultError = errorForErrorCode(TOSMBSessionErrorCodeShareConnectionFailed);
             *error = resultError;
         }
         
@@ -301,7 +301,7 @@
     for (NSInteger i = 0; i < listCount; i++) {
         smb_stat item = smb_stat_list_at(statList, i);
         const char* name = smb_stat_name(item);
-        if (name[0] == '.') {
+        if (name[0] == '.') { //skip hidden files
             continue;
         }
         

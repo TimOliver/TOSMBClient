@@ -110,7 +110,7 @@ static void on_entry_removed(void *p_opaque, netbios_ns_entry *entry)
         return nil;
     
     struct in_addr addr;
-    int result = netbios_ns_resolve(self.nameService, [name cStringUsingEncoding:NSASCIIStringEncoding], TONetBIOSNameServiceCTypeForType(type), &addr.s_addr);
+    int result = netbios_ns_resolve(self.nameService, [name cStringUsingEncoding:NSUTF8StringEncoding], TONetBIOSNameServiceCTypeForType(type), &addr.s_addr);
     if (result == 0)
         return nil;
     
@@ -119,7 +119,7 @@ static void on_entry_removed(void *p_opaque, netbios_ns_entry *entry)
         return nil;
     }
     
-    return [NSString stringWithCString:ipAddress encoding:NSASCIIStringEncoding];
+    return [NSString stringWithCString:ipAddress encoding:NSUTF8StringEncoding];
 }
 
 - (void)resolveIPAddressWithName:(NSString *)name type:(TONetBIOSNameServiceType)type
@@ -179,7 +179,7 @@ static void on_entry_removed(void *p_opaque, netbios_ns_entry *entry)
         return nil;
     }
     
-    return [NSString stringWithCString:addressString encoding:NSASCIIStringEncoding];
+    return [NSString stringWithCString:addressString encoding:NSUTF8StringEncoding];
 }
 
 - (void)lookupNetworkNameForIPAddress:(NSString *)address success:(void (^)(NSString *))success failure:(void (^)(void))failure

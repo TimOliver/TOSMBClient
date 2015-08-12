@@ -49,8 +49,8 @@
     
     if (self = [super init]) {
         _entry = entry;
-        _name = [NSString stringWithCString:netbios_ns_entry_name(_entry) encoding:NSASCIIStringEncoding];
-        _group = [NSString stringWithCString:netbios_ns_entry_group(_entry) encoding:NSASCIIStringEncoding];
+        _name = [NSString stringWithCString:netbios_ns_entry_name(_entry) encoding:NSUTF8StringEncoding];
+        _group = [NSString stringWithCString:netbios_ns_entry_group(_entry) encoding:NSUTF8StringEncoding];
         _type = TONetBIOSNameServiceTypeForCType(netbios_ns_entry_type(_entry));
         _ipAddress = netbios_ns_entry_ip(entry);
     }

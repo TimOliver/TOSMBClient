@@ -30,7 +30,8 @@
 
 /**
  Delegate event that is called when the file has successfully completed downloading and was moved to its final destionation.
- If there was a file with the same name in the destination, the name of this file will be modified and passed along in the `destinationPath` argument
+ If there was a file with the same name in the destination, the name of this file will be modified and this will be reflected in the
+ `destinationPath` value
  
  @param downloadTask The download task object calling this delegate method.
  @param destinationPath The absolute file path to the file.
@@ -38,7 +39,7 @@
 - (void)downloadTask:(TOSMBSessionDownloadTask *)downloadTask didFinishDownloadingToPath:(NSString *)destinationPath;
 
 /**
- Delegate event that is called periodically as the download progresses, updating the delegate with the amount of data that has been downloaded
+ Delegate event that is called periodically as the download progresses, updating the delegate with the amount of data that has been downloaded.
  
  @param downloadTask The download task object calling this delegate method.
  @param bytesWritten The number of bytes written in this particular iteration

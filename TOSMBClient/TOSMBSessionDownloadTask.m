@@ -258,6 +258,19 @@
     if (weakOperation.isCancelled)
         return;
     
+    smb_tid treeID;
+    smb_fd fileID;
+    
+    //---------------------------------------------------------------------------------------
+    //Set up a cleanup block that'll release any handles before cancellation
+    void (^cleanup)(void) = ^{
+        if (treeID)
+            smb_tree_disconnect(self.downloadSession, treeID);
+        
+        if (fileID)
+            smb_fclose(self.downloadSession, fileID);
+    };
+    
     //---------------------------------------------------------------------------------------
     //Connect to SMB device
     
@@ -268,8 +281,10 @@
         return;
     }
     
-    if (weakOperation.isCancelled)
+    if (weakOperation.isCancelled) {
+        cleanup();
         return;
+    }
     
     //---------------------------------------------------------------------------------------
     //Connect to share
@@ -277,17 +292,15 @@
     //Next attach to the share we'll be using
     NSString *shareName = [self.session shareNameFromPath:self.sourceFilePath];
     const char *shareCString = [shareName cStringUsingEncoding:NSUTF8StringEncoding];
-    smb_tid treeID = smb_tree_connect(self.downloadSession, shareCString);
+    treeID = smb_tree_connect(self.downloadSession, shareCString);
     if (!treeID) {
-        NSError *error = [NSError errorWithDomain:@"TOSMBClient"
-                                             code:1006
-                                         userInfo:@{NSLocalizedDescriptionKey:NSLocalizedString(@"Unable to find share containing file to download.", @"")}];
-        
-        [self didFailWithError:error];
+        [self didFailWithError:errorForErrorCode(TOSMBSessionErrorCodeShareConnectionFailed)];
+        cleanup();
         return;
     }
     
     if (weakOperation.isCancelled) {
+        cleanup();
         return;
     }
     
@@ -299,27 +312,19 @@
     //Get the file info we'll be working off
     self.file = [self requestFileForItemAtPath:pathExcludingShare inTree:treeID];
     if (self.file == nil) {
-        NSError *error = [NSError errorWithDomain:@"TOSMBClient"
-                                             code:1007
-                                         userInfo:@{NSLocalizedDescriptionKey:NSLocalizedString(@"Unable to find file to download.", @"")}];
-        
-        [self didFailWithError:error];
-        smb_tree_disconnect(self.downloadSession, treeID);
+        [self didFailWithError:errorForErrorCode(TOSMBSessionErrorCodeFileNotFound)];
+        cleanup();
         return;
     }
     
     if (weakOperation.isCancelled) {
-        smb_tree_disconnect(self.downloadSession, treeID);
+        cleanup();
         return;
     }
     
     if (self.file.directory) {
-        NSError *error = [NSError errorWithDomain:@"TOSMBClient"
-                                             code:1008
-                                         userInfo:@{NSLocalizedDescriptionKey:NSLocalizedString(@"Directories cannot be downloaded.", @"")}];
-        
-        [self didFailWithError:error];
-        smb_tree_disconnect(self.downloadSession, treeID);
+        [self didFailWithError:errorForErrorCode(TOSMBSessionErrorCodeDirectoryDownloaded)];
+        cleanup();
         return;
     }
     
@@ -328,20 +333,15 @@
     //---------------------------------------------------------------------------------------
     //Start downloading
     
-    smb_fd fileID = smb_fopen(self.downloadSession, treeID, [pathExcludingShare cStringUsingEncoding:NSUTF8StringEncoding], SMB_MOD_RO);
+    fileID = smb_fopen(self.downloadSession, treeID, [pathExcludingShare cStringUsingEncoding:NSUTF8StringEncoding], SMB_MOD_RO);
     if (!fileID) {
-        NSError *error = [NSError errorWithDomain:@"TOSMBClient"
-                                             code:1007
-                                         userInfo:@{NSLocalizedDescriptionKey:NSLocalizedString(@"Unable to find file to download.", @"")}];
-        
-        [self didFailWithError:error];
-        smb_tree_disconnect(self.downloadSession, treeID);
+        [self didFailWithError:errorForErrorCode(TOSMBSessionErrorCodeFileNotFound)];
+        cleanup();
         return;
     }
     
     if (weakOperation.isCancelled) {
-        smb_fclose(self.downloadSession, fileID);
-        smb_tree_disconnect(self.downloadSession, treeID);
+        cleanup();
         return;
     }
     

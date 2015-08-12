@@ -43,3 +43,43 @@ char TONetBIOSNameServiceCTypeForType(char type)
         case TONetBIOSNameServiceTypeDomainMaster:  return NETBIOS_DOMAINMASTER;
     }
 }
+
+NSString *localizedStringForErrorCode(TOSMBSessionErrorCode errorCode)
+{
+    NSString *errorMessage;
+    
+    switch (errorCode) {
+        case TOSMBSessionErrorNotOnWiFi:
+            errorMessage = @"Device isn't connected to a local wireless network.";
+            break;
+        case TOSMBSessionErrorCodeUnableToResolveAddress:
+            errorMessage = @"Insufficient information to resolve device address.";
+            break;
+        case TOSMBSessionErrorCodeUnableToConnect:
+            errorMessage = @"Unable to connect to device.";
+            break;
+        case TOSMBSessionErrorCodeAuthenticationFailed:
+            errorMessage = @"Login authentication failed.";
+            break;
+        case TOSMBSessionErrorCodeShareConnectionFailed:
+            errorMessage = @"Unable to connect to share.";
+            break;
+        case TOSMBSessionErrorCodeFileNotFound:
+            errorMessage = @"Unable to locate file.";
+            break;
+        case TOSMBSessionErrorCodeDirectoryDownloaded:
+            errorMessage = @"Unable to download a directory.";
+            break;
+        case TOSMBSessionErrorCodeUnknown:
+        default:
+            errorMessage = @"Unknown Error Occurred.";
+            break;
+    }
+    
+    return NSLocalizedString(errorMessage, @"");
+}
+
+NSError *errorForErrorCode(TOSMBSessionErrorCode errorCode)
+{
+    return [NSError errorWithDomain:@"TOSMBClient" code:errorCode userInfo:@{NSLocalizedDescriptionKey:localizedStringForErrorCode(errorCode)}];
+}

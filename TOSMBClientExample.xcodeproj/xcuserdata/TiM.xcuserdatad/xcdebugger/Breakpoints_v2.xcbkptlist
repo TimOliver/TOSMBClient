@@ -194,11 +194,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TOSMBClient/TOSMBSession.m"
-            timestampString = "460904301.745416"
+            timestampString = "461088986.954831"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "226"
-            endingLineNumber = "226"
+            startingLineNumber = "229"
+            endingLineNumber = "229"
             landmarkName = "-requestContentsOfDirectoryAtFilePath:error:"
             landmarkType = "5">
          </BreakpointContent>
@@ -210,11 +210,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TOSMBClient/TOSMBSession.m"
-            timestampString = "460904301.745416"
+            timestampString = "461088986.954831"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "238"
-            endingLineNumber = "238"
+            startingLineNumber = "241"
+            endingLineNumber = "241"
             landmarkName = "-requestContentsOfDirectoryAtFilePath:error:"
             landmarkType = "5">
          </BreakpointContent>
@@ -226,11 +226,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TOSMBClient/TOSMBSession.m"
-            timestampString = "460904301.745416"
+            timestampString = "461088986.954831"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "252"
-            endingLineNumber = "252"
+            startingLineNumber = "255"
+            endingLineNumber = "255"
             landmarkName = "-requestContentsOfDirectoryAtFilePath:error:"
             landmarkType = "5">
          </BreakpointContent>
@@ -242,11 +242,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TOSMBClient/TOSMBSession.m"
-            timestampString = "460904301.745416"
+            timestampString = "461088986.954831"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "244"
-            endingLineNumber = "244"
+            startingLineNumber = "247"
+            endingLineNumber = "247"
             landmarkName = "-requestContentsOfDirectoryAtFilePath:error:"
             landmarkType = "5">
          </BreakpointContent>
@@ -258,11 +258,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TOSMBClient/TOSMBSession.m"
-            timestampString = "460904301.745416"
+            timestampString = "461088986.954831"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "258"
-            endingLineNumber = "258"
+            startingLineNumber = "261"
+            endingLineNumber = "261"
             landmarkName = "-requestContentsOfDirectoryAtFilePath:error:"
             landmarkType = "5">
          </BreakpointContent>
@@ -354,11 +354,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TOSMBClient/TOSMBSession.m"
-            timestampString = "460904301.745416"
+            timestampString = "461088986.954831"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "225"
-            endingLineNumber = "225"
+            startingLineNumber = "228"
+            endingLineNumber = "228"
             landmarkName = "-requestContentsOfDirectoryAtFilePath:error:"
             landmarkType = "5">
          </BreakpointContent>
@@ -418,11 +418,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TOSMBClient/TOSMBSession.m"
-            timestampString = "460904301.745416"
+            timestampString = "461088986.954831"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "181"
-            endingLineNumber = "181"
+            startingLineNumber = "182"
+            endingLineNumber = "182"
             landmarkName = "-attemptConnectionWithSessionPointer:"
             landmarkType = "5">
          </BreakpointContent>
@@ -434,11 +434,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TOSMBClient/TOSMBSession.m"
-            timestampString = "460904301.745416"
+            timestampString = "461088986.954831"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "218"
-            endingLineNumber = "218"
+            startingLineNumber = "221"
+            endingLineNumber = "221"
             landmarkName = "-attemptConnectionWithSessionPointer:"
             landmarkType = "5">
          </BreakpointContent>
@@ -482,11 +482,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TOSMBClient/TOSMBSessionDownloadTask.m"
-            timestampString = "461002680.784987"
+            timestampString = "461088986.954831"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "332"
-            endingLineNumber = "332"
+            startingLineNumber = "349"
+            endingLineNumber = "349"
             landmarkName = "-performDownloadWithOperation:"
             landmarkType = "5">
          </BreakpointContent>
@@ -498,11 +498,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TOSMBClient/TOSMBSessionDownloadTask.m"
-            timestampString = "461002680.784987"
+            timestampString = "461088986.954831"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "300"
-            endingLineNumber = "300"
+            startingLineNumber = "317"
+            endingLineNumber = "317"
             landmarkName = "-performDownloadWithOperation:"
             landmarkType = "5">
          </BreakpointContent>
@@ -530,55 +530,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TOSMBClient/TOSMBSessionDownloadTask.m"
-            timestampString = "461002680.784987"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "377"
-            endingLineNumber = "377"
-            landmarkName = "-performDownloadWithOperation:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TOSMBClient/TOSMBSessionDownloadTask.m"
-            timestampString = "461002680.784987"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "384"
-            endingLineNumber = "384"
-            landmarkName = "-performDownloadWithOperation:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TOSMBClient/TOSMBSessionDownloadTask.m"
-            timestampString = "461002680.784987"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "356"
-            endingLineNumber = "356"
-            landmarkName = "-performDownloadWithOperation:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TOSMBClient/TOSMBSessionDownloadTask.m"
-            timestampString = "461002680.784987"
+            timestampString = "461088986.954831"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "393"
@@ -594,11 +546,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TOSMBClient/TOSMBSessionDownloadTask.m"
-            timestampString = "461002680.784987"
+            timestampString = "461088986.954831"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "361"
-            endingLineNumber = "361"
+            startingLineNumber = "400"
+            endingLineNumber = "400"
             landmarkName = "-performDownloadWithOperation:"
             landmarkType = "5">
          </BreakpointContent>
@@ -610,11 +562,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TOSMBClient/TOSMBSessionDownloadTask.m"
-            timestampString = "461002680.784987"
+            timestampString = "461088986.954831"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "425"
-            endingLineNumber = "425"
+            startingLineNumber = "372"
+            endingLineNumber = "372"
             landmarkName = "-performDownloadWithOperation:"
             landmarkType = "5">
          </BreakpointContent>
@@ -626,11 +578,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TOSMBClient/TOSMBSessionDownloadTask.m"
-            timestampString = "461002680.784987"
+            timestampString = "461088986.954831"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "421"
-            endingLineNumber = "421"
+            startingLineNumber = "409"
+            endingLineNumber = "409"
             landmarkName = "-performDownloadWithOperation:"
             landmarkType = "5">
          </BreakpointContent>
@@ -642,11 +594,59 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TOSMBClient/TOSMBSessionDownloadTask.m"
-            timestampString = "461002680.784987"
+            timestampString = "461088986.954831"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "417"
-            endingLineNumber = "417"
+            startingLineNumber = "377"
+            endingLineNumber = "377"
+            landmarkName = "-performDownloadWithOperation:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TOSMBClient/TOSMBSessionDownloadTask.m"
+            timestampString = "461088986.954831"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "441"
+            endingLineNumber = "441"
+            landmarkName = "-performDownloadWithOperation:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TOSMBClient/TOSMBSessionDownloadTask.m"
+            timestampString = "461088986.954831"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "437"
+            endingLineNumber = "437"
+            landmarkName = "-performDownloadWithOperation:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TOSMBClient/TOSMBSessionDownloadTask.m"
+            timestampString = "461088986.954831"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "433"
+            endingLineNumber = "433"
             landmarkName = "-performDownloadWithOperation:"
             landmarkType = "5">
          </BreakpointContent>
@@ -674,11 +674,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TOSMBClient/TOSMBSessionDownloadTask.m"
-            timestampString = "461002680.784987"
+            timestampString = "461088986.954831"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "301"
-            endingLineNumber = "301"
+            startingLineNumber = "318"
+            endingLineNumber = "318"
             landmarkName = "-performDownloadWithOperation:"
             landmarkType = "5">
          </BreakpointContent>
@@ -718,7 +718,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TOSMBClientExample/TOFilesTableViewController.m"
