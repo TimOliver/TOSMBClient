@@ -30,6 +30,9 @@
 #import "smb_file.h"
 #import "smb_defs.h"
 
+// -------------------------------------------------------------------------
+// Private methods in TOSMBSession shared here
+
 @interface TOSMBSession ()
 
 - (NSError *)attemptConnectionWithSessionPointer:(smb_session *)session;
@@ -39,9 +42,11 @@
 
 @end
 
+// -------------------------------------------------------------------------
+
 @interface TOSMBSessionDownloadTask ()
 
-@property (nonatomic, assign, readwrite) TOSMBSessionDownloadTaskState state;
+@property (assign, readwrite) TOSMBSessionDownloadTaskState state;
 
 @property (nonatomic, strong, readwrite) NSString *sourceFilePath;
 @property (nonatomic, strong, readwrite) NSString *destinationFilePath;
@@ -131,7 +136,7 @@
 #pragma mark - Temporary Destination Methods -
 - (NSString *)filePathForTemporaryDestination
 {
-    NSString *fileName = [[self hashForFilePath] stringByAppendingPathExtension:@"smbclient.data"];
+    NSString *fileName = [[self hashForFilePath] stringByAppendingPathExtension:@"smb.data"];
     return [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];
 }
 

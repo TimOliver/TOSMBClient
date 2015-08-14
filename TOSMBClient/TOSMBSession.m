@@ -63,6 +63,8 @@
 
 @property (nonatomic, strong, readwrite) NSArray *downloadTasks;
 
+@property (nonatomic, strong) NSDate *lastRequestDate;
+
 /* Connection/Authentication handling */
 - (BOOL)deviceIsOnWiFi;
 - (NSError *)attemptConnection; //Attempt connection for ourselves
@@ -174,8 +176,18 @@
         return errorForErrorCode(TOSMBSessionErrorNotOnWiFi);
     }
     
+    if (self.session == session) {
+        if (self.lastRequestDate && [[NSDate date] timeIntervalSinceDate:self.lastRequestDate] > 60) {
+            smb_session_destroy(self.session);
+            self.session = smb_session_new();
+            session = self.session;
+        }
+        
+        self.lastRequestDate = [NSDate date];
+    }
+    
     //Don't attempt another connection if we already made it through
-    if (smb_session_state(session) >= TOSMBSessionStateDialectOK)
+    if (session && smb_session_state(session) >= TOSMBSessionStateDialectOK)
         return nil;
     
     //Ensure at least one piece of connection information was supplied
