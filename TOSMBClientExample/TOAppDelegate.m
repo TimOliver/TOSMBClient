@@ -21,9 +21,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-    /*self.session = [[TOSMBSession alloc] initWithHostName:@"TITANNAS" ipAddress:@"192.168.1.3"];
+    self.session = [[TOSMBSession alloc] initWithHostName:@"TITANNAS" ipAddress:@"192.168.1.3"];
     TOSMBSessionDownloadTask *download = [self.session downloadTaskForFileAtPath:@"/Books/Manga/ラブひな/ラブひな - 1巻.pdf" destinationPath:[self documentsDirectory] delegate:self];
-    [download resume];*/
+    [download resume];
     
     //NSLog(@"Downloading %@", download.sourceFilePath.lastPathComponent);
     

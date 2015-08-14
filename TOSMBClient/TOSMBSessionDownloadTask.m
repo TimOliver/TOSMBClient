@@ -54,7 +54,7 @@
 
 @property (nonatomic, weak, readwrite) TOSMBSession *session;
 @property (nonatomic, strong) TOSMBSessionFile *file;
-@property (nonatomic, assign) smb_session *downloadSession;
+@property (assign) smb_session *downloadSession;
 @property (nonatomic, strong) NSBlockOperation *downloadOperation;
 
 @property (assign,readwrite) int64_t countOfBytesReceived;
@@ -97,8 +97,6 @@
 - (instancetype)initWithSession:(TOSMBSession *)session filePath:(NSString *)filePath destinationPath:(NSString *)destinationPath delegate:(id<TOSMBSessionDownloadTaskDelegate>)delegate
 {
     if (self = [super init]) {
-        _downloadSession = smb_session_new();
-        
         _session = session;
         _sourceFilePath = filePath;
         _destinationFilePath = destinationPath;
@@ -113,8 +111,6 @@
 - (instancetype)initWithSession:(TOSMBSession *)session filePath:(NSString *)filePath destinationPath:(NSString *)destinationPath progressHandler:(id)progressHandler successHandler:(id)successHandler failHandler:(id)failHandler
 {
     if (self = [super init]) {
-        _downloadSession = smb_session_new();
-        
         _session = session;
         _sourceFilePath = filePath;
         _destinationFilePath = destinationPath;
@@ -274,10 +270,17 @@
         
         if (fileID)
             smb_fclose(self.downloadSession, fileID);
+        
+        if (self.downloadSession) {
+            smb_session_destroy(self.downloadSession);
+            self.downloadSession = nil;
+        }
     };
     
     //---------------------------------------------------------------------------------------
     //Connect to SMB device
+    
+    self.downloadSession = smb_session_new();
     
     //First, check to make sure the file is there, and to acquire its attributes
     NSError *error = [self.session attemptConnectionWithSessionPointer:self.downloadSession];
