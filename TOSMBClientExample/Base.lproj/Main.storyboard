@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8173.3" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="TUb-b4-28W">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="TUb-b4-28W">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8142"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <scenes>
         <!--TOSMBClient-->
@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Press (+) to browse local SMB devices." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RQb-9i-6dt">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Press (+) to browse local SMB devices." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RQb-9i-6dt">
                                 <rect key="frame" x="140" y="236" width="320" height="128"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="128" id="hXJ-Qc-vqF"/>
@@ -27,9 +27,48 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LNq-f9-jxD">
+                                <rect key="frame" x="140" y="214" width="300" height="172"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1de-WU-4eh">
+                                        <rect key="frame" x="63" y="122" width="61" height="30"/>
+                                        <state key="normal" title="Suspend">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="suspendButtonTapped:" destination="OAG-5k-MDe" eventType="touchUpInside" id="Hzi-lx-Yk4"/>
+                                        </connections>
+                                    </button>
+                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="N4I-bM-Qjy">
+                                        <rect key="frame" x="49" y="85" width="202" height="2"/>
+                                    </progressView>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RxS-dA-Ae6">
+                                        <rect key="frame" x="184" y="122" width="48" height="30"/>
+                                        <state key="normal" title="Cancel">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="cancelButtonTapped:" destination="OAG-5k-MDe" eventType="touchUpInside" id="6Dy-zt-ctw"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="filename.zip" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qi1-WC-rsm">
+                                        <rect key="frame" x="8" y="20" width="284" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="172" id="E76-q8-UPC"/>
+                                    <constraint firstAttribute="width" constant="300" id="KOm-Mo-7Fx"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="centerX" secondItem="LNq-f9-jxD" secondAttribute="centerX" constant="10" id="6b7-re-1aT"/>
+                            <constraint firstAttribute="centerY" secondItem="LNq-f9-jxD" secondAttribute="centerY" id="Cfa-GE-H5c"/>
                             <constraint firstItem="RQb-9i-6dt" firstAttribute="centerY" secondItem="dBX-24-x8v" secondAttribute="centerY" id="woA-gp-bVP"/>
                             <constraint firstItem="RQb-9i-6dt" firstAttribute="centerX" secondItem="dBX-24-x8v" secondAttribute="centerX" id="zak-gc-4Yf"/>
                         </constraints>
@@ -40,12 +79,20 @@
                                 <action selector="addButtonTapped:" destination="OAG-5k-MDe" id="EeW-Qf-fys"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="R86-yk-36Q">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="action" id="R86-yk-36Q">
                             <connections>
                                 <action selector="actionButtonTapped:" destination="OAG-5k-MDe" id="otB-Vq-IG8"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="cancelButton" destination="RxS-dA-Ae6" id="BdY-aj-Rir"/>
+                        <outlet property="downloadView" destination="LNq-f9-jxD" id="3FG-gu-Fpl"/>
+                        <outlet property="fileNameLabel" destination="qi1-WC-rsm" id="8vq-ZT-hVi"/>
+                        <outlet property="noticeLabel" destination="RQb-9i-6dt" id="jar-ZM-3yi"/>
+                        <outlet property="progressView" destination="N4I-bM-Qjy" id="gFX-B9-fou"/>
+                        <outlet property="suspendButton" destination="1de-WU-4eh" id="RwT-3e-PQr"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vhr-MW-n32" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -8,11 +8,14 @@
 
 #import "TOFilesTableViewController.h"
 #import "TOSMBClient.h"
+#import "TORootViewController.h"
 
 @interface TOFilesTableViewController ()
 
 @property (nonatomic, copy) NSString *directoryTitle;
 @property (nonatomic, strong) TOSMBSession *session;
+
+- (UIViewController *)rootViewController;
 
 @end
 
@@ -51,12 +54,12 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
     TOSMBSessionFile *file = self.files[indexPath.row];
     cell.textLabel.text = file.name;
     cell.detailTextLabel.text = file.directory ? @"Directory" : [NSString stringWithFormat:@"File | Size: %ld", (long)file.fileSize];
+    cell.accessoryType = file.directory ? UITableViewCellAccessoryDisclosureIndicator : UITableViewCellAccessoryNone;
     
     return cell;
 }
@@ -66,7 +69,13 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     TOSMBSessionFile *file = self.files[indexPath.row];
+    if (file.directory == NO) {
+        [self.rootController downloadFileFromSession:self.session atFilePath:file.filePath];
+        return;
+    }
+    
     TOFilesTableViewController *controller = [[TOFilesTableViewController alloc] initWithSession:self.session title:file.name];
+    controller.rootController = self.rootController;
     controller.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
     [self.navigationController pushViewController:controller animated:YES];
     
@@ -84,5 +93,5 @@
     self.navigationItem.title = self.directoryTitle;
     [self.tableView reloadData];
 }
-
+         
 @end

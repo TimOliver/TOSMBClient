@@ -28,6 +28,8 @@
 
 @protocol TOSMBSessionDownloadTaskDelegate <NSObject>
 
+@optional
+
 /**
  Delegate event that is called when the file has successfully completed downloading and was moved to its final destionation.
  If there was a file with the same name in the destination, the name of this file will be modified and this will be reflected in the

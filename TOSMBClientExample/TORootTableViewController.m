@@ -79,6 +79,7 @@
     TOSMBSession *session = [[TOSMBSession alloc] initWithHostName:service.hostName ipAddress:ipString];
     TOFilesTableViewController *controller = [[TOFilesTableViewController alloc] initWithSession:session title:@"Shares"];
     controller.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
+    controller.rootController = self.rootController;
     [self.navigationController pushViewController:controller animated:YES];
     
     [session requestContentsOfDirectoryAtFilePath:@"/"

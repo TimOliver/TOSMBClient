@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+#import "TORootViewController.h"
+
 @interface TORootTableViewController : UITableViewController
 
-
+@property (nonatomic, weak) TORootViewController *rootController;
 
 @end
 

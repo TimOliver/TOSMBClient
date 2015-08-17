@@ -81,11 +81,13 @@
 - (NSString *)hashForFilePath;
 - (NSString *)filePathForTemporaryDestination;
 - (NSString *)finalFilePathForDownloadedFile;
+- (NSString *)documentsDirectory;
 
 /* Feedback events sent to either the delegate or callback blocks */
 - (void)didSucceedWithFilePath:(NSString *)filePath;
 - (void)didFailWithError:(NSError *)error;
 - (void)didUpdateWriteBytes:(uint64_t)bytesWritten totalBytesWritten:(uint64_t)totalBytesWritten totalBytesExpected:(uint64_t)totalBytesExpected;
+- (void)didResumeAtOffset:(uint64_t)bytesWritten totalBytesExpected:(uint64_t)totalBytesExpected;
 
 @end
 
@@ -103,7 +105,7 @@
     if (self = [super init]) {
         _session = session;
         _sourceFilePath = filePath;
-        _destinationFilePath = destinationPath;
+        _destinationFilePath = destinationPath.length ? destinationPath : [self documentsDirectory];
         _delegate = delegate;
         
         _tempFilePath = [self filePathForTemporaryDestination];
@@ -117,7 +119,7 @@
     if (self = [super init]) {
         _session = session;
         _sourceFilePath = filePath;
-        _destinationFilePath = destinationPath;
+        _destinationFilePath = destinationPath.length ? destinationPath : [self documentsDirectory];
         
         _progressHandler = progressHandler;
         _successHandler = successHandler;
@@ -190,6 +192,13 @@
     return newFilePath;
 }
 
+- (NSString *)documentsDirectory
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    return basePath;
+}
+
 #pragma mark - Public Control Methods -
 - (void)resume
 {
@@ -208,6 +217,7 @@
     
     [self.downloadOperation cancel];
     self.state = TOSMBSessionDownloadTaskStateSuspended;
+    self.downloadOperation = nil;
 }
 
 - (void)cancel
@@ -224,7 +234,10 @@
     [deleteOperation addDependency:self.downloadOperation];
     [self.session.downloadsQueue addOperation:deleteOperation];
     
+    [self.downloadOperation cancel];
     self.state = TOSMBSessionDownloadTaskStateCancelled;
+    
+    self.downloadOperation = nil;
 }
 
 #pragma mark - Feedback Methods -
@@ -254,24 +267,32 @@
 
 - (void)didFailWithError:(NSError *)error
 {
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+    dispatch_sync(dispatch_get_main_queue(), ^{
         if (self.delegate && [self.delegate respondsToSelector:@selector(downloadTask:didCompleteWithError:)])
             [self.delegate downloadTask:self didCompleteWithError:error];
         
         if (self.failHandler)
             self.failHandler(error);
-    }];
+    });
 }
 
 - (void)didUpdateWriteBytes:(uint64_t)bytesWritten totalBytesWritten:(uint64_t)totalBytesWritten totalBytesExpected:(uint64_t)totalBytesExpected
 {
-    dispatch_sync(dispatch_get_main_queue(), ^{
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         if (self.delegate && [self.delegate respondsToSelector:@selector(downloadTask:didWriteBytes:totalBytesReceived:totalBytesExpectedToReceive:)])
             [self.delegate downloadTask:self didWriteBytes:bytesWritten totalBytesReceived:self.countOfBytesReceived totalBytesExpectedToReceive:self.countOfBytesExpectedToReceive];
         
         if (self.progressHandler)
             self.progressHandler(self.countOfBytesReceived, self.countOfBytesExpectedToReceive);
-    });
+    }];
+}
+
+- (void)didResumeAtOffset:(uint64_t)bytesWritten totalBytesExpected:(uint64_t)totalBytesExpected
+{
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        if (self.delegate && [self.delegate respondsToSelector:@selector(downloadTask:didResumeAtOffset:totalBytesExpectedToReceive:)])
+            [self.delegate downloadTask:self didResumeAtOffset:bytesWritten totalBytesExpectedToReceive:totalBytesExpected];
+    }];
 }
 
 #pragma mark - Downloading -
@@ -303,6 +324,9 @@
         [weakSelf performDownloadWithOperation:weakOperation];
     };
     [operation addExecutionBlock:executionBlock];
+    operation.completionBlock = ^{
+        weakSelf.downloadOperation = nil;
+    };
 
     self.downloadOperation = operation;
 }
@@ -318,6 +342,8 @@
     //---------------------------------------------------------------------------------------
     //Set up a cleanup block that'll release any handles before cancellation
     void (^cleanup)(void) = ^{
+        
+        //Release the background task handler, making the app eligible to be suspended now
         if (self.backgroundTaskIdentifier)
             [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskIdentifier];
             
@@ -429,8 +455,10 @@
     //Create a background handle so the download will continue even if the app is suspended
     self.backgroundTaskIdentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{ [self suspend]; }];
     
-    if (seekOffset > 0)
+    if (seekOffset > 0) {
         smb_fseek(self.downloadSession, fileID, seekOffset, SMB_SEEK_SET);
+        [self didResumeAtOffset:seekOffset totalBytesExpected:self.countOfBytesExpectedToReceive];
+    }
     
     //Perform the file download
     uint64_t bytesRead = 0;
@@ -455,11 +483,6 @@
     free(buffer);
     [fileHandle closeFile];
     
-    smb_fclose(self.downloadSession, fileID);
-    smb_tree_disconnect(self.downloadSession, treeID);
-    
-    self.downloadSession = NULL;
-    
     if (weakOperation.isCancelled) {
         cleanup();
         return;
@@ -477,8 +500,8 @@
     //Alert the delegate that we finished, so they may perform any additional cleanup operations
     [self didSucceedWithFilePath:finalDestinationPath];
     
-    //Release the background task handler, making the app eligible to be suspended now
-    [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskIdentifier];
+    //Perform a final cleanup of all handles and references
+    cleanup();
 }
 
 @end

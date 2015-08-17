@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TORootViewController.h"
 
 @class TOSMBSession;
 
 @interface TOFilesTableViewController : UITableViewController
 
 @property (nonatomic, strong) NSArray *files;
+@property (nonatomic, weak) TORootViewController *rootController;
 
 - (instancetype)initWithSession:(TOSMBSession *)session title:(NSString *)title;
 
