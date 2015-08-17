@@ -90,7 +90,7 @@ totalBytesExpectedToReceive:(uint64_t)totalBytesToReceive;
 @property (readonly) int64_t countOfBytesExpectedToReceive;
 
 /** Returns if download data from a suspended task exists */
-@property (readonly) BOOL resumeDataExists;
+@property (readonly) BOOL canBeResumed;
 
 /** The state of the download task. */
 @property (readonly) TOSMBSessionDownloadTaskState state;

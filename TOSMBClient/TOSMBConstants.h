@@ -59,7 +59,7 @@ typedef NS_ENUM(NSInteger, TOSMBSessionDownloadTaskState) {
     TOSMBSessionDownloadTaskStateReady,
     TOSMBSessionDownloadTaskStateRunning,
     TOSMBSessionDownloadTaskStateSuspended,
-    TOSMBSessionDownloadTaskStateCanceled,
+    TOSMBSessionDownloadTaskStateCancelled,
     TOSMBSessionDownloadTaskStateCompleted
 };
 

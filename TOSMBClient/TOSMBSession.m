@@ -78,8 +78,6 @@
 - (void)setupDataQueue;
 - (void)setupDownloadQueue;
 
-- (void)resumeDownloadTask:(TOSMBSessionDownloadTask *)task;
-
 @end
 
 @implementation TOSMBSession
@@ -365,6 +363,8 @@
 #pragma mark - Download Tasks -
 - (TOSMBSessionDownloadTask *)downloadTaskForFileAtPath:(NSString *)path destinationPath:(NSString *)destinationPath delegate:(id<TOSMBSessionDownloadTaskDelegate>)delegate
 {
+    [self setupDownloadQueue];
+    
     TOSMBSessionDownloadTask *task = [[TOSMBSessionDownloadTask alloc] initWithSession:self filePath:path destinationPath:destinationPath delegate:delegate];
     self.downloadTasks = [self.downloadTasks ? : @[] arrayByAddingObjectsFromArray:@[task]];
     return task;
@@ -376,15 +376,11 @@
                                       completionHandler:(void (^)(NSString *filePath))completionHandler
                                             failHandler:(void (^)(NSError *error))failHandler
 {
+    [self setupDownloadQueue];
+    
     TOSMBSessionDownloadTask *task = [[TOSMBSessionDownloadTask alloc] initWithSession:self filePath:path destinationPath:destinationPath progressHandler:progressHandler successHandler:completionHandler failHandler:failHandler];
     self.downloadTasks = [self.downloadTasks ? : @[] arrayByAddingObjectsFromArray:@[task]];
     return task;
-}
-
-- (void)resumeDownloadTask:(TOSMBSessionDownloadTask *)task
-{
-    [self setupDownloadQueue];
-    [self.downloadsQueue addOperation:[task downloadOperation]];
 }
 
 #pragma mark - Concurrency Management -
