@@ -43,7 +43,7 @@
     tableController.rootController = self;
     [self presentViewController:controller animated:YES completion:nil];
     
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelButtonTapped:)];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(modalCancelButtonTapped:)];
     tableController.navigationItem.rightBarButtonItem = item;
 }
 
@@ -115,6 +115,10 @@
         [self.downloadTask resume];
         [self.suspendButton setTitle:@"Suspend" forState:UIControlStateNormal];
     }
+}
+
+- (void)modalCancelButtonTapped:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

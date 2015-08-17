@@ -14,10 +14,9 @@
 
 @interface TORootTableViewController () <NSNetServiceBrowserDelegate, NSNetServiceDelegate>
 
-@property (nonatomic, assign) NSIndexPath *resolvingIndexPath;
-
 @property (nonatomic, strong) NSNetServiceBrowser *serviceBrowser;
 @property (nonatomic, strong) NSMutableArray *nameServiceEntries;
+@property (nonatomic, strong) TONetBIOSNameService *netbiosService;
 
 - (void)beginServiceBrowser;
 
@@ -37,67 +36,26 @@
     [self beginServiceBrowser];
 }
 
-#pragma mark - Bonjour Service -
+- (void)dealloc
+{
+    if (self.netbiosService)
+        [self.netbiosService stopDiscovery];
+}
+
+#pragma mark - NetBios Service -
 - (void)beginServiceBrowser
 {
-    if (self.serviceBrowser)
+    if (self.netbiosService)
         return;
     
-    self.serviceBrowser = [[NSNetServiceBrowser alloc] init];
-    self.serviceBrowser.includesPeerToPeer = YES;
-    self.serviceBrowser.delegate = self;
-    
-    [self.serviceBrowser searchForServicesOfType:@"_smb._tcp." inDomain:@"local"];
-}
-
-- (void)netServiceBrowser:(NSNetServiceBrowser *)browser didFindService:(NSNetService *)service moreComing:(BOOL)moreComing
-{
-    [self.nameServiceEntries addObject:service];
-    [self.tableView reloadData];
-}
-
-- (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didRemoveService:(NSNetService *)aNetService moreComing:(BOOL)moreComing
-{
-    [self.nameServiceEntries removeObject:aNetService];
-    [self.tableView reloadData];
-}
-
-- (void)netServiceDidResolveAddress:(NSNetService *)sender
-{
-    NSNetService *service = sender;
-    NSLog(@"Name: %@ Hostname: %@ Address: %@", service.name, service.hostName, service.addresses);
-    if (service.addresses.count == 0)
-        return;
-    
-    //resolve the ip address
-    struct sockaddr_in  *socketAddress = nil;
-    NSString            *ipString = nil;
-    
-    socketAddress = (struct sockaddr_in *)[service.addresses[0] bytes];
-    ipString = [NSString stringWithFormat: @"%s", inet_ntoa(socketAddress->sin_addr)];
-    
-    TOSMBSession *session = [[TOSMBSession alloc] initWithHostName:service.hostName ipAddress:ipString];
-    TOFilesTableViewController *controller = [[TOFilesTableViewController alloc] initWithSession:session title:@"Shares"];
-    controller.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
-    controller.rootController = self.rootController;
-    [self.navigationController pushViewController:controller animated:YES];
-    
-    [session requestContentsOfDirectoryAtFilePath:@"/"
-                                          success:^(NSArray *files){ controller.files = files; }
-                                            error:^(NSError *error) {
-                                                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"SMB Client Error" message:error.localizedDescription delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-                                                [alert show];
-                                            }];
-    
-    
-    self.resolvingIndexPath = nil;
-    [self.tableView reloadData];
-}
-
-- (void)netService:(NSNetService *)sender didNotResolve:(NSDictionary *)errorDict
-{
-    self.resolvingIndexPath = nil;
-    [self.tableView reloadData];
+    self.netbiosService = [[TONetBIOSNameService alloc] init];
+    [self.netbiosService startDiscoveryWithTimeOut:4.0f added:^(TONetBIOSNameServiceEntry *entry) {
+        [self.nameServiceEntries addObject:entry];
+        [self.tableView reloadData];
+    } removed:^(TONetBIOSNameServiceEntry *entry) {
+        [self.nameServiceEntries removeObject:entry];
+        [self.tableView reloadData];
+    }];
 }
 
 #pragma mark - Table View -
@@ -116,12 +74,7 @@
     }
     
     cell.textLabel.text = [self.nameServiceEntries[indexPath.row] name];
-    
-    if (self.resolvingIndexPath && self.resolvingIndexPath.row == indexPath.row) {
-        cell.detailTextLabel.text = @"Resolving";
-    }
-    else
-        cell.detailTextLabel.text = nil;
+    cell.detailTextLabel.text = nil;
     
     return cell;
 }
@@ -129,16 +82,21 @@
 - (void)tableView:(nonnull UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+    TONetBIOSNameServiceEntry *entry = self.nameServiceEntries[indexPath.row];
+
+    TOSMBSession *session = [[TOSMBSession alloc] initWithHostName:entry.name ipAddress:entry.ipAddressString];
+    TOFilesTableViewController *controller = [[TOFilesTableViewController alloc] initWithSession:session title:@"Shares"];
+    controller.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
+    controller.rootController = self.rootController;
+    [self.navigationController pushViewController:controller animated:YES];
     
-    if (self.resolvingIndexPath)
-        return;
-    
-    self.resolvingIndexPath = indexPath;
-    [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-    
-    NSNetService *service = self.nameServiceEntries[indexPath.row];
-    service.delegate = self;
-    [service resolveWithTimeout:5.0f];
+    [session requestContentsOfDirectoryAtFilePath:@"/"
+                                          success:^(NSArray *files){ controller.files = files; }
+                                            error:^(NSError *error) {
+                                                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"SMB Client Error" message:error.localizedDescription delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+                                                [alert show];
+                                            }];
 }
 
 @end
