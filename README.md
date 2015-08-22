@@ -7,6 +7,13 @@ If you yourself are interested in such a thing, I would very much appreciate any
 
 In the meantime, please feel free to download it now if you would like a copy of Defective SMb precompiled for iOS device architectures.
 
+## Features
+* Connects to (*MOST*) SMB devices over local network.
+* Concurrently download files from SMB devices to your iOS device.
+* Allows basic user authentication, with automatic deferral to 'guest' where possible.
+* Simplified, asynchronous API for accessing file metadata on devices.
+* Uses iOS multitasking to ensure downloads continue even if the app is suspended.
+
 ## Examples
 ### Create a new Session
 
