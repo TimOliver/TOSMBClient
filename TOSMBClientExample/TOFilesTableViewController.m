@@ -15,8 +15,6 @@
 @property (nonatomic, copy) NSString *directoryTitle;
 @property (nonatomic, strong) TOSMBSession *session;
 
-- (UIViewController *)rootViewController;
-
 @end
 
 @implementation TOFilesTableViewController

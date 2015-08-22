@@ -82,7 +82,7 @@
 - (void)tableView:(nonnull UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-
+    
     TONetBIOSNameServiceEntry *entry = self.nameServiceEntries[indexPath.row];
 
     TOSMBSession *session = [[TOSMBSession alloc] initWithHostName:entry.name ipAddress:entry.ipAddressString];
