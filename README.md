@@ -7,6 +7,29 @@ If you yourself are interested in such a thing, I would very much appreciate any
 
 In the meantime, please feel free to download it now if you would like a copy of Defective SMb precompiled for iOS device architectures.
 
+## Examples
+### Create a new Session
+
+```
+#import "TOSMBClient.h"
+
+TOSMBSession *session = [[TOSMBSession alloc] initWithHostName:@"Tims-NAS" ipAddress:@"192.168.1.3"];
+[session setLoginCredentialsWithUserName:@"wagstaff" password:@"swordfish"];
+```
+Ideally, it is best to supply both the host name and IP address when creating a new session object. However, if you only initially know one of these values, `TOSMBSession` will perform a lookup via NetBIOS to try and resolve the other value.
+
+### Request a List of Files from the SMB device
+```
+[session requestContentsOfDirectoryAtFilePath:@"/"
+                                      success:^(NSArray *files){ 
+                                        NSLog(@"SMB Client Files: %@", error.localizedDescription);
+                                      }
+                                      error:^(NSError *error) {
+                                        NSLog(@"SMB Client Error: %@", error.localizedDescription);
+                                      }];
+
+```
+
 ## Technical Requirements
 iOS 7.0 or above.
 
