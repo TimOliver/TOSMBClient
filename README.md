@@ -1,5 +1,5 @@
 # TOSMBClient
-`TOSMBClient` is a small library that serves as a simple SMB ([Server Message Block](https://en.wikipedia.org/wiki/Server_Message_Block) ) client for iOS apps. The library allows connecting to SMB devices, downloading file metadata, and subsequently allows asynchronous downloding of files from the SMB device straight to ah iOS device.
+`TOSMBClient` is a small library that serves as a simple SMB ([Server Message Block](https://en.wikipedia.org/wiki/Server_Message_Block) ) client for iOS apps. The library allows connecting to SMB devices, downloading file metadata, and subsequently allows asynchronous downloading of files from an SMB device straight to an iOS device.
 
 It is an Objective-C wrapper around [Defective SMb](http://videolabs.github.io/libdsm), or libDSM, a low level SMB client library built in C built by some of VideoLabs' developers. A copy of libDSM has been specially cross-compiled for iOS device architectures and embedded in this library, so this project has no external dependencies.
 
