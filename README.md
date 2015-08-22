@@ -18,17 +18,33 @@ TOSMBSession *session = [[TOSMBSession alloc] initWithHostName:@"Tims-NAS" ipAdd
 ```
 Ideally, it is best to supply both the host name and IP address when creating a new session object. However, if you only initially know one of these values, `TOSMBSession` will perform a lookup via NetBIOS to try and resolve the other value.
 
-### Request a List of Files from the SMB device
+### Request a List of Files from the SMB Device
 ```
+// Asynchronous Request
 [session requestContentsOfDirectoryAtFilePath:@"/"
-                                      success:^(NSArray *files){ 
-                                        NSLog(@"SMB Client Files: %@", error.localizedDescription);
-                                      }
-                                      error:^(NSError *error) {
-                                        NSLog(@"SMB Client Error: %@", error.localizedDescription);
-                                      }];
-
+    success:^(NSArray *files){ 
+      NSLog(@"SMB Client Files: %@", error.localizedDescription);
+    }
+    error:^(NSError *error) {
+        NSLog(@"SMB Client Error: %@", error.localizedDescription);
+    }];
+    
+// Synchronous Request
+NSArray *files = [session requestContentsOfDirectoryAtFilePath:@"/" error:nil];
 ```
+All request methods have a synchronous and an asynchronous implementation. Both return an `NSArray` of `TOSMBSessionFile` objects that provide metadata on each file entry discovered.
+
+### Downloading a File from an SMB Device
+```
+TOSMBSessionDownloadTask *downloadTask = [session downloadTaskForFileAtPath:@"/Comics/Issue-1.cbz"
+      destinationPath:nil //Default is 'Documents' directory
+      progressHandler:^(uint64_t totalBytesWritten, uint64_t totalBytesExpected) { NSLog(@"%f", (CGFloat)totalBytesWritten / (CGFloat) totalBytesExpected);
+      completionHandler:^(NSString *filePath) { NSLog(@"File was downloaded to %@!", filePath); }
+      failHandler:^(NSError *error) { NSLog(@"Error: %@", error.localizedDescription); }];
+
+[downloadTask resume];
+```
+Download tasks are handled similarily to their counterparts in `NSURLSession`. They may paused or canceled at anytime (Both however reset the connection to ensure nothing hangs), and they additionally implement the `UIApplication` backgrounding system to ensure downloads can continue, even if the user clicks the Home button.
 
 ## Technical Requirements
 iOS 7.0 or above.
