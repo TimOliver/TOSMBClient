@@ -398,10 +398,12 @@
     //---------------------------------------------------------------------------------------
     //Find the target file
     
-    NSString *pathExcludingShare = [self.session filePathExcludingSharePathFromPath:self.sourceFilePath];
+    NSString *formattedPath = [self.session filePathExcludingSharePathFromPath:self.sourceFilePath];
+    formattedPath = [NSString stringWithFormat:@"\\%@",formattedPath];
+    formattedPath = [formattedPath stringByReplacingOccurrencesOfString:@"/" withString:@"\\\\"];
     
     //Get the file info we'll be working off
-    self.file = [self requestFileForItemAtPath:pathExcludingShare inTree:treeID];
+    self.file = [self requestFileForItemAtPath:formattedPath inTree:treeID];
     if (self.file == nil) {
         [self didFailWithError:errorForErrorCode(TOSMBSessionErrorCodeFileNotFound)];
         cleanup();
@@ -424,7 +426,7 @@
     //---------------------------------------------------------------------------------------
     //Open the file handle
     
-    fileID = smb_fopen(self.downloadSession, treeID, [pathExcludingShare cStringUsingEncoding:NSUTF8StringEncoding], SMB_MOD_RO);
+    fileID = smb_fopen(self.downloadSession, treeID, [formattedPath cStringUsingEncoding:NSUTF8StringEncoding], SMB_MOD_RO);
     if (!fileID) {
         [self didFailWithError:errorForErrorCode(TOSMBSessionErrorCodeFileNotFound)];
         cleanup();

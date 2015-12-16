@@ -294,15 +294,19 @@
     
     //work out the remainder of the file path and create the search query
     NSString *relativePath = [self filePathExcludingSharePathFromPath:path];
+    //prepend double backslashes
+    relativePath = [NSString stringWithFormat:@"\\\\%@",relativePath];
+    //replace any additional forward slashes with backslashes
+    relativePath = [relativePath stringByReplacingOccurrencesOfString:@"/" withString:@"\\\\"]; //replace forward slashes with backslashes
+    //append double backslash if we don't have one
+    if (![[relativePath substringFromIndex:relativePath.length-2] isEqualToString:@"\\\\"])
+        relativePath = [relativePath stringByAppendingString:@"\\\\"];
     
-    //Append a slash at the end if one isn't already present
-    if (relativePath.length > 0 && [relativePath characterAtIndex:relativePath.length-1] != '/')
-        relativePath = [relativePath stringByAppendingString:@"/"];
-    
+    //Add the wildcard symbol for everything in this folder
     relativePath = [relativePath stringByAppendingString:@"*"]; //wildcard to search for all files
     
     //Query for a list of files in this directory
-    smb_stat_list statList = smb_find(self.session, shareID, [relativePath cStringUsingEncoding:NSUTF8StringEncoding]);
+    smb_stat_list statList = smb_find(self.session, shareID, relativePath.UTF8String);
     size_t listCount = smb_stat_list_count(statList);
     if (listCount == 0)
         return nil;
@@ -428,14 +432,17 @@
     path = [path copy];
     
     //Remove any potential slashes at the start
-    if ([[path substringToIndex:2] isEqualToString:@"//"]) {
+    if ([[path substringToIndex:2] isEqualToString:@"//"] || [[path substringToIndex:2] isEqualToString:@"\\\\"]) {
         path = [path substringFromIndex:2];
     }
-    else if ([[path substringToIndex:1] isEqualToString:@"/"]) {
+    else if ([[path substringToIndex:1] isEqualToString:@"/"] || [[path substringToIndex:1] isEqualToString:@"\\"]) {
         path = [path substringFromIndex:1];
     }
     
     NSRange range = [path rangeOfString:@"/"];
+    if (range.location == NSNotFound) {
+        range = [path rangeOfString:@"\\"];
+    }
     
     if (range.location != NSNotFound)
         path = [path substringFromIndex:range.location+1];
