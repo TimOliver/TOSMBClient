@@ -347,10 +347,10 @@
         if (self.backgroundTaskIdentifier)
             [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskIdentifier];
             
-        if (treeID)
+        if (self.downloadSession && treeID)
             smb_tree_disconnect(self.downloadSession, treeID);
         
-        if (fileID)
+        if (self.downloadSession && fileID)
             smb_fclose(self.downloadSession, fileID);
         
         if (self.downloadSession) {
