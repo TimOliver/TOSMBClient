@@ -220,8 +220,8 @@
     
     //If the username or password wasn't supplied, a non-NULL string must still be supplied
     //to avoid NULL input assertions.   
-    const char *userName = (self.userName ? [self.userName cStringUsingEncoding:NSUTF8StringEncoding] : '\0');
-    const char *password = (self.password ? [self.password cStringUsingEncoding:NSUTF8StringEncoding] : '\0');
+    const char *userName = (self.userName ? [self.userName cStringUsingEncoding:NSUTF8StringEncoding] : " ");
+    const char *password = (self.password ? [self.password cStringUsingEncoding:NSUTF8StringEncoding] : " ");
     
     //Attempt a login. Even if we're downgraded to guest, the login call will succeed
     smb_session_set_creds(session, hostName, userName, password);
