@@ -295,12 +295,12 @@
     //work out the remainder of the file path and create the search query
     NSString *relativePath = [self filePathExcludingSharePathFromPath:path];
     //prepend double backslashes
-    relativePath = [NSString stringWithFormat:@"\\\\%@",relativePath];
+    relativePath = [NSString stringWithFormat:@"\\%@",relativePath];
     //replace any additional forward slashes with backslashes
-    relativePath = [relativePath stringByReplacingOccurrencesOfString:@"/" withString:@"\\\\"]; //replace forward slashes with backslashes
+    relativePath = [relativePath stringByReplacingOccurrencesOfString:@"/" withString:@"\\"]; //replace forward slashes with backslashes
     //append double backslash if we don't have one
-    if (![[relativePath substringFromIndex:relativePath.length-2] isEqualToString:@"\\\\"])
-        relativePath = [relativePath stringByAppendingString:@"\\\\"];
+    if (![[relativePath substringFromIndex:relativePath.length-1] isEqualToString:@"\\"])
+        relativePath = [relativePath stringByAppendingString:@"\\"];
     
     //Add the wildcard symbol for everything in this folder
     relativePath = [relativePath stringByAppendingString:@"*"]; //wildcard to search for all files
