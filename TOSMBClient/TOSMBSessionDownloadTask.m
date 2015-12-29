@@ -451,14 +451,14 @@
     
     //Open a handle to the file and skip ahead if we're resuming
     NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingAtPath:self.tempFilePath];
-    unsigned long long seekOffset = [fileHandle seekToEndOfFile];
+    unsigned long long seekOffset = (ssize_t)[fileHandle seekToEndOfFile];
     self.countOfBytesReceived = seekOffset;
     
     //Create a background handle so the download will continue even if the app is suspended
     self.backgroundTaskIdentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{ [self suspend]; }];
     
     if (seekOffset > 0) {
-        smb_fseek(self.downloadSession, fileID, seekOffset, SMB_SEEK_SET);
+        smb_fseek(self.downloadSession, fileID, (ssize_t)seekOffset, SMB_SEEK_SET);
         [self didResumeAtOffset:seekOffset totalBytesExpected:self.countOfBytesExpectedToReceive];
     }
     
