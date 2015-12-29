@@ -336,8 +336,8 @@
     if (weakOperation.isCancelled)
         return;
     
-    smb_tid treeID;
-    smb_fd fileID;
+    smb_tid treeID = -1;
+    smb_fd fileID = 0;
     
     //---------------------------------------------------------------------------------------
     //Set up a cleanup block that'll release any handles before cancellation
