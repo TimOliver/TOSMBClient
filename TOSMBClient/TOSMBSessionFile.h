@@ -33,8 +33,8 @@
 @property (nonatomic, readonly) BOOL directory;             /** Whether this file is a directory or not */
 
 @property (nonatomic, readonly) NSString *name;             /** The name of the file */
-@property (nonatomic, readonly) NSInteger fileSize;         /** The file size, in bytes of this folder (0 if it's a folder) */
-@property (nonatomic, readonly) NSInteger allocationSize;   /** The allocation size (ie how big it will be on disk) of this file */
+@property (nonatomic, readonly) uint64_t fileSize;         /** The file size, in bytes of this folder (0 if it's a folder) */
+@property (nonatomic, readonly) uint64_t allocationSize;   /** The allocation size (ie how big it will be on disk) of this file */
 @property (nonatomic, readonly) NSDate *creationTime;       /** The date and time that this file was created */
 @property (nonatomic, readonly) NSDate *accessTime;         /** The date when this file was last accessed. */
 @property (nonatomic, readonly) NSDate *writeTime;          /** The date when this file was last written to. */

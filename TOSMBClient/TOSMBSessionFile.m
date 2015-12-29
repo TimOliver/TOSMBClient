@@ -33,8 +33,8 @@
 @property (nonatomic, readwrite) TOSMBSession *session;
 
 @property (nonatomic, strong, readwrite) NSString *name;
-@property (nonatomic, assign, readwrite) NSInteger fileSize;
-@property (nonatomic, assign, readwrite) NSInteger allocationSize;
+@property (nonatomic, assign, readwrite) uint64_t fileSize;
+@property (nonatomic, assign, readwrite) uint64_t allocationSize;
 @property (nonatomic, assign, readwrite) BOOL directory;
 
 @property (nonatomic, assign) uint64_t modificationTimestamp;

@@ -9,5 +9,6 @@ Pod::Spec.new do |s|
   s.platform = :ios, '7.0'
   s.source_files = 'TOSMBClient/**/*.{h,m}'
   s.vendored_libraries = 'TOSMBClient/libdsm/libdsm.a', 'TOSMBClient/libdsm/libtasn1.a'
+  s.library = 'iconv'
   s.requires_arc = true
 end

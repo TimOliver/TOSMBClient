@@ -451,7 +451,7 @@
     
     //Open a handle to the file and skip ahead if we're resuming
     NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingAtPath:self.tempFilePath];
-    unsigned long seekOffset = [fileHandle seekToEndOfFile];
+    unsigned long long seekOffset = [fileHandle seekToEndOfFile];
     self.countOfBytesReceived = seekOffset;
     
     //Create a background handle so the download will continue even if the app is suspended
