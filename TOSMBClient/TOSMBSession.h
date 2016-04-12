@@ -34,7 +34,6 @@
 @property (nonatomic, copy) NSString *userName;
 @property (nonatomic, copy) NSString *password;
 
-@property (nonatomic, readonly) TOSMBSessionState state;
 @property (nonatomic, readonly) BOOL connected;
 @property (nonatomic, readonly) NSInteger guest;
 

@@ -383,7 +383,7 @@
     //Next attach to the share we'll be using
     NSString *shareName = [self.session shareNameFromPath:self.sourceFilePath];
     const char *shareCString = [shareName cStringUsingEncoding:NSUTF8StringEncoding];
-    treeID = smb_tree_connect(self.downloadSession, shareCString);
+    smb_tree_connect(self.downloadSession, shareCString, &treeID);
     if (!treeID) {
         [self didFailWithError:errorForErrorCode(TOSMBSessionErrorCodeShareConnectionFailed)];
         cleanup();
@@ -426,7 +426,7 @@
     //---------------------------------------------------------------------------------------
     //Open the file handle
     
-    fileID = smb_fopen(self.downloadSession, treeID, [formattedPath cStringUsingEncoding:NSUTF8StringEncoding], SMB_MOD_RO);
+    smb_fopen(self.downloadSession, treeID, [formattedPath cStringUsingEncoding:NSUTF8StringEncoding], SMB_MOD_RO, &fileID);
     if (!fileID) {
         [self didFailWithError:errorForErrorCode(TOSMBSessionErrorCodeFileNotFound)];
         cleanup();

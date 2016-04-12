@@ -65,6 +65,8 @@
 
 @property (nonatomic, strong) NSDate *lastRequestDate;
 
+@property (nonatomic, assign, readwrite) BOOL connected;
+
 /* Connection/Authentication handling */
 - (BOOL)deviceIsOnWiFi;
 - (NSError *)attemptConnection; //Attempt connection for ourselves
@@ -87,8 +89,9 @@
 {
     if (self = [super init]) {
         _session = smb_session_new();
-        if (_session == NULL)
+        if (_session == NULL) {
             return nil;
+        }
     }
     
     return self;
@@ -124,7 +127,9 @@
 
 - (void)dealloc
 {
-    smb_session_destroy(self.session);
+    if (self.session) {
+        smb_session_destroy(self.session);
+    }
 }
 
 #pragma mark - Authorization -
@@ -174,18 +179,23 @@
         return errorForErrorCode(TOSMBSessionErrorNotOnWiFi);
     }
     
+    // If we're connecting from a download task, and the sessions match, make sure to
+    // refresh them periodically
     if (self.session == session) {
         if (self.lastRequestDate && [[NSDate date] timeIntervalSinceDate:self.lastRequestDate] > 60) {
             smb_session_destroy(self.session);
             self.session = smb_session_new();
             session = self.session;
+            
+            self.connected = NO;
         }
         
         self.lastRequestDate = [NSDate date];
     }
     
     //Don't attempt another connection if we already made it through
-    if (session && smb_session_state(session) >= TOSMBSessionStateDialectOK)
+    //FIXME: This looks like a bug in libdsm
+    if (smb_session_is_guest(session) == -1)
         return nil;
     
     //Ensure at least one piece of connection information was supplied
@@ -214,7 +224,8 @@
     const char *hostName = [self.hostName cStringUsingEncoding:NSUTF8StringEncoding];
     
     //Attempt a connection
-    if (!smb_session_connect(session, hostName, addr.s_addr, SMB_TRANSPORT_TCP)) {
+    NSInteger result = smb_session_connect(session, hostName, addr.s_addr, SMB_TRANSPORT_TCP);
+    if (result != 0) {
         return errorForErrorCode(TOSMBSessionErrorCodeUnableToConnect);
     }
     
@@ -225,8 +236,12 @@
     
     //Attempt a login. Even if we're downgraded to guest, the login call will succeed
     smb_session_set_creds(session, hostName, userName, password);
-    if (!smb_session_login(session)) {
+    if (smb_session_login(session) != 0) {
         return errorForErrorCode(TOSMBSessionErrorCodeAuthenticationFailed);
+    }
+    
+    if (session == self.session) {
+        self.connected = YES;
     }
     
     return nil;
@@ -249,7 +264,8 @@
     //parent network share names as opposed to the actual file lists
     if (path.length == 0 || [path isEqualToString:@"/"]) {
         smb_share_list list;
-        size_t shareCount = smb_share_get_list(self.session, &list);
+        size_t shareCount = 0;
+        smb_share_get_list(self.session, &list, &shareCount);
         if (shareCount == 0)
             return nil;
         
@@ -282,7 +298,8 @@
     //Connect to that share
     //If not, make a new connection
     const char *cStringName = [shareName cStringUsingEncoding:NSUTF8StringEncoding];
-    smb_tid shareID = smb_tree_connect(self.session, cStringName);
+    smb_tid shareID = -1;
+    smb_tree_connect(self.session, cStringName, &shareID);
     if (shareID < 0) {
         if (error) {
             resultError = errorForErrorCode(TOSMBSessionErrorCodeShareConnectionFailed);
@@ -457,14 +474,6 @@
         return -1;
     
     return smb_session_is_guest(self.session);
-}
-
-- (TOSMBSessionState)state
-{
-    if (self.session == NULL)
-        return TOSMBSessionStateError;
-    
-    return smb_session_state(self.session);
 }
 
 @end

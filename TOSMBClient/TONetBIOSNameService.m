@@ -111,7 +111,7 @@ static void on_entry_removed(void *p_opaque, netbios_ns_entry *entry)
     
     struct in_addr addr;
     int result = netbios_ns_resolve(self.nameService, [name cStringUsingEncoding:NSUTF8StringEncoding], TONetBIOSNameServiceCTypeForType(type), &addr.s_addr);
-    if (result == 0)
+    if (result < 0)
         return nil;
     
     char *ipAddress = inet_ntoa(addr);

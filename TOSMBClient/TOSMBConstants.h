@@ -46,14 +46,6 @@ typedef NS_ENUM(NSInteger, TONetBIOSNameServiceType) {
     TONetBIOSNameServiceTypeDomainMaster
 };
 
-/** SMB Session Connection States */
-typedef NS_ENUM(NSInteger, TOSMBSessionState) {
-    TOSMBSessionStateError = SMB_STATE_ERROR,
-    TOSMBSessionStateNetBIOSOK = SMB_STATE_NEW,
-    TOSMBSessionStateDialectOK = SMB_STATE_NETBIOS_OK,
-    TOSMBSessionStateSessionOK = SMB_STATE_SESSION_OK
-};
-
 /** SMB File Download Connection State */
 typedef NS_ENUM(NSInteger, TOSMBSessionDownloadTaskState) {
     TOSMBSessionDownloadTaskStateReady,
