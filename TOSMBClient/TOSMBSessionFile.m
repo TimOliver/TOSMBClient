@@ -120,7 +120,7 @@
     [base setYear:1601];
     [base setEra:1]; // AD
     
-    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     NSDate *baseDate = [gregorian dateFromComponents:base];
     
     NSTimeInterval newTimestamp = timestamp / 10000000.0f;
