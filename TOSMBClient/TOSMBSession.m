@@ -382,6 +382,11 @@
     [self.dataQueue addOperation:operation];
 }
 
+- (void)cancelAllRequests
+{
+    [self.dataQueue cancelAllOperations];
+}
+
 #pragma mark - Download Tasks -
 - (TOSMBSessionDownloadTask *)downloadTaskForFileAtPath:(NSString *)path destinationPath:(NSString *)destinationPath delegate:(id<TOSMBSessionDownloadTaskDelegate>)delegate
 {

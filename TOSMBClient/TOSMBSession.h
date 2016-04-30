@@ -82,6 +82,11 @@
 - (void)requestContentsOfDirectoryAtFilePath:(NSString *)path success:(void (^)(NSArray *files))successHandler error:(void (^)(NSError *))errorHandler;
 
 /**
+ Cancels any and all file contents requests both actively occurring, and pending.
+ */
+- (void)cancelAllRequests;
+
+/**
  Creates a download task object for asynchronously downloading a file to disk.
  Only files may be downloaded; folders will return an error.
  
