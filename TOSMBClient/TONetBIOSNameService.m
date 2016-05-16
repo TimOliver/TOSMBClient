@@ -55,13 +55,16 @@ const NSTimeInterval kTONetBIOSNameServiceDiscoveryTimeOut = 4.0f;
 static void on_entry_added(void *p_opaque, netbios_ns_entry *entry)
 {
     @autoreleasepool {
-        TONetBIOSNameService *funcSelf = (__bridge TONetBIOSNameService *)(p_opaque);
-        if (funcSelf.discoveryAddedEvent == nil)
+        __weak TONetBIOSNameService *funcSelf = (__bridge TONetBIOSNameService *)(p_opaque);
+        if (funcSelf.discoveryAddedEvent == nil) {
             return;
+        }
         
         TONetBIOSNameServiceEntry *entryObject = [TONetBIOSNameServiceEntry entryWithCEntry:entry];
         dispatch_async(dispatch_get_main_queue(), ^{
-            funcSelf.discoveryAddedEvent(entryObject);
+            if ([funcSelf respondsToSelector:@selector(discoveryAddedEvent)] && funcSelf.discoveryAddedEvent) {
+                funcSelf.discoveryAddedEvent(entryObject);
+            }
         });
     }
 }
@@ -69,13 +72,16 @@ static void on_entry_added(void *p_opaque, netbios_ns_entry *entry)
 static void on_entry_removed(void *p_opaque, netbios_ns_entry *entry)
 {
     @autoreleasepool {
-        TONetBIOSNameService *funcSelf = (__bridge TONetBIOSNameService *)(p_opaque);
-        if (funcSelf.discoveryRemovedEvent == nil)
+        __weak TONetBIOSNameService *funcSelf = (__bridge TONetBIOSNameService *)(p_opaque);
+        if (funcSelf.discoveryRemovedEvent == nil) {
             return;
+        }
         
         TONetBIOSNameServiceEntry *entryObject = [TONetBIOSNameServiceEntry entryWithCEntry:entry];
         dispatch_async(dispatch_get_main_queue(), ^{
-            funcSelf.discoveryRemovedEvent(entryObject);
+            if ([funcSelf respondsToSelector:@selector(discoveryRemovedEvent)] && funcSelf.discoveryRemovedEvent) {
+                funcSelf.discoveryRemovedEvent(entryObject);
+            }
         });
     }
 }
