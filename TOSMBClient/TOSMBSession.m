@@ -88,6 +88,7 @@
 - (instancetype)init
 {
     if (self = [super init]) {
+        _maxDownloadOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount;
         _session = smb_session_new();
         if (_session == NULL) {
             return nil;
@@ -230,7 +231,7 @@
     }
     
     //If the username or password wasn't supplied, a non-NULL string must still be supplied
-    //to avoid NULL input assertions.   
+    //to avoid NULL input assertions.
     const char *userName = (self.userName ? [self.userName cStringUsingEncoding:NSUTF8StringEncoding] : " ");
     const char *password = (self.password ? [self.password cStringUsingEncoding:NSUTF8StringEncoding] : " ");
     
@@ -426,6 +427,7 @@
         return;
     
     self.downloadsQueue = [[NSOperationQueue alloc] init];
+    self.downloadsQueue.maxConcurrentOperationCount = self.maxDownloadOperationCount;
 }
 
 #pragma mark - String Parsing -
@@ -479,6 +481,13 @@
         return -1;
     
     return smb_session_is_guest(self.session);
+}
+
+- (void)setMaxDownloadOperationCount:(NSInteger)maxDownloadOperationCount
+{
+    _maxDownloadOperationCount = maxDownloadOperationCount;
+    
+    self.downloadsQueue.maxConcurrentOperationCount = maxDownloadOperationCount;
 }
 
 @end
