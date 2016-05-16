@@ -60,8 +60,8 @@
 @property (assign) smb_session *downloadSession;
 @property (nonatomic, strong) NSBlockOperation *downloadOperation;
 
-@property (assign,readwrite) int64_t countOfBytesReceived;
-@property (assign,readwrite) int64_t countOfBytesExpectedToReceive;
+@property (assign, readwrite) int64_t countOfBytesReceived;
+@property (assign, readwrite) int64_t countOfBytesExpectedToReceive;
 
 @property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
 
@@ -133,7 +133,13 @@
 
 - (void)dealloc
 {
-    smb_session_destroy(self.downloadSession);
+    // This is called after TOSMBSession dealloc is called, where the smb_session object is released.
+    // As so, probably this part is not required at all, so I'm commenting it out. 
+    // Anyway, even if my assumptions are wrong, we should firstly check if the whole session still exists.
+
+//    if (self.downloadSession && self.session) {
+//        smb_session_destroy(self.downloadSession);
+//    }
 }
 #pragma mark - Temporary Destination Methods -
 - (NSString *)filePathForTemporaryDestination
@@ -245,7 +251,7 @@
 {
     if ([[NSFileManager defaultManager] fileExistsAtPath:self.tempFilePath] == NO)
         return NO;
-
+    
     NSDate *modificationTime = [[[NSFileManager defaultManager] attributesOfItemAtPath:self.tempFilePath error:nil] fileModificationDate];
     if ([modificationTime isEqual:self.file.modificationTime] == NO) {
         return NO;
@@ -327,7 +333,7 @@
     operation.completionBlock = ^{
         weakSelf.downloadOperation = nil;
     };
-
+    
     self.downloadOperation = operation;
 }
 
@@ -346,7 +352,7 @@
         //Release the background task handler, making the app eligible to be suspended now
         if (self.backgroundTaskIdentifier)
             [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskIdentifier];
-            
+        
         if (self.downloadSession && treeID)
             smb_tree_disconnect(self.downloadSession, treeID);
         
