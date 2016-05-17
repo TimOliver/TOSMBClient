@@ -39,7 +39,11 @@
 
 @property (nonatomic, readonly) NSArray *downloadTasks;
 
-/** 
+/** Defines the number of concurrent download operations. Default:
+ * NSOperationQueueDefaultMaxConcurrentOperationCount. */
+@property (nonatomic) NSInteger maxDownloadOperationCount;
+
+/**
  Creates a new SMB object, but doesn't try to connect until the first request is made.
  For a successful connection, most devices require both the host name and the IP address.
  If only one of these two values is supplied, this library will attempt to resolve the other via
@@ -63,7 +67,7 @@
  */
 - (void)setLoginCredentialsWithUserName:(NSString *)userName password:(NSString *)password;
 
-/** 
+/**
  Performs a synchronous request for a list of files from the network device for the given file path.
  
  @param path The file path to request. Supplying nil or "" will reuest the root list of share folders
@@ -87,8 +91,8 @@
 - (void)cancelAllRequests;
 
 /**
- Creates a download task object for asynchronously downloading a file to disk.
- Only files may be downloaded; folders will return an error.
+ Creates a download task object for asynchronously downloading a file to
+ disk. Only files may be downloaded; folders will return an error.
  
  File downloads are done to the '/tmp' directory and are only copied to the destination when they successfully complete.
  If a file already exists in the destination directory with the same name, then this file's name will be changed before moving.
