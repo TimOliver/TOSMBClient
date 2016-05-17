@@ -37,7 +37,7 @@
  
  @param downloadTask The download task object calling this delegate method.
  @param destinationPath The absolute file path to the file.
-*/
+ */
 - (void)downloadTask:(TOSMBSessionDownloadTask *)downloadTask didFinishDownloadingToPath:(NSString *)destinationPath;
 
 /**
@@ -50,7 +50,7 @@
  */
 - (void)downloadTask:(TOSMBSessionDownloadTask *)downloadTask
        didWriteBytes:(uint64_t)bytesWritten
-   totalBytesReceived:(uint64_t)totalBytesReceived
+  totalBytesReceived:(uint64_t)totalBytesReceived
 totalBytesExpectedToReceive:(int64_t)totalBytesToReceive;
 
 /**
