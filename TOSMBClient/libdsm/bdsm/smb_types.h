@@ -36,11 +36,14 @@
 #ifndef __BDSM_SMB_TYPES_H_
 #define __BDSM_SMB_TYPES_H_
 
-#include <netinet/ip.h>
 #include <stddef.h>
+#include <stdint.h>
+
+#define _FILE_OFFSET_BITS 64
+
 #include "libtasn1.h"
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 # undef  off_t
 # define off_t off64_t
 #endif

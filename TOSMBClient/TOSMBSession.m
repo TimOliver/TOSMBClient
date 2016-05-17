@@ -194,8 +194,7 @@
     }
     
     //Don't attempt another connection if we already made it through
-    //FIXME: This looks like a bug in libdsm
-    if (smb_session_is_guest(session) == -1)
+    if (smb_session_is_guest(session) >= 0)
         return nil;
     
     //Ensure at least one piece of connection information was supplied
