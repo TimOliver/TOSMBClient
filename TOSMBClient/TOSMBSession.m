@@ -67,6 +67,8 @@
 
 @property (nonatomic, assign, readwrite) BOOL connected;
 
+@property (readonly) dispatch_queue_t serialQueue;
+
 /* Connection/Authentication handling */
 - (BOOL)deviceIsOnWiFi;
 - (NSError *)attemptConnection; //Attempt connection for ourselves
@@ -90,6 +92,7 @@
     if (self = [super init]) {
         _maxDownloadOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount;
         _session = smb_session_new();
+        _serialQueue = dispatch_queue_create(nil, DISPATCH_QUEUE_SERIAL);
         if (_session == NULL) {
             return nil;
         }
@@ -165,7 +168,11 @@
 
 - (NSError *)attemptConnection
 {
-    NSError *error = [self attemptConnectionWithSessionPointer:self.session];
+    __block NSError *error = nil;
+    dispatch_sync(self.serialQueue, ^{
+        [self attemptConnectionWithSessionPointer:self.session];
+    });
+        
     if (error)
         return error;
     
