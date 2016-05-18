@@ -478,8 +478,16 @@
     char *buffer = malloc(bufferSize);
     
     do {
+        //Read the bytes from the network device
         bytesRead = smb_fread(self.downloadSession, fileID, buffer, bufferSize);
-        [fileHandle writeData:[NSData dataWithBytes:buffer length:bufferSize]];
+        
+        //Save them to the file handle (And ensure the NSData object is flushed immediately)
+        @autoreleasepool {
+            [fileHandle writeData:[NSData dataWithBytes:buffer length:bufferSize]];
+        }
+        
+        //Ensure the data is properly written to disk before proceeding
+        [fileHandle synchronizeFile];
         
         if (weakOperation.isCancelled)
             break;
