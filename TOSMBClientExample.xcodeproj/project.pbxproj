@@ -19,7 +19,6 @@
 		2214DCF91B6678C8003E3EF1 /* TONetBIOSNameServiceEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 2214DCF81B6678C8003E3EF1 /* TONetBIOSNameServiceEntry.m */; };
 		2214DCFC1B66847B003E3EF1 /* TOSMBConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 2214DCFB1B66847B003E3EF1 /* TOSMBConstants.m */; };
 		22236CF91B67C2C700176C34 /* TOSMBSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 22236CF81B67C2C700176C34 /* TOSMBSession.m */; };
-		22236CFE1B687E1300176C34 /* libtasn1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 22236CFD1B687E1300176C34 /* libtasn1.a */; };
 		22301F701B6DED2500326F84 /* TOSMBSessionFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 22301F6F1B6DED2500326F84 /* TOSMBSessionFile.m */; };
 		22416F681B7125A3007B8A8B /* TOFilesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22416F671B7125A3007B8A8B /* TOFilesTableViewController.m */; };
 		227D6F241CBD4ACA000E8A78 /* TOSMBConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 2214DCFA1B66847B003E3EF1 /* TOSMBConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -28,27 +27,29 @@
 		227D6F271CBD4ACA000E8A78 /* TOSMBSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 22236CF71B67C2C700176C34 /* TOSMBSession.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		227D6F281CBD4ACA000E8A78 /* TOSMBSessionFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 22301F6E1B6DED2500326F84 /* TOSMBSessionFile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		227D6F291CBD4ACA000E8A78 /* TOSMBSessionDownloadTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 22AE8B861B6F66E4008412CF /* TOSMBSessionDownloadTask.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		227D6F2A1CBD4AD2000E8A78 /* libtasn1.h in Headers */ = {isa = PBXBuildFile; fileRef = 22236CFA1B68791800176C34 /* libtasn1.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		227D6F2B1CBD4AD2000E8A78 /* bdsm.h in Headers */ = {isa = PBXBuildFile; fileRef = 2214DCE81B662632003E3EF1 /* bdsm.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		227D6F2C1CBD4AD2000E8A78 /* netbios_defs.h in Headers */ = {isa = PBXBuildFile; fileRef = 2214DCEA1B662632003E3EF1 /* netbios_defs.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		227D6F2D1CBD4AD2000E8A78 /* netbios_ns.h in Headers */ = {isa = PBXBuildFile; fileRef = 2214DCEB1B662632003E3EF1 /* netbios_ns.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		227D6F2E1CBD4AD2000E8A78 /* smb_defs.h in Headers */ = {isa = PBXBuildFile; fileRef = 2214DCEC1B662632003E3EF1 /* smb_defs.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		227D6F2F1CBD4AD2000E8A78 /* smb_file.h in Headers */ = {isa = PBXBuildFile; fileRef = 2214DCED1B662632003E3EF1 /* smb_file.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		227D6F301CBD4AD2000E8A78 /* smb_session.h in Headers */ = {isa = PBXBuildFile; fileRef = 2214DCEE1B662632003E3EF1 /* smb_session.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		227D6F311CBD4AD2000E8A78 /* smb_share.h in Headers */ = {isa = PBXBuildFile; fileRef = 2214DCEF1B662632003E3EF1 /* smb_share.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		227D6F321CBD4AD2000E8A78 /* smb_stat.h in Headers */ = {isa = PBXBuildFile; fileRef = 2214DCF01B662632003E3EF1 /* smb_stat.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		227D6F331CBD4AD2000E8A78 /* smb_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 2214DCF11B662632003E3EF1 /* smb_types.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		227D6F341CBD4B58000E8A78 /* TOSMBConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 2214DCFB1B66847B003E3EF1 /* TOSMBConstants.m */; };
 		227D6F351CBD4B58000E8A78 /* TONetBIOSNameService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2214DCF51B666766003E3EF1 /* TONetBIOSNameService.m */; };
 		227D6F361CBD4B58000E8A78 /* TONetBIOSNameServiceEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 2214DCF81B6678C8003E3EF1 /* TONetBIOSNameServiceEntry.m */; };
 		227D6F371CBD4B58000E8A78 /* TOSMBSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 22236CF81B67C2C700176C34 /* TOSMBSession.m */; };
 		227D6F381CBD4B58000E8A78 /* TOSMBSessionFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 22301F6F1B6DED2500326F84 /* TOSMBSessionFile.m */; };
 		227D6F391CBD4B58000E8A78 /* TOSMBSessionDownloadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 22AE8B871B6F66E4008412CF /* TOSMBSessionDownloadTask.m */; };
-		227D6F3A1CBD4B65000E8A78 /* libtasn1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 22236CFD1B687E1300176C34 /* libtasn1.a */; };
 		227D6F3B1CBD4B67000E8A78 /* libdsm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2214DCF21B662632003E3EF1 /* libdsm.a */; };
 		227D6F3D1CBD4B7C000E8A78 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 227D6F3C1CBD4B7C000E8A78 /* libiconv.tbd */; };
 		227D6F3E1CBD4BE1000E8A78 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 227D6F3C1CBD4B7C000E8A78 /* libiconv.tbd */; };
 		227D6F4C1CBD4EF4000E8A78 /* TOSMBClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 22416F691B712BE7007B8A8B /* TOSMBClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		229EC8691CF3219A0007FE4A /* libtasn1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 229EC8681CF3219A0007FE4A /* libtasn1.a */; };
+		229EC86A1CF3219A0007FE4A /* libtasn1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 229EC8681CF3219A0007FE4A /* libtasn1.a */; };
+		229EC8761CF3240B0007FE4A /* bdsm.h in Headers */ = {isa = PBXBuildFile; fileRef = 229EC86B1CF3240B0007FE4A /* bdsm.h */; };
+		229EC8771CF3240B0007FE4A /* libtasn1.h in Headers */ = {isa = PBXBuildFile; fileRef = 229EC86C1CF3240B0007FE4A /* libtasn1.h */; };
+		229EC8781CF3240B0007FE4A /* netbios_defs.h in Headers */ = {isa = PBXBuildFile; fileRef = 229EC86D1CF3240B0007FE4A /* netbios_defs.h */; };
+		229EC8791CF3240B0007FE4A /* netbios_ns.h in Headers */ = {isa = PBXBuildFile; fileRef = 229EC86E1CF3240B0007FE4A /* netbios_ns.h */; };
+		229EC87A1CF3240B0007FE4A /* smb_defs.h in Headers */ = {isa = PBXBuildFile; fileRef = 229EC86F1CF3240B0007FE4A /* smb_defs.h */; };
+		229EC87B1CF3240B0007FE4A /* smb_dir.h in Headers */ = {isa = PBXBuildFile; fileRef = 229EC8701CF3240B0007FE4A /* smb_dir.h */; };
+		229EC87C1CF3240B0007FE4A /* smb_file.h in Headers */ = {isa = PBXBuildFile; fileRef = 229EC8711CF3240B0007FE4A /* smb_file.h */; };
+		229EC87D1CF3240B0007FE4A /* smb_session.h in Headers */ = {isa = PBXBuildFile; fileRef = 229EC8721CF3240B0007FE4A /* smb_session.h */; };
+		229EC87E1CF3240B0007FE4A /* smb_share.h in Headers */ = {isa = PBXBuildFile; fileRef = 229EC8731CF3240B0007FE4A /* smb_share.h */; };
+		229EC87F1CF3240B0007FE4A /* smb_stat.h in Headers */ = {isa = PBXBuildFile; fileRef = 229EC8741CF3240B0007FE4A /* smb_stat.h */; };
+		229EC8801CF3240B0007FE4A /* smb_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 229EC8751CF3240B0007FE4A /* smb_types.h */; };
 		22AE8B881B6F66E4008412CF /* TOSMBSessionDownloadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 22AE8B871B6F66E4008412CF /* TOSMBSessionDownloadTask.m */; };
 		22CB5AEB1B78929B006F05F2 /* TORootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22CB5AEA1B78929B006F05F2 /* TORootViewController.m */; };
 /* End PBXBuildFile section */
@@ -77,15 +78,6 @@
 		2214DCD51B661CD2003E3EF1 /* TOSMBClientExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TOSMBClientExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2214DCDA1B661CD2003E3EF1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2214DCDB1B661CD2003E3EF1 /* TOSMBClientExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TOSMBClientExampleTests.m; sourceTree = "<group>"; };
-		2214DCE81B662632003E3EF1 /* bdsm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bdsm.h; sourceTree = "<group>"; };
-		2214DCEA1B662632003E3EF1 /* netbios_defs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = netbios_defs.h; sourceTree = "<group>"; };
-		2214DCEB1B662632003E3EF1 /* netbios_ns.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = netbios_ns.h; sourceTree = "<group>"; };
-		2214DCEC1B662632003E3EF1 /* smb_defs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smb_defs.h; sourceTree = "<group>"; };
-		2214DCED1B662632003E3EF1 /* smb_file.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smb_file.h; sourceTree = "<group>"; };
-		2214DCEE1B662632003E3EF1 /* smb_session.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smb_session.h; sourceTree = "<group>"; };
-		2214DCEF1B662632003E3EF1 /* smb_share.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smb_share.h; sourceTree = "<group>"; };
-		2214DCF01B662632003E3EF1 /* smb_stat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smb_stat.h; sourceTree = "<group>"; };
-		2214DCF11B662632003E3EF1 /* smb_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smb_types.h; sourceTree = "<group>"; };
 		2214DCF21B662632003E3EF1 /* libdsm.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libdsm.a; sourceTree = "<group>"; };
 		2214DCF41B666766003E3EF1 /* TONetBIOSNameService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TONetBIOSNameService.h; sourceTree = "<group>"; };
 		2214DCF51B666766003E3EF1 /* TONetBIOSNameService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TONetBIOSNameService.m; sourceTree = "<group>"; };
@@ -95,8 +87,6 @@
 		2214DCFB1B66847B003E3EF1 /* TOSMBConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOSMBConstants.m; sourceTree = "<group>"; };
 		22236CF71B67C2C700176C34 /* TOSMBSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TOSMBSession.h; sourceTree = "<group>"; };
 		22236CF81B67C2C700176C34 /* TOSMBSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOSMBSession.m; sourceTree = "<group>"; };
-		22236CFA1B68791800176C34 /* libtasn1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libtasn1.h; sourceTree = "<group>"; };
-		22236CFD1B687E1300176C34 /* libtasn1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtasn1.a; sourceTree = "<group>"; };
 		22301F6E1B6DED2500326F84 /* TOSMBSessionFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TOSMBSessionFile.h; sourceTree = "<group>"; };
 		22301F6F1B6DED2500326F84 /* TOSMBSessionFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOSMBSessionFile.m; sourceTree = "<group>"; };
 		22416F661B7125A3007B8A8B /* TOFilesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TOFilesTableViewController.h; sourceTree = "<group>"; };
@@ -105,6 +95,18 @@
 		227D6F1C1CBD49FE000E8A78 /* TOSMBClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TOSMBClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		227D6F201CBD49FE000E8A78 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		227D6F3C1CBD4B7C000E8A78 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
+		229EC8681CF3219A0007FE4A /* libtasn1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtasn1.a; sourceTree = "<group>"; };
+		229EC86B1CF3240B0007FE4A /* bdsm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bdsm.h; sourceTree = "<group>"; };
+		229EC86C1CF3240B0007FE4A /* libtasn1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libtasn1.h; sourceTree = "<group>"; };
+		229EC86D1CF3240B0007FE4A /* netbios_defs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = netbios_defs.h; sourceTree = "<group>"; };
+		229EC86E1CF3240B0007FE4A /* netbios_ns.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = netbios_ns.h; sourceTree = "<group>"; };
+		229EC86F1CF3240B0007FE4A /* smb_defs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smb_defs.h; sourceTree = "<group>"; };
+		229EC8701CF3240B0007FE4A /* smb_dir.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smb_dir.h; sourceTree = "<group>"; };
+		229EC8711CF3240B0007FE4A /* smb_file.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smb_file.h; sourceTree = "<group>"; };
+		229EC8721CF3240B0007FE4A /* smb_session.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smb_session.h; sourceTree = "<group>"; };
+		229EC8731CF3240B0007FE4A /* smb_share.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smb_share.h; sourceTree = "<group>"; };
+		229EC8741CF3240B0007FE4A /* smb_stat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smb_stat.h; sourceTree = "<group>"; };
+		229EC8751CF3240B0007FE4A /* smb_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smb_types.h; sourceTree = "<group>"; };
 		22AE8B861B6F66E4008412CF /* TOSMBSessionDownloadTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TOSMBSessionDownloadTask.h; sourceTree = "<group>"; };
 		22AE8B871B6F66E4008412CF /* TOSMBSessionDownloadTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOSMBSessionDownloadTask.m; sourceTree = "<group>"; };
 		22CB5AE91B78929B006F05F2 /* TORootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TORootViewController.h; sourceTree = "<group>"; };
@@ -116,8 +118,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22236CFE1B687E1300176C34 /* libtasn1.a in Frameworks */,
 				2214DCF31B662632003E3EF1 /* libdsm.a in Frameworks */,
+				229EC8691CF3219A0007FE4A /* libtasn1.a in Frameworks */,
 				227D6F3E1CBD4BE1000E8A78 /* libiconv.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -134,7 +136,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				227D6F3D1CBD4B7C000E8A78 /* libiconv.tbd in Frameworks */,
-				227D6F3A1CBD4B65000E8A78 /* libtasn1.a in Frameworks */,
+				229EC86A1CF3219A0007FE4A /* libtasn1.a in Frameworks */,
 				227D6F3B1CBD4B67000E8A78 /* libdsm.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -234,7 +236,7 @@
 			children = (
 				2214DCE71B662632003E3EF1 /* bdsm */,
 				227D6F3C1CBD4B7C000E8A78 /* libiconv.tbd */,
-				22236CFD1B687E1300176C34 /* libtasn1.a */,
+				229EC8681CF3219A0007FE4A /* libtasn1.a */,
 				2214DCF21B662632003E3EF1 /* libdsm.a */,
 			);
 			path = libdsm;
@@ -243,16 +245,17 @@
 		2214DCE71B662632003E3EF1 /* bdsm */ = {
 			isa = PBXGroup;
 			children = (
-				22236CFA1B68791800176C34 /* libtasn1.h */,
-				2214DCE81B662632003E3EF1 /* bdsm.h */,
-				2214DCEA1B662632003E3EF1 /* netbios_defs.h */,
-				2214DCEB1B662632003E3EF1 /* netbios_ns.h */,
-				2214DCEC1B662632003E3EF1 /* smb_defs.h */,
-				2214DCED1B662632003E3EF1 /* smb_file.h */,
-				2214DCEE1B662632003E3EF1 /* smb_session.h */,
-				2214DCEF1B662632003E3EF1 /* smb_share.h */,
-				2214DCF01B662632003E3EF1 /* smb_stat.h */,
-				2214DCF11B662632003E3EF1 /* smb_types.h */,
+				229EC86B1CF3240B0007FE4A /* bdsm.h */,
+				229EC86C1CF3240B0007FE4A /* libtasn1.h */,
+				229EC86D1CF3240B0007FE4A /* netbios_defs.h */,
+				229EC86E1CF3240B0007FE4A /* netbios_ns.h */,
+				229EC86F1CF3240B0007FE4A /* smb_defs.h */,
+				229EC8701CF3240B0007FE4A /* smb_dir.h */,
+				229EC8711CF3240B0007FE4A /* smb_file.h */,
+				229EC8721CF3240B0007FE4A /* smb_session.h */,
+				229EC8731CF3240B0007FE4A /* smb_share.h */,
+				229EC8741CF3240B0007FE4A /* smb_stat.h */,
+				229EC8751CF3240B0007FE4A /* smb_types.h */,
 			);
 			path = bdsm;
 			sourceTree = "<group>";
@@ -273,23 +276,24 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				229EC87D1CF3240B0007FE4A /* smb_session.h in Headers */,
 				227D6F4C1CBD4EF4000E8A78 /* TOSMBClient.h in Headers */,
+				229EC8781CF3240B0007FE4A /* netbios_defs.h in Headers */,
 				227D6F241CBD4ACA000E8A78 /* TOSMBConstants.h in Headers */,
+				229EC87A1CF3240B0007FE4A /* smb_defs.h in Headers */,
+				229EC8801CF3240B0007FE4A /* smb_types.h in Headers */,
+				229EC87E1CF3240B0007FE4A /* smb_share.h in Headers */,
+				229EC8761CF3240B0007FE4A /* bdsm.h in Headers */,
+				229EC8771CF3240B0007FE4A /* libtasn1.h in Headers */,
 				227D6F251CBD4ACA000E8A78 /* TONetBIOSNameService.h in Headers */,
 				227D6F261CBD4ACA000E8A78 /* TONetBIOSNameServiceEntry.h in Headers */,
+				229EC87F1CF3240B0007FE4A /* smb_stat.h in Headers */,
 				227D6F271CBD4ACA000E8A78 /* TOSMBSession.h in Headers */,
+				229EC8791CF3240B0007FE4A /* netbios_ns.h in Headers */,
+				229EC87B1CF3240B0007FE4A /* smb_dir.h in Headers */,
 				227D6F281CBD4ACA000E8A78 /* TOSMBSessionFile.h in Headers */,
 				227D6F291CBD4ACA000E8A78 /* TOSMBSessionDownloadTask.h in Headers */,
-				227D6F2A1CBD4AD2000E8A78 /* libtasn1.h in Headers */,
-				227D6F2B1CBD4AD2000E8A78 /* bdsm.h in Headers */,
-				227D6F2C1CBD4AD2000E8A78 /* netbios_defs.h in Headers */,
-				227D6F2D1CBD4AD2000E8A78 /* netbios_ns.h in Headers */,
-				227D6F2E1CBD4AD2000E8A78 /* smb_defs.h in Headers */,
-				227D6F2F1CBD4AD2000E8A78 /* smb_file.h in Headers */,
-				227D6F301CBD4AD2000E8A78 /* smb_session.h in Headers */,
-				227D6F311CBD4AD2000E8A78 /* smb_share.h in Headers */,
-				227D6F321CBD4AD2000E8A78 /* smb_stat.h in Headers */,
-				227D6F331CBD4AD2000E8A78 /* smb_types.h in Headers */,
+				229EC87C1CF3240B0007FE4A /* smb_file.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -730,6 +734,7 @@
 				227D6F221CBD49FE000E8A78 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
