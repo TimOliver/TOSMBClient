@@ -170,7 +170,7 @@
 {
     __block NSError *error = nil;
     dispatch_sync(self.serialQueue, ^{
-        [self attemptConnectionWithSessionPointer:self.session];
+        error = [self attemptConnectionWithSessionPointer:self.session];
     });
         
     if (error)
