@@ -362,8 +362,10 @@
     void (^cleanup)(void) = ^{
         
         //Release the background task handler, making the app eligible to be suspended now
-        if (self.backgroundTaskIdentifier)
+        if (self.backgroundTaskIdentifier) {
             [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskIdentifier];
+            self.backgroundTaskIdentifier = 0;
+        }
         
         if (self.downloadSession && treeID)
             smb_tree_disconnect(self.downloadSession, treeID);
@@ -494,7 +496,6 @@
         if (bytesRead < 0) {
             [self fail];
             [self didFailWithError:errorForErrorCode(TOSMBSessionErrorCodeFileDownloadFailed)];
-            cleanup();
             break;
         }
         
