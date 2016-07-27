@@ -24,16 +24,17 @@
 
 @implementation TORootViewController
 
-- (void)viewDidLoad {
+#pragma mark - View Lifecycle
+
+- (void)viewDidLoad
+{
     [super viewDidLoad];
+
     self.noticeLabel.hidden = NO;
     self.downloadView.hidden = YES;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+#pragma mark - Actions
 
 - (IBAction)addButtonTapped:(id)sender
 {
@@ -46,6 +47,42 @@
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(modalCancelButtonTapped:)];
     tableController.navigationItem.rightBarButtonItem = item;
 }
+
+- (IBAction)suspendButtonTapped:(id)sender
+{
+    if (self.downloadTask.state == TOSMBSessionDownloadTaskStateRunning) {
+        [self.downloadTask suspend];
+        [self.suspendButton setTitle:@"Resume" forState:UIControlStateNormal];
+    }
+    else {
+        [self.downloadTask resume];
+        [self.suspendButton setTitle:@"Suspend" forState:UIControlStateNormal];
+    }
+}
+
+- (IBAction)cancelButtonTapped:(id)sender
+{
+    if (self.downloadTask.state != TOSMBSessionDownloadTaskStateCancelled) {
+        [self.downloadTask cancel];
+        self.cancelButton.enabled = NO;
+        self.progressView.progress = 0.0f;
+        [self.suspendButton setTitle:@"Resume" forState:UIControlStateNormal];
+    }
+}
+
+- (IBAction)actionButtonTapped:(id)sender
+{
+    self.docController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:self.filePath]];
+    self.docController.delegate = self;
+    [self.docController presentOpenInMenuFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
+}
+
+- (void)modalCancelButtonTapped:(id)sender
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - Logic
 
 - (void)downloadFileFromSession:(TOSMBSession *)session atFilePath:(NSString *)filePath
 {
@@ -67,6 +104,19 @@
     }];
 }
 
+#pragma mark - Helpers
+
+- (void)updateUiToDownloadFinishedState
+{
+    self.cancelButton.hidden = YES;
+    self.suspendButton.hidden = YES;
+    self.progressView.alpha = 0.5f;
+
+    self.navigationItem.rightBarButtonItem.enabled = YES;
+}
+
+#pragma mark - TOSMBSessionDownloadTaskDelegate
+
 - (void)downloadTask:(TOSMBSessionDownloadTask *)downloadTask didWriteBytes:(uint64_t)bytesWritten totalBytesReceived:(uint64_t)totalBytesReceived totalBytesExpectedToReceive:(int64_t)totalBytesToReceive
 {
     self.progressView.progress = (float)totalBytesReceived / (float)totalBytesToReceive;
@@ -74,51 +124,21 @@
 
 - (void)downloadTask:(TOSMBSessionDownloadTask *)downloadTask didFinishDownloadingToPath:(NSString *)destinationPath
 {
-    self.cancelButton.hidden = YES;
-    self.suspendButton.hidden = YES;
-    self.progressView.alpha = 0.5f;
-    
-    self.navigationItem.rightBarButtonItem.enabled = YES;
-    
+    [self updateUiToDownloadFinishedState];
     self.filePath = destinationPath;
 }
 
-- (IBAction)cancelButtonTapped:(id)sender
+- (void)downloadTask:(TOSMBSessionDownloadTask *)downloadTask didCompleteWithError:(NSError *)error
 {
-    if (self.downloadTask.state != TOSMBSessionDownloadTaskStateCancelled) {
-        [self.downloadTask cancel];
-        self.cancelButton.enabled = NO;
-        self.progressView.progress = 0.0f;
-        [self.suspendButton setTitle:@"Resume" forState:UIControlStateNormal];
-    }
+    [self updateUiToDownloadFinishedState];
+    [[[UIAlertView alloc] initWithTitle:@"SMB Client Error" message:error.localizedDescription delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil] show];
 }
 
-- (IBAction)actionButtonTapped:(id)sender
-{
-    self.docController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:self.filePath]];
-    self.docController.delegate = self;
-    [self.docController presentOpenInMenuFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
-}
+#pragma mark - UIDocumentInteractionControllerDelegate
 
 - (void)documentInteractionControllerDidDismissOpenInMenu:(UIDocumentInteractionController *)controller
 {
     self.docController = nil;
-}
-
-- (IBAction)suspendButtonTapped:(id)sender
-{
-    if (self.downloadTask.state == TOSMBSessionDownloadTaskStateRunning) {
-        [self.downloadTask suspend];
-        [self.suspendButton setTitle:@"Resume" forState:UIControlStateNormal];
-    }
-    else {
-        [self.downloadTask resume];
-        [self.suspendButton setTitle:@"Suspend" forState:UIControlStateNormal];
-    }
-}
-
-- (void)modalCancelButtonTapped:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
