@@ -70,6 +70,9 @@ NSString *localizedStringForErrorCode(TOSMBSessionErrorCode errorCode)
         case TOSMBSessionErrorCodeDirectoryDownloaded:
             errorMessage = @"Unable to download a directory.";
             break;
+        case TOSMBSessionErrorCodeFileDownloadFailed:
+            errorMessage = @"File download failed - check your connection.";
+            break;
         case TOSMBSessionErrorCodeUnknown:
         default:
             errorMessage = @"Unknown Error Occurred.";

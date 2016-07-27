@@ -247,6 +247,17 @@
     self.downloadOperation = nil;
 }
 
+#pragma mark - Private Control Methods -
+- (void)fail
+{
+    if (self.state != TOSMBSessionDownloadTaskStateRunning)
+        return;
+
+    [self cancel];
+
+    self.state = TOSMBSessionDownloadTaskStateFailed;
+}
+
 #pragma mark - Feedback Methods -
 - (BOOL)canBeResumed
 {
@@ -351,8 +362,10 @@
     void (^cleanup)(void) = ^{
         
         //Release the background task handler, making the app eligible to be suspended now
-        if (self.backgroundTaskIdentifier)
+        if (self.backgroundTaskIdentifier) {
             [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskIdentifier];
+            self.backgroundTaskIdentifier = 0;
+        }
         
         if (self.downloadSession && treeID)
             smb_tree_disconnect(self.downloadSession, treeID);
@@ -473,13 +486,18 @@
     }
     
     //Perform the file download
-    uint64_t bytesRead = 0;
+    int64_t bytesRead = 0;
     NSInteger bufferSize = 65535;
     char *buffer = malloc(bufferSize);
     
     do {
         //Read the bytes from the network device
         bytesRead = smb_fread(self.downloadSession, fileID, buffer, bufferSize);
+        if (bytesRead < 0) {
+            [self fail];
+            [self didFailWithError:errorForErrorCode(TOSMBSessionErrorCodeFileDownloadFailed)];
+            break;
+        }
         
         //Save them to the file handle (And ensure the NSData object is flushed immediately)
         @autoreleasepool {
@@ -503,7 +521,7 @@
     free(buffer);
     [fileHandle closeFile];
     
-    if (weakOperation.isCancelled) {
+    if (weakOperation.isCancelled  || self.state != TOSMBSessionDownloadTaskStateRunning) {
         cleanup();
         return;
     }
@@ -515,7 +533,7 @@
     NSString *finalDestinationPath = [self finalFilePathForDownloadedFile];
     [[NSFileManager defaultManager] moveItemAtPath:self.tempFilePath toPath:finalDestinationPath error:nil];
     
-    self.state =TOSMBSessionDownloadTaskStateCompleted;
+    self.state = TOSMBSessionDownloadTaskStateCompleted;
     
     //Alert the delegate that we finished, so they may perform any additional cleanup operations
     [self didSucceedWithFilePath:finalDestinationPath];
