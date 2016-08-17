@@ -392,6 +392,7 @@
 - (void)cancelAllRequests
 {
     [self.dataQueue cancelAllOperations];
+    [self.downloadsQueue cancelAllOperations];
 }
 
 #pragma mark - Download Tasks -
