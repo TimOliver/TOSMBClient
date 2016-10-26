@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		22F243FC1DC0AD4900ED6395 /* TOSMBClient-Universal */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 22F243FD1DC0AD4900ED6395 /* Build configuration list for PBXAggregateTarget "TOSMBClient-Universal" */;
+			buildPhases = (
+				22F244001DC0AD5500ED6395 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "TOSMBClient-Universal";
+			productName = "TOSMBClient-Universal";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		2214DCC21B661CD2003E3EF1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2214DCC11B661CD2003E3EF1 /* main.m */; };
 		2214DCC51B661CD2003E3EF1 /* TOAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2214DCC41B661CD2003E3EF1 /* TOAppDelegate.m */; };
@@ -380,9 +394,14 @@
 					227D6F1B1CBD49FE000E8A78 = {
 						CreatedOnToolsVersion = 7.3;
 					};
+					22F243FC1DC0AD4900ED6395 = {
+						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = 6LF3GMKZAB;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
-			buildConfigurationList = 2214DCB71B661CD2003E3EF1 /* Build configuration list for PBXProject "TOSMBClientExample" */;
+			buildConfigurationList = 2214DCB71B661CD2003E3EF1 /* Build configuration list for PBXProject "TOSMBClient" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -398,6 +417,7 @@
 				2214DCBB1B661CD2003E3EF1 /* TOSMBClientExample */,
 				2214DCD41B661CD2003E3EF1 /* TOSMBClientExampleTests */,
 				227D6F1B1CBD49FE000E8A78 /* TOSMBClient */,
+				22F243FC1DC0AD4900ED6395 /* TOSMBClient-Universal */,
 			);
 		};
 /* End PBXProject section */
@@ -428,6 +448,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		22F244001DC0AD5500ED6395 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "######################\n# Options\n######################\n\nREVEAL_ARCHIVE_IN_FINDER=true\n\nFRAMEWORK_NAME=\"${PROJECT_NAME}\"\n\nSIMULATOR_LIBRARY_PATH=\"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${FRAMEWORK_NAME}.framework\"\n\nDEVICE_LIBRARY_PATH=\"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${FRAMEWORK_NAME}.framework\"\n\nUNIVERSAL_LIBRARY_DIR=\"${BUILD_DIR}/${CONFIGURATION}-iphoneuniversal\"\n\nFRAMEWORK=\"${UNIVERSAL_LIBRARY_DIR}/${FRAMEWORK_NAME}.framework\"\n\n\n######################\n# Build Frameworks\n######################\n\nxcodebuild -project ${PROJECT_NAME}.xcodeproj -scheme ${PROJECT_NAME} -sdk iphonesimulator -configuration ${CONFIGURATION} clean build CONFIGURATION_BUILD_DIR=${BUILD_DIR}/${CONFIGURATION}-iphonesimulator 2>&1\n\nxcodebuild -project ${PROJECT_NAME}.xcodeproj -scheme ${PROJECT_NAME} -sdk iphoneos -configuration ${CONFIGURATION} clean build CONFIGURATION_BUILD_DIR=${BUILD_DIR}/${CONFIGURATION}-iphoneos 2>&1\n\n######################\n# Create directory for universal\n######################\n\nrm -rf \"${UNIVERSAL_LIBRARY_DIR}\"\n\nmkdir \"${UNIVERSAL_LIBRARY_DIR}\"\n\nmkdir \"${FRAMEWORK}\"\n\n\n######################\n# Copy files Framework\n######################\n\ncp -r \"${DEVICE_LIBRARY_PATH}/.\" \"${FRAMEWORK}\"\n\n\n######################\n# Make an universal binary\n######################\n\nlipo \"${SIMULATOR_LIBRARY_PATH}/${FRAMEWORK_NAME}\" \"${DEVICE_LIBRARY_PATH}/${FRAMEWORK_NAME}\" -create -output \"${FRAMEWORK}/${FRAMEWORK_NAME}\" | echo\n\n# For Swift framework, Swiftmodule needs to be copied in the universal framework\nif [ -d \"${SIMULATOR_LIBRARY_PATH}/Modules/${FRAMEWORK_NAME}.swiftmodule/\" ]; then\ncp -f ${SIMULATOR_LIBRARY_PATH}/Modules/${FRAMEWORK_NAME}.swiftmodule/* \"${FRAMEWORK}/Modules/${FRAMEWORK_NAME}.swiftmodule/\" | echo\n                                                                      fi\n                                                                      \n                                                                      if [ -d \"${DEVICE_LIBRARY_PATH}/Modules/${FRAMEWORK_NAME}.swiftmodule/\" ]; then\n                                                                      cp -f ${DEVICE_LIBRARY_PATH}/Modules/${FRAMEWORK_NAME}.swiftmodule/* \"${FRAMEWORK}/Modules/${FRAMEWORK_NAME}.swiftmodule/\" | echo\n                                                                      fi\n                                                                      \n                                                                      ######################\n                                                                      # On Release, copy the result to release directory\n                                                                      ######################\n                                                                      OUTPUT_DIR=\"${PROJECT_DIR}/Output/${FRAMEWORK_NAME}-${CONFIGURATION}-iphoneuniversal/\"\n                                                                      \n                                                                      rm -rf \"$OUTPUT_DIR\"\n                                                                      mkdir -p \"$OUTPUT_DIR\"\n                                                                      \n                                                                      cp -r \"${FRAMEWORK}\" \"$OUTPUT_DIR\"\n                                                                      \n                                                                      if [ ${REVEAL_ARCHIVE_IN_FINDER} = true ]; then\n                                                                      open \"${OUTPUT_DIR}/\"\n                                                                      fi";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2214DCB81B661CD2003E3EF1 /* Sources */ = {
@@ -713,10 +749,26 @@
 			};
 			name = Release;
 		};
+		22F243FE1DC0AD4900ED6395 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = 6LF3GMKZAB;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		22F243FF1DC0AD4900ED6395 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = 6LF3GMKZAB;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2214DCB71B661CD2003E3EF1 /* Build configuration list for PBXProject "TOSMBClientExample" */ = {
+		2214DCB71B661CD2003E3EF1 /* Build configuration list for PBXProject "TOSMBClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2214DCDD1B661CD2003E3EF1 /* Debug */,
@@ -751,6 +803,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		22F243FD1DC0AD4900ED6395 /* Build configuration list for PBXAggregateTarget "TOSMBClient-Universal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				22F243FE1DC0AD4900ED6395 /* Debug */,
+				22F243FF1DC0AD4900ED6395 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

@@ -14,16 +14,16 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "227D6F1B1CBD49FE000E8A78"
-               BuildableName = "TOSMBClient.framework"
-               BlueprintName = "TOSMBClient"
-               ReferencedContainer = "container:TOSMBClientExample.xcodeproj">
+               BlueprintIdentifier = "22F243FC1DC0AD4900ED6395"
+               BuildableName = "TOSMBClient-Universal"
+               BlueprintName = "TOSMBClient-Universal"
+               ReferencedContainer = "container:TOSMBClient.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
@@ -33,7 +33,7 @@
       </AdditionalOptions>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -45,10 +45,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "227D6F1B1CBD49FE000E8A78"
-            BuildableName = "TOSMBClient.framework"
-            BlueprintName = "TOSMBClient"
-            ReferencedContainer = "container:TOSMBClientExample.xcodeproj">
+            BlueprintIdentifier = "22F243FC1DC0AD4900ED6395"
+            BuildableName = "TOSMBClient-Universal"
+            BlueprintName = "TOSMBClient-Universal"
+            ReferencedContainer = "container:TOSMBClient.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -63,10 +63,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "227D6F1B1CBD49FE000E8A78"
-            BuildableName = "TOSMBClient.framework"
-            BlueprintName = "TOSMBClient"
-            ReferencedContainer = "container:TOSMBClientExample.xcodeproj">
+            BlueprintIdentifier = "22F243FC1DC0AD4900ED6395"
+            BuildableName = "TOSMBClient-Universal"
+            BlueprintName = "TOSMBClient-Universal"
+            ReferencedContainer = "container:TOSMBClient.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2214DCBB1B661CD2003E3EF1"
-               BuildableName = "TOSMBClientExample.app"
-               BlueprintName = "TOSMBClientExample"
-               ReferencedContainer = "container:TOSMBClientExample.xcodeproj">
+               BlueprintIdentifier = "227D6F1B1CBD49FE000E8A78"
+               BuildableName = "TOSMBClient.framework"
+               BlueprintName = "TOSMBClient"
+               ReferencedContainer = "container:TOSMBClient.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -29,15 +29,6 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2214DCBB1B661CD2003E3EF1"
-            BuildableName = "TOSMBClientExample.app"
-            BlueprintName = "TOSMBClientExample"
-            ReferencedContainer = "container:TOSMBClientExample.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -51,16 +42,15 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2214DCBB1B661CD2003E3EF1"
-            BuildableName = "TOSMBClientExample.app"
-            BlueprintName = "TOSMBClientExample"
-            ReferencedContainer = "container:TOSMBClientExample.xcodeproj">
+            BlueprintIdentifier = "227D6F1B1CBD49FE000E8A78"
+            BuildableName = "TOSMBClient.framework"
+            BlueprintName = "TOSMBClient"
+            ReferencedContainer = "container:TOSMBClient.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -70,16 +60,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2214DCBB1B661CD2003E3EF1"
-            BuildableName = "TOSMBClientExample.app"
-            BlueprintName = "TOSMBClientExample"
-            ReferencedContainer = "container:TOSMBClientExample.xcodeproj">
+            BlueprintIdentifier = "227D6F1B1CBD49FE000E8A78"
+            BuildableName = "TOSMBClient.framework"
+            BlueprintName = "TOSMBClient"
+            ReferencedContainer = "container:TOSMBClient.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:TOSMBClientExample.xcodeproj">
+      location = "self:/Users/TiM/Projects/TOSMBClient/TOSMBClient.xcodeproj">
    </FileRef>
 </Workspace>
