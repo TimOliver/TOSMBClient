@@ -21,32 +21,12 @@
 // -------------------------------------------------------------------------------
 
 #import "TOSMBSessionFile.h"
+#import "TOSMBSessionFilePrivate.h"
 #import "smb_stat.h"
 
 @interface TOSMBSessionFile ()
 
-@property (nonatomic, strong, readwrite) NSString *filePath;
-
-@property (nonatomic, assign) smb_stat stat;
-@property (nonatomic, assign) BOOL isShareRoot; /** If this item represents the root network share */
-
-@property (nonatomic, readwrite) TOSMBSession *session;
-
-@property (nonatomic, strong, readwrite) NSString *name;
-@property (nonatomic, assign, readwrite) uint64_t fileSize;
-@property (nonatomic, assign, readwrite) uint64_t allocationSize;
-@property (nonatomic, assign, readwrite) BOOL directory;
-
-@property (nonatomic, assign) uint64_t modificationTimestamp;
-@property (nonatomic, strong, readwrite) NSDate *modificationTime;
-
-@property (nonatomic, assign) uint64_t creationTimestamp;
-@property (nonatomic, strong, readwrite) NSDate *creationTime;
-
-@property (nonatomic, assign) uint64_t accessTimestamp;
 @property (nonatomic, strong, readwrite) NSDate *accessTime;
-
-@property (nonatomic, assign) uint64_t writeTimestamp;
 @property (nonatomic, strong, readwrite) NSDate *writeTime;
 
 - (NSDate *)dateFromLDAPTimeStamp:(uint64_t)timestamp;
@@ -54,62 +34,6 @@
 @end
 
 @implementation TOSMBSessionFile
-
-- (instancetype)init
-{
-    if (self = [super init]) {
-        _fileSize = -1;
-        _allocationSize = -1;
-    }
-    
-    return self;
-}
-
-- (instancetype)initWithStat:(smb_stat)stat session:(TOSMBSession *)session parentDirectoryFilePath:(NSString *)path
-{
-    if (stat == NULL)
-        return nil;
-    
-    if (self = [self init]) {
-        _stat = stat;
-        
-        const char *name = smb_stat_name(stat);
-        _name = [[NSString alloc] initWithBytes:name length:strlen(name) encoding:NSUTF8StringEncoding];
-        _fileSize = smb_stat_get(stat, SMB_STAT_SIZE);
-        _allocationSize = smb_stat_get(stat, SMB_STAT_ALLOC_SIZE);
-        _directory = (smb_stat_get(self.stat, SMB_STAT_ISDIR) != 0);
-        _modificationTimestamp = smb_stat_get(stat, SMB_STAT_MTIME);
-        _creationTimestamp = smb_stat_get(stat, SMB_STAT_CTIME);
-        _accessTimestamp = smb_stat_get(stat, SMB_STAT_ATIME);
-        _writeTimestamp = smb_stat_get(stat, SMB_STAT_WTIME);
-        
-        _modificationTime = [self dateFromLDAPTimeStamp:_modificationTimestamp];
-        _creationTime = [self dateFromLDAPTimeStamp:_creationTimestamp];
-        
-        _filePath = [path stringByAppendingPathComponent:_name];
-    }
-    
-    return self;
-}
-
-- (instancetype)initWithShareName:(NSString *)name session:(TOSMBSession *)session
-{
-    if (name.length == 0)
-        return nil;
-    
-    if (self = [self init]) {
-        _name = name;
-        _isShareRoot = YES;
-        _fileSize = 0;
-        _allocationSize = 0;
-        _directory = YES;
-        _filePath = [NSString stringWithFormat:@"//%@/", name];
-        
-        _session = session;
-    }
-    
-    return self;
-}
 
 //SO Answer by Dave DeLong - http://stackoverflow.com/a/11978614/599344
 - (NSDate *)dateFromLDAPTimeStamp:(uint64_t)timestamp
@@ -134,7 +58,7 @@
     if (_accessTime)
         return _accessTime;
     
-    _accessTime = [self dateFromLDAPTimeStamp:_accessTimestamp];
+    _accessTime = [self dateFromLDAPTimeStamp:self.accessTimestamp];
     return _accessTime;
 }
 
@@ -143,7 +67,7 @@
     if (_writeTime)
         return _writeTime;
     
-    _writeTime = [self dateFromLDAPTimeStamp:_writeTimestamp];
+    _writeTime = [self dateFromLDAPTimeStamp:self.writeTimestamp];
     return _writeTime;
 }
 

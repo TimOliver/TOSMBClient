@@ -25,6 +25,7 @@
 
 #import "TOSMBSessionDownloadTask.h"
 #import "TOSMBClient.h"
+#import "TOSMBSessionFilePrivate.h"
 #import "smb_session.h"
 #import "smb_share.h"
 #import "smb_file.h"

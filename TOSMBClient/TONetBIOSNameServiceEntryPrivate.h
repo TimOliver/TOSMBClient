@@ -1,5 +1,5 @@
 //
-// TONetBIOSNameServiceEntry.m
+// TONetBIOSNameServiceEntryPrivate.h
 // Copyright 2015-2016 Timothy Oliver
 //
 // This file is dual-licensed under both the MIT License, and the LGPL v2.1 License.
@@ -20,44 +20,14 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 // -------------------------------------------------------------------------------
 
-#import <arpa/inet.h>
-
+#import <Foundation/Foundation.h>
 #import "TONetBIOSNameServiceEntry.h"
-#import "TONetBIOSNameService.h"
-#import "TONetBIOSNameServiceEntryPrivate.h"
-#import "netbios_defs.h"
+#import "netbios_ns.h"
 
-@interface TONetBIOSNameServiceEntry ()
+// Private Category for exposing the C-level data values
+@interface TONetBIOSNameServiceEntry (Private)
 
-- (BOOL)isEqualToEntry:(TONetBIOSNameServiceEntry *)entry;
-
-@end
-
-@implementation TONetBIOSNameServiceEntry
-
-- (BOOL)isEqual:(id)object {
-    if (self == object) {
-        return YES;
-    }
-    
-    if (![object isKindOfClass:[TONetBIOSNameServiceEntry class]]) {
-        return NO;
-    }
-    
-    return [self isEqualToEntry:object];
-}
-
-- (BOOL)isEqualToEntry:(TONetBIOSNameServiceEntry *)entry
-{
-    BOOL equalNames = [self.name isEqualToString:entry.name];
-    BOOL equalGroups = [self.group isEqualToString:entry.group];
-    BOOL equalIPAddress = self.ipAddress == entry.ipAddress;
-    
-    return equalNames && equalGroups && equalIPAddress;
-}
-
-- (NSUInteger)hash {
-    return ([self.name hash] ^ [self.group hash]) + self.ipAddress;
-}
+- (instancetype)initWithCEntry:(netbios_ns_entry *)entry;
++ (instancetype)entryWithCEntry:(netbios_ns_entry *)entry;
 
 @end

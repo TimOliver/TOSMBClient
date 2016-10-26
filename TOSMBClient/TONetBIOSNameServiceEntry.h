@@ -22,7 +22,6 @@
 
 #import <Foundation/Foundation.h>
 #import "TOSMBConstants.h"
-#import "netbios_ns.h"
 
 @interface TONetBIOSNameServiceEntry : NSObject
 
@@ -31,8 +30,5 @@
 @property (nonatomic, assign, readonly) TONetBIOSNameServiceType type;
 @property (nonatomic, assign, readonly) uint32_t ipAddress;
 @property (nonatomic, copy, readonly) NSString *ipAddressString;
-
-- (instancetype)initWithCEntry:(netbios_ns_entry *)entry;
-+ (instancetype)entryWithCEntry:(netbios_ns_entry *)entry;
 
 @end

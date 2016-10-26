@@ -25,11 +25,14 @@
 #import "TOSMBConstants.h"
 #import "TONetBIOSNameService.h"
 #import "TONetBIOSNameServiceEntry.h"
+#import "TONetBIOSNameServiceEntryPrivate.h"
 
 #import "netbios_ns.h"
 #import "netbios_defs.h"
 
 const NSTimeInterval kTONetBIOSNameServiceDiscoveryTimeOut = 4.0f;
+
+// -------------------------------------------------------------------------------
 
 #pragma mark - Class Private Interface -
 @interface TONetBIOSNameService ()

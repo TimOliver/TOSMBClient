@@ -25,6 +25,7 @@
 
 #import "TOSMBSession.h"
 #import "TOSMBSessionFile.h"
+#import "TOSMBSessionFilePrivate.h"
 #import "TONetBIOSNameService.h"
 #import "TOSMBSessionDownloadTask.h"
 

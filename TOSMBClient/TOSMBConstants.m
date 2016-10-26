@@ -21,6 +21,8 @@
 // -------------------------------------------------------------------------------
 
 #import "TOSMBConstants.h"
+#import "netbios_defs.h"
+#import "smb_defs.h"
 
 TONetBIOSNameServiceType TONetBIOSNameServiceTypeForCType(char type)
 {

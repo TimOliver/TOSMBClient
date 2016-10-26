@@ -1,5 +1,5 @@
 //
-// TONetBIOSNameServiceEntry.m
+// TONetBIOSNameServiceEntryPrivate.m
 // Copyright 2015-2016 Timothy Oliver
 //
 // This file is dual-licensed under both the MIT License, and the LGPL v2.1 License.
@@ -19,45 +19,41 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 // -------------------------------------------------------------------------------
-
-#import <arpa/inet.h>
-
-#import "TONetBIOSNameServiceEntry.h"
-#import "TONetBIOSNameService.h"
 #import "TONetBIOSNameServiceEntryPrivate.h"
-#import "netbios_defs.h"
 
 @interface TONetBIOSNameServiceEntry ()
 
-- (BOOL)isEqualToEntry:(TONetBIOSNameServiceEntry *)entry;
+@property (nonatomic, assign) netbios_ns_entry *entry;
+@property (nonatomic, copy, readwrite) NSString *name;
+@property (nonatomic, copy, readwrite) NSString *group;
+@property (nonatomic, assign, readwrite) TONetBIOSNameServiceType type;
+@property (nonatomic, assign, readwrite) uint32_t ipAddress;
+@property (nonatomic, copy, readwrite) NSString *ipAddressString;
 
 @end
 
-@implementation TONetBIOSNameServiceEntry
+@implementation TONetBIOSNameServiceEntry (Private)
 
-- (BOOL)isEqual:(id)object {
-    if (self == object) {
-        return YES;
-    }
-    
-    if (![object isKindOfClass:[TONetBIOSNameServiceEntry class]]) {
-        return NO;
-    }
-    
-    return [self isEqualToEntry:object];
-}
-
-- (BOOL)isEqualToEntry:(TONetBIOSNameServiceEntry *)entry
+- (instancetype)initWithCEntry:(netbios_ns_entry *)entry
 {
-    BOOL equalNames = [self.name isEqualToString:entry.name];
-    BOOL equalGroups = [self.group isEqualToString:entry.group];
-    BOOL equalIPAddress = self.ipAddress == entry.ipAddress;
+    if (entry == NULL) {
+        return nil;
+    }
     
-    return equalNames && equalGroups && equalIPAddress;
+    if (self = [super init]) {
+        self.entry = entry;
+        self.name = [NSString stringWithCString:netbios_ns_entry_name(entry) encoding:NSUTF8StringEncoding];
+        self.group = [NSString stringWithCString:netbios_ns_entry_group(entry) encoding:NSUTF8StringEncoding];
+        self.type = TONetBIOSNameServiceTypeForCType(netbios_ns_entry_type(entry));
+        self.ipAddress = netbios_ns_entry_ip(entry);
+    }
+    
+    return self;
 }
 
-- (NSUInteger)hash {
-    return ([self.name hash] ^ [self.group hash]) + self.ipAddress;
++ (instancetype)entryWithCEntry:(netbios_ns_entry *)entry
+{
+    return [[TONetBIOSNameServiceEntry alloc] initWithCEntry:entry];
 }
 
 @end

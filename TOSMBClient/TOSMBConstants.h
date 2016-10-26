@@ -21,8 +21,6 @@
 // -------------------------------------------------------------------------------
 
 #import <Foundation/Foundation.h>
-#import "netbios_defs.h"
-#import "smb_defs.h"
 
 /** SMB Error Values */
 typedef NS_ENUM(NSInteger, TOSMBSessionErrorCode)

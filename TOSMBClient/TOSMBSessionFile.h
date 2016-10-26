@@ -21,7 +21,6 @@
 // -------------------------------------------------------------------------------
 
 #import <Foundation/Foundation.h>
-#import "smb_stat.h"
 
 @class TOSMBSession;
 
@@ -29,6 +28,7 @@
 
 @property (nonatomic, readonly) TOSMBSession *session;      /** The SMB session of this file entry. */
 @property (nonatomic, readonly) NSString *filePath;         /** The filepath of this file, excluding the share name. */
+@property (nonatomic, readonly) BOOL isShareRoot;
 
 @property (nonatomic, readonly) BOOL directory;             /** Whether this file is a directory or not */
 
@@ -39,22 +39,5 @@
 @property (nonatomic, readonly) NSDate *accessTime;         /** The date when this file was last accessed. */
 @property (nonatomic, readonly) NSDate *writeTime;          /** The date when this file was last written to. */
 @property (nonatomic, readonly) NSDate *modificationTime;   /** The date when this file was last modified. */
-
-/**
- * Init a new instance representing a file or folder inside a network share
- * 
- * @param stat The opaque pointer for this stat value
- * @param session The session in which this item belongs to
- * @param path The absolute file path to this file's parent directory. Used to generate this file's own file path.
-*/
-- (instancetype)initWithStat:(smb_stat)stat session:(TOSMBSession *)session parentDirectoryFilePath:(NSString *)path;
-
-/**
- * Init a new instance representing the share itself, which in the case of libSMD, is simply another directory
- *
- * @param name The name of the share
- * @param session The session in which this item belongs to
- */
-- (instancetype)initWithShareName:(NSString *)name session:(TOSMBSession *)session;
 
 @end
