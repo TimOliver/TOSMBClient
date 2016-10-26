@@ -504,7 +504,7 @@
         
         //Save them to the file handle (And ensure the NSData object is flushed immediately)
         @autoreleasepool {
-            [fileHandle writeData:[NSData dataWithBytes:buffer length:bytesRead]];
+            [fileHandle writeData:[NSData dataWithBytes:buffer length:(NSUInteger)bytesRead]];
         }
         
         //Ensure the data is properly written to disk before proceeding

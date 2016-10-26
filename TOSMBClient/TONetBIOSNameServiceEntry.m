@@ -29,11 +29,40 @@
 
 @interface TONetBIOSNameServiceEntry ()
 
+@property (nonatomic, assign) netbios_ns_entry *entry;
+@property (nonatomic, copy, readwrite) NSString *name;
+@property (nonatomic, copy, readwrite) NSString *group;
+@property (nonatomic, assign, readwrite) TONetBIOSNameServiceType type;
+@property (nonatomic, assign, readwrite) uint32_t ipAddress;
+@property (nonatomic, copy, readwrite) NSString *ipAddressString;
+
 - (BOOL)isEqualToEntry:(TONetBIOSNameServiceEntry *)entry;
 
 @end
 
 @implementation TONetBIOSNameServiceEntry
+
+- (instancetype)initWithCEntry:(netbios_ns_entry *)entry
+{
+    if (entry == NULL) {
+        return nil;
+    }
+    
+    if (self = [super init]) {
+        _entry = entry;
+        _name = [NSString stringWithCString:netbios_ns_entry_name(entry) encoding:NSUTF8StringEncoding];
+        _group = [NSString stringWithCString:netbios_ns_entry_group(entry) encoding:NSUTF8StringEncoding];
+        _type = TONetBIOSNameServiceTypeForCType(netbios_ns_entry_type(entry));
+        _ipAddress = netbios_ns_entry_ip(entry);
+    }
+    
+    return self;
+}
+
++ (instancetype)entryWithCEntry:(netbios_ns_entry *)entry
+{
+    return [[TONetBIOSNameServiceEntry alloc] initWithCEntry:entry];
+}
 
 - (BOOL)isEqual:(id)object {
     if (self == object) {

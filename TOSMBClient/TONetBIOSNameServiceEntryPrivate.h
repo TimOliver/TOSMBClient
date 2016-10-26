@@ -25,7 +25,7 @@
 #import "netbios_ns.h"
 
 // Private Category for exposing the C-level data values
-@interface TONetBIOSNameServiceEntry (Private)
+@interface TONetBIOSNameServiceEntry ()
 
 - (instancetype)initWithCEntry:(netbios_ns_entry *)entry;
 + (instancetype)entryWithCEntry:(netbios_ns_entry *)entry;

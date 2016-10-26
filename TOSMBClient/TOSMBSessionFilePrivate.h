@@ -23,12 +23,7 @@
 #import "TOSMBSessionFile.h"
 #import "smb_stat.h"
 
-@interface TOSMBSessionFile (Private)
-
-@property (nonatomic, readonly) uint64_t modificationTimestamp;
-@property (nonatomic, readonly) uint64_t creationTimestamp;
-@property (nonatomic, readonly) uint64_t accessTimestamp;
-@property (nonatomic, readonly) uint64_t writeTimestamp;
+@interface TOSMBSessionFile ()
 
 /**
  * Init a new instance representing a file or folder inside a network share
