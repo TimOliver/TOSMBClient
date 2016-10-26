@@ -238,7 +238,9 @@
     
     NSBlockOperation *deleteOperation = [[NSBlockOperation alloc] init];
     [deleteOperation addExecutionBlock:deleteBlock];
-    [deleteOperation addDependency:self.downloadOperation];
+    if (self.downloadOperation) { // if the download operation doesn't exist, we can delete file even immediately
+        [deleteOperation addDependency:self.downloadOperation];
+    }
     [self.session.downloadsQueue addOperation:deleteOperation];
     
     [self.downloadOperation cancel];
