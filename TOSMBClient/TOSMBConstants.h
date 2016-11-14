@@ -53,7 +53,7 @@ typedef NS_ENUM(NSInteger, TOSMBSessionDownloadTaskState) {
     TOSMBSessionDownloadTaskStateCancelled,
     TOSMBSessionDownloadTaskStateCompleted,
     TOSMBSessionDownloadTaskStateFailed
-};
+} __deprecated_enum_msg("Use TOSMBSessionTaskState values instead");
 
 /** SMB Connection State */
 typedef NS_ENUM(NSUInteger, TOSMBSessionTaskState) {

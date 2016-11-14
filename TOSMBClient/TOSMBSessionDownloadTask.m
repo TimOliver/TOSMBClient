@@ -32,8 +32,6 @@
 
 @interface TOSMBSessionDownloadTask ()
 
-@property (nonatomic, assign, readwrite) TOSMBSessionDownloadTaskState state;
-
 @property (nonatomic, strong, readwrite) NSString *sourceFilePath;
 @property (nonatomic, strong, readwrite) NSString *destinationFilePath;
 @property (nonatomic, strong) NSString *tempFilePath;
@@ -185,26 +183,26 @@
 #pragma mark - Public Control Methods -
 - (void)resume
 {
-    if (self.state == TOSMBSessionDownloadTaskStateRunning)
+    if (self.state == TOSMBSessionTaskStateRunning)
         return;
     
     [self.session.taskQueue addOperation:self.taskOperation];
-    self.state = TOSMBSessionDownloadTaskStateRunning;
+    self.state = TOSMBSessionTaskStateRunning;
 }
 
 - (void)suspend
 {
-    if (self.state != TOSMBSessionDownloadTaskStateRunning)
+    if (self.state != TOSMBSessionTaskStateRunning)
         return;
     
     [self.taskOperation cancel];
-    self.state = TOSMBSessionDownloadTaskStateSuspended;
+    self.state = TOSMBSessionTaskStateSuspended;
     self.taskOperation = nil;
 }
 
 - (void)cancel
 {
-    if (self.state != TOSMBSessionDownloadTaskStateRunning)
+    if (self.state != TOSMBSessionTaskStateRunning)
         return;
     
     id deleteBlock = ^{
@@ -219,7 +217,7 @@
     [self.session.taskQueue addOperation:deleteOperation];
     
     [self.taskOperation cancel];
-    self.state = TOSMBSessionDownloadTaskStateCancelled;
+    self.state = TOSMBSessionTaskStateCancelled;
     
     self.taskOperation = nil;
 }
@@ -227,12 +225,12 @@
 #pragma mark - Private Control Methods -
 - (void)fail
 {
-    if (self.state != TOSMBSessionDownloadTaskStateRunning)
+    if (self.state != TOSMBSessionTaskStateRunning)
         return;
 
     [self cancel];
 
-    self.state = TOSMBSessionDownloadTaskStateFailed;
+    self.state = TOSMBSessionTaskStateFailed;
 }
 
 #pragma mark - Feedback Methods -
@@ -455,7 +453,7 @@
     free(buffer);
     [fileHandle closeFile];
     
-    if (weakOperation.isCancelled  || self.state != TOSMBSessionDownloadTaskStateRunning) {
+    if (weakOperation.isCancelled  || self.state != TOSMBSessionTaskStateRunning) {
         self.cleanupBlock(treeID, fileID);
         return;
     }
@@ -467,7 +465,7 @@
     NSString *finalDestinationPath = [self finalFilePathForDownloadedFile];
     [[NSFileManager defaultManager] moveItemAtPath:self.tempFilePath toPath:finalDestinationPath error:nil];
     
-    self.state = TOSMBSessionDownloadTaskStateCompleted;
+    self.state = TOSMBSessionTaskStateCompleted;
     
     //Alert the delegate that we finished, so they may perform any additional cleanup operations
     [self didSucceedWithFilePath:finalDestinationPath];
