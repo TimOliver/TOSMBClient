@@ -25,7 +25,6 @@
 
 #import "TOSMBSessionDownloadTaskPrivate.h"
 #import "TOSMBSessionPrivate.h"
-#import "TOSMBSessionTaskPrivate.h"
 #import "TOSMBSessionFilePrivate.h"
 
 
@@ -52,7 +51,6 @@
 @property (nonatomic, copy) void (^failHandler)(NSError *error);
 
 /* Download methods */
-- (void)performDownloadWithOperation:(__weak NSBlockOperation *)weakOperation;
 - (TOSMBSessionFile *)requestFileForItemAtPath:(NSString *)filePath inTree:(smb_tid)treeID;
 
 /* File Path Methods */
@@ -307,7 +305,7 @@
     return file;
 }
 
-- (void)performDownloadWithOperation:(__weak NSBlockOperation *)weakOperation
+- (void)performTaskWithOperation:(__weak NSBlockOperation *)weakOperation
 {
     if (weakOperation.isCancelled)
         return;

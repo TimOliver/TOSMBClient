@@ -45,9 +45,9 @@
 @property (nonatomic, readonly) dispatch_queue_t serialQueue;
 @property (nonatomic, readonly) NSOperationQueue *taskQueue;
 
-/** Defines the number of concurrent download operations. Default:
+/** Defines the number of concurrent task operations. Default:
  * NSOperationQueueDefaultMaxConcurrentOperationCount. */
-@property (nonatomic) NSInteger maxDownloadOperationCount;
+@property (nonatomic) NSInteger maxTaskOperationCount;
 
 /**
  Creates a new SMB object, but doesn't try to connect until the first request is made.
@@ -143,5 +143,11 @@
                                                data:(NSData *)data
                                   completionHandler:(void (^)())completionHandler
                                         failHandler:(void (^)(NSError *error))failHandler;
+
+@end
+
+@interface TOSMBSession (Deprecated)
+
+@property (nonatomic) NSInteger maxDownloadOperationCount __deprecated_msg("Use maxTaskOperationCount instead");
 
 @end

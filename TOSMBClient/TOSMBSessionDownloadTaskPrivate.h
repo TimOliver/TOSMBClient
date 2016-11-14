@@ -10,9 +10,10 @@
 #define TOSMBSessionDownloadTaskPrivate_h
 
 #import "TOSMBSessionDownloadTask.h"
+#import "TOSMBSessionTaskPrivate.h"
 #import "TOSMBSession.h"
 
-@interface TOSMBSessionDownloadTask ()
+@interface TOSMBSessionDownloadTask () <TOSMBSessionTaskSubclass>
 
 - (instancetype)initWithSession:(TOSMBSession *)session
                        filePath:(NSString *)filePath

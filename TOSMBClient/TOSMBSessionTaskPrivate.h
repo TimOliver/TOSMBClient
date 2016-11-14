@@ -34,6 +34,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol TOSMBSessionTaskSubclass <NSObject>
+
+- (void)performTaskWithOperation:(__weak NSBlockOperation *)weakOperation;
+
+@end
+
 @interface TOSMBSessionTask ()
 
 @property (nonatomic, weak) TOSMBSession *session;

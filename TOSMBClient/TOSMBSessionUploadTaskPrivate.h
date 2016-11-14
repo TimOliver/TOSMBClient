@@ -25,8 +25,9 @@
 #define TOSMBSessionUploadTaskPrivate_h
 
 #import "TOSMBSessionUploadTask.h"
+#import "TOSMBSessionTaskPrivate.h"
 
-@interface TOSMBSessionUploadTask ()
+@interface TOSMBSessionUploadTask () <TOSMBSessionTaskSubclass>
 
 - (instancetype)initWithSession:(TOSMBSession *)session
                            path:(NSString *)path

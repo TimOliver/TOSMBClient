@@ -21,7 +21,6 @@
 // -------------------------------------------------------------------------------
 
 #import "TOSMBSessionUploadTaskPrivate.h"
-#import "TOSMBSessionTaskPrivate.h"
 
 @interface TOSMBSessionUploadTask ()
 
@@ -51,5 +50,10 @@
     
     return self;
 }
+
+- (void)performTaskWithOperation:(NSBlockOperation * _Nonnull __weak)weakOperation {
+    
+}
+
 
 @end

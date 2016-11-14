@@ -78,7 +78,7 @@
 
 #pragma mark - Task Methods
 
-- (void)performTaskWithOperation:(NSBlockOperation *)operation {
+- (void)performTaskWithOperation:(__weak NSBlockOperation *)operation {
     return;
 }
 
