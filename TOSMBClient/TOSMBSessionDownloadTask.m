@@ -181,24 +181,6 @@
 }
 
 #pragma mark - Public Control Methods -
-- (void)resume
-{
-    if (self.state == TOSMBSessionTaskStateRunning)
-        return;
-    
-    [self.session.taskQueue addOperation:self.taskOperation];
-    self.state = TOSMBSessionTaskStateRunning;
-}
-
-- (void)suspend
-{
-    if (self.state != TOSMBSessionTaskStateRunning)
-        return;
-    
-    [self.taskOperation cancel];
-    self.state = TOSMBSessionTaskStateSuspended;
-    self.taskOperation = nil;
-}
 
 - (void)cancel
 {
