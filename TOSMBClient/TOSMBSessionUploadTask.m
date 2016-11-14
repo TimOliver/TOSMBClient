@@ -35,6 +35,8 @@
 
 @implementation TOSMBSessionUploadTask
 
+@dynamic taskOperation;
+
 - (instancetype)initWithSession:(TOSMBSession *)session
                            path:(NSString *)path
                            data:(NSData *)data

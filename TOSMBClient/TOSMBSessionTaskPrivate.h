@@ -32,18 +32,25 @@
 #import "smb_session.h"
 #import "smb_share.h"
 
-@interface TOSMBSessionTask ()
+NS_ASSUME_NONNULL_BEGIN
 
-@property (nonatomic, weak, readwrite) TOSMBSession *session;
-@property (nonatomic, assign, readwrite) TOSMBSessionTaskState state;
+@interface TOSMBSessionTask () {
+    @protected
+    NSBlockOperation *_taskOperation;
+}
+
+@property (nonatomic, weak) TOSMBSession *session;
+@property (nonatomic, assign) TOSMBSessionTaskState state;
 @property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
 
-@property (assign) smb_session *smbSession;
-@property (nonatomic, strong) NSBlockOperation *smbBlockOperation;
+@property (nonatomic, assign, nullable) smb_session *smbSession;
+@property (nonatomic, strong, null_resettable) NSBlockOperation *taskOperation;
 @property (nonatomic, readonly) void (^cleanupBlock)(smb_tid treeID, smb_fd fileID);
 
 - (instancetype)initWithSession:(TOSMBSession *)session;
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* TOSMBSessionTaskPrivate_h */

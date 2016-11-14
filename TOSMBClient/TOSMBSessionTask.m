@@ -32,6 +32,25 @@
     return self;
 }
 
+#pragma mark - Properties
+
+- (NSBlockOperation *)taskOperation {
+    if (!_taskOperation) {
+        _taskOperation = [[NSBlockOperation alloc] init];
+        
+        __weak typeof(self) weakSelf = self;
+        __weak NSBlockOperation *weakOperation = _taskOperation;
+        [_taskOperation addExecutionBlock:^{
+            [weakSelf performTaskWithOperation:weakOperation];
+        }];
+        
+        _taskOperation.completionBlock = ^{
+            weakSelf.taskOperation = nil;
+        };
+    }
+    return _taskOperation;
+}
+
 - (void (^)(smb_tid treeID, smb_fd fileID))cleanupBlock {
     return ^(smb_tid treeID, smb_fd fileID) {
         
@@ -41,7 +60,7 @@
             self.backgroundTaskIdentifier = 0;
         }
         
-        if (self.smbBlockOperation && treeID) {
+        if (self.taskOperation && treeID) {
             smb_tree_disconnect(self.smbSession, treeID);
         }
         
@@ -55,6 +74,12 @@
             self.smbSession = nil;
         }
     };
+}
+
+#pragma mark - Task Methods
+
+- (void)performTaskWithOperation:(NSBlockOperation *)operation {
+    return;
 }
 
 - (void)resume {

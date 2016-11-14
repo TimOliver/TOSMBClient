@@ -52,7 +52,6 @@
 @property (nonatomic, copy) void (^failHandler)(NSError *error);
 
 /* Download methods */
-- (void)setupDownloadOperation;
 - (void)performDownloadWithOperation:(__weak NSBlockOperation *)weakOperation;
 - (TOSMBSessionFile *)requestFileForItemAtPath:(NSString *)filePath inTree:(smb_tid)treeID;
 
@@ -191,8 +190,7 @@
     if (self.state == TOSMBSessionDownloadTaskStateRunning)
         return;
     
-    [self setupDownloadOperation];
-    [self.session.taskQueue addOperation:self.smbBlockOperation];
+    [self.session.taskQueue addOperation:self.taskOperation];
     self.state = TOSMBSessionDownloadTaskStateRunning;
 }
 
@@ -201,9 +199,9 @@
     if (self.state != TOSMBSessionDownloadTaskStateRunning)
         return;
     
-    [self.smbBlockOperation cancel];
+    [self.taskOperation cancel];
     self.state = TOSMBSessionDownloadTaskStateSuspended;
-    self.smbBlockOperation = nil;
+    self.taskOperation = nil;
 }
 
 - (void)cancel
@@ -217,15 +215,15 @@
     
     NSBlockOperation *deleteOperation = [[NSBlockOperation alloc] init];
     [deleteOperation addExecutionBlock:deleteBlock];
-    if (self.smbBlockOperation) { // if the download operation doesn't exist, we can delete file even immediately
-        [deleteOperation addDependency:self.smbBlockOperation];
+    if (self.taskOperation) { // if the download operation doesn't exist, we can delete file even immediately
+        [deleteOperation addDependency:self.taskOperation];
     }
     [self.session.taskQueue addOperation:deleteOperation];
     
-    [self.smbBlockOperation cancel];
+    [self.taskOperation cancel];
     self.state = TOSMBSessionDownloadTaskStateCancelled;
     
-    self.smbBlockOperation = nil;
+    self.taskOperation = nil;
 }
 
 #pragma mark - Private Control Methods -
@@ -307,27 +305,6 @@
     smb_stat_destroy(fileStat);
     
     return file;
-}
-
-- (void)setupDownloadOperation
-{
-    if (self.smbBlockOperation)
-        return;
-    
-    NSBlockOperation *operation = [[NSBlockOperation alloc] init];
-    
-    __weak typeof (self) weakSelf = self;
-    __weak NSBlockOperation *weakOperation = operation;
-    
-    id executionBlock = ^{
-        [weakSelf performDownloadWithOperation:weakOperation];
-    };
-    [operation addExecutionBlock:executionBlock];
-    operation.completionBlock = ^{
-        weakSelf.smbBlockOperation = nil;
-    };
-    
-    self.smbBlockOperation = operation;
 }
 
 - (void)performDownloadWithOperation:(__weak NSBlockOperation *)weakOperation
