@@ -20,10 +20,42 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 // -------------------------------------------------------------------------------
 
-#import "TOSMBSessionTask.h"
 #import "TOSMBSessionTaskPrivate.h"
 
 @implementation TOSMBSessionTask
+
+- (instancetype)initWithSession:(TOSMBSession *)session {
+    if((self = [super init])) {
+        self.session = session;
+    }
+    
+    return self;
+}
+
+- (void (^)(smb_tid treeID, smb_fd fileID))cleanupBlock {
+    return ^(smb_tid treeID, smb_fd fileID) {
+        
+        //Release the background task handler, making the app eligible to be suspended now
+        if (self.backgroundTaskIdentifier) {
+            [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskIdentifier];
+            self.backgroundTaskIdentifier = 0;
+        }
+        
+        if (self.smbBlockOperation && treeID) {
+            smb_tree_disconnect(self.smbSession, treeID);
+        }
+        
+        if (self.smbSession && fileID) {
+            smb_fclose(self.smbSession, fileID);
+        }
+
+        
+        if (self.smbSession) {
+            smb_session_destroy(self.smbSession);
+            self.smbSession = nil;
+        }
+    };
+}
 
 - (void)resume {
     return;

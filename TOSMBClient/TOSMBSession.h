@@ -125,7 +125,7 @@
                                         destinationPath:(NSString *)destinationPath
                                         progressHandler:(void (^)(uint64_t totalBytesWritten, uint64_t totalBytesExpected))progressHandler
                                       completionHandler:(void (^)(NSString *filePath))completionHandler
-                                            failHandler:(void (^)(NSError *error))error;
+                                            failHandler:(void (^)(NSError *error))failHandler;
 /**
  Creates an upload task object for asynchronously uploading a file to disk.
  
@@ -136,9 +136,9 @@
  
  @return An upload task object ready to be started, or nil upon failure.
  */
-- (TOSMBSessionUploadTask *)uploadTaskForData:(NSData *)data
-                              destinationPath:(NSString *)destinationPath
-                            completionHandler:(void (^)())completionHandler
-                                  failHandler:(void (^)(NSError *error))error;
+- (TOSMBSessionUploadTask *)uploadTaskForFileAtPath:(NSString *)path
+                                               Data:(NSData *)data
+                                  completionHandler:(void (^)())completionHandler
+                                        failHandler:(void (^)(NSError *error))failHandler;
 
 @end

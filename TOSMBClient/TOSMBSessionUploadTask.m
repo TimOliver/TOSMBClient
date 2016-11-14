@@ -21,7 +21,33 @@
 // -------------------------------------------------------------------------------
 
 #import "TOSMBSessionUploadTaskPrivate.h"
+#import "TOSMBSessionTaskPrivate.h"
+
+@interface TOSMBSessionUploadTask ()
+
+@property (nonatomic, copy) NSString *path;
+@property (nonatomic, strong) NSData *data;
+
+@property (nonatomic, copy) void (^successHandler)();
+@property (nonatomic, copy) void (^failHandler)(NSError *error);
+
+@end
 
 @implementation TOSMBSessionUploadTask
+
+- (instancetype)initWithSession:(TOSMBSession *)session
+                           path:(NSString *)path
+                           data:(NSData *)data
+                 successHandler:(id)successHandler
+                    failHandler:(id)failHandler {
+    if ((self = [super initWithSession:session])) {
+        self.path = path;
+        self.data = data;
+        self.successHandler = successHandler;
+        self.failHandler = failHandler;
+    }
+    
+    return self;
+}
 
 @end

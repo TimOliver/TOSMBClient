@@ -28,6 +28,12 @@
 
 @interface TOSMBSessionUploadTask ()
 
+- (instancetype)initWithSession:(TOSMBSession *)session
+                           path:(NSString *)path
+                           data:(NSData *)data
+                 successHandler:(id)successHandler
+                    failHandler:(id)failHandler;
+
 @end
 
 #endif /* TOSMBSessionUploadTaskPrivate_h */

@@ -405,13 +405,17 @@
 
 #pragma mark - Upload Tasks -
 
-- (TOSMBSessionUploadTask *)uploadTaskForData:(NSData *)data
-                              destinationPath:(NSString *)destinationPath
-                            completionHandler:(void (^)())completionHandler
-                                  failHandler:(void (^)(NSError *error))error {
+- (TOSMBSessionUploadTask *)uploadTaskForFileAtPath:(NSString *)path
+                                               Data:(NSData *)data
+                                  completionHandler:(void (^)())completionHandler
+                                        failHandler:(void (^)(NSError *error))failHandler {
     [self setupDownloadQueue];
     
-    TOSMBSessionUploadTask *task = [[TOSMBSessionUploadTask alloc] init];
+    TOSMBSessionUploadTask *task = [[TOSMBSessionUploadTask alloc] initWithSession:self
+                                                                              path:path
+                                                                              data:data
+                                                                    successHandler:completionHandler
+                                                                       failHandler:failHandler];
     
     self.uploadTasks = [self.uploadTasks ?: @[] arrayByAddingObject:task];
     

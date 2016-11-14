@@ -27,7 +27,10 @@
 
 #import "TOSMBSessionTask.h"
 #import "TOSMBSession.h"
+#import "smb_defs.h"
+#import "smb_file.h"
 #import "smb_session.h"
+#import "smb_share.h"
 
 @interface TOSMBSessionTask ()
 
@@ -37,6 +40,9 @@
 
 @property (assign) smb_session *smbSession;
 @property (nonatomic, strong) NSBlockOperation *smbBlockOperation;
+@property (nonatomic, readonly) void (^cleanupBlock)(smb_tid treeID, smb_fd fileID);
+
+- (instancetype)initWithSession:(TOSMBSession *)session;
 
 @end
 

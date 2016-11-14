@@ -27,9 +27,7 @@
 #import "TOSMBSessionPrivate.h"
 #import "TOSMBSessionTaskPrivate.h"
 #import "TOSMBSessionFilePrivate.h"
-#import "smb_share.h"
-#import "smb_file.h"
-#import "smb_defs.h"
+
 
 // -------------------------------------------------------------------------
 
@@ -85,8 +83,7 @@
 
 - (instancetype)initWithSession:(TOSMBSession *)session filePath:(NSString *)filePath destinationPath:(NSString *)destinationPath delegate:(id<TOSMBSessionDownloadTaskDelegate>)delegate
 {
-    if (self = [super init]) {
-        self.session = session;
+    if ((self = [super initWithSession:session])) {
         _sourceFilePath = filePath;
         _destinationFilePath = destinationPath.length ? destinationPath : [self documentsDirectory];
         _delegate = delegate;
@@ -99,7 +96,7 @@
 
 - (instancetype)initWithSession:(TOSMBSession *)session filePath:(NSString *)filePath destinationPath:(NSString *)destinationPath progressHandler:(id)progressHandler successHandler:(id)successHandler failHandler:(id)failHandler
 {
-    if (self = [super init]) {
+    if (([super initWithSession:session])) {
         self.session = session;
         _sourceFilePath = filePath;
         _destinationFilePath = destinationPath.length ? destinationPath : [self documentsDirectory];
@@ -342,28 +339,6 @@
     smb_fd fileID = 0;
     
     //---------------------------------------------------------------------------------------
-    //Set up a cleanup block that'll release any handles before cancellation
-    void (^cleanup)(void) = ^{
-        
-        //Release the background task handler, making the app eligible to be suspended now
-        if (self.backgroundTaskIdentifier) {
-            [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskIdentifier];
-            self.backgroundTaskIdentifier = 0;
-        }
-        
-        if (self.smbBlockOperation && treeID)
-            smb_tree_disconnect(self.smbSession, treeID);
-        
-        if (self.smbSession && fileID)
-            smb_fclose(self.smbSession, fileID);
-        
-        if (self.smbSession) {
-            smb_session_destroy(self.smbSession);
-            self.smbSession = nil;
-        }
-    };
-    
-    //---------------------------------------------------------------------------------------
     //Connect to SMB device
     
     self.smbSession = smb_session_new();
@@ -375,12 +350,12 @@
     });
     if (error) {
         [self didFailWithError:error];
-        cleanup();
+        self.cleanupBlock(treeID, fileID);
         return;
     }
     
     if (weakOperation.isCancelled) {
-        cleanup();
+        self.cleanupBlock(treeID, fileID);
         return;
     }
     
@@ -393,12 +368,12 @@
     smb_tree_connect(self.smbSession, shareCString, &treeID);
     if (!treeID) {
         [self didFailWithError:errorForErrorCode(TOSMBSessionErrorCodeShareConnectionFailed)];
-        cleanup();
+        self.cleanupBlock(treeID, fileID);
         return;
     }
     
     if (weakOperation.isCancelled) {
-        cleanup();
+        self.cleanupBlock(treeID, fileID);
         return;
     }
     
@@ -413,18 +388,18 @@
     self.file = [self requestFileForItemAtPath:formattedPath inTree:treeID];
     if (self.file == nil) {
         [self didFailWithError:errorForErrorCode(TOSMBSessionErrorCodeFileNotFound)];
-        cleanup();
+        self.cleanupBlock(treeID, fileID);
         return;
     }
     
     if (weakOperation.isCancelled) {
-        cleanup();
+        self.cleanupBlock(treeID, fileID);
         return;
     }
     
     if (self.file.directory) {
         [self didFailWithError:errorForErrorCode(TOSMBSessionErrorCodeDirectoryDownloaded)];
-        cleanup();
+        self.cleanupBlock(treeID, fileID);
         return;
     }
     
@@ -436,12 +411,12 @@
     smb_fopen(self.smbSession, treeID, [formattedPath cStringUsingEncoding:NSUTF8StringEncoding], SMB_MOD_RO, &fileID);
     if (!fileID) {
         [self didFailWithError:errorForErrorCode(TOSMBSessionErrorCodeFileNotFound)];
-        cleanup();
+        self.cleanupBlock(treeID, fileID);
         return;
     }
     
     if (weakOperation.isCancelled) {
-        cleanup();
+        self.cleanupBlock(treeID, fileID);
         return;
     }
     
@@ -506,7 +481,7 @@
     [fileHandle closeFile];
     
     if (weakOperation.isCancelled  || self.state != TOSMBSessionDownloadTaskStateRunning) {
-        cleanup();
+        self.cleanupBlock(treeID, fileID);
         return;
     }
     
@@ -523,7 +498,7 @@
     [self didSucceedWithFilePath:finalDestinationPath];
     
     //Perform a final cleanup of all handles and references
-    cleanup();
+    self.cleanupBlock(treeID, fileID);
 }
 
 @end

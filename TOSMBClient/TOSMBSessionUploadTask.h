@@ -37,6 +37,4 @@ totalBytesExpectedToSend:(uint64_t)totalBytesExpectedToSend;
 
 @property (nonatomic, weak) id <TOSMBSessionUploadTaskDelegate> delegate;
 
-//- (instancetype)init;
-
 @end
