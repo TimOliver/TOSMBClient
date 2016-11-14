@@ -34,10 +34,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface TOSMBSessionTask () {
-    @protected
-    NSBlockOperation *_taskOperation;
-}
+@interface TOSMBSessionTask ()
 
 @property (nonatomic, weak) TOSMBSession *session;
 @property (nonatomic, assign) TOSMBSessionTaskState state;
