@@ -52,6 +52,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithSession:(TOSMBSession *)session;
 
+- (void)fail;
+
 @end
 
 NS_ASSUME_NONNULL_END

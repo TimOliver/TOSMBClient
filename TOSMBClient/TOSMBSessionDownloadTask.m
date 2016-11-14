@@ -204,17 +204,6 @@
     self.taskOperation = nil;
 }
 
-#pragma mark - Private Control Methods -
-- (void)fail
-{
-    if (self.state != TOSMBSessionTaskStateRunning)
-        return;
-
-    [self cancel];
-
-    self.state = TOSMBSessionTaskStateFailed;
-}
-
 #pragma mark - Feedback Methods -
 - (BOOL)canBeResumed
 {

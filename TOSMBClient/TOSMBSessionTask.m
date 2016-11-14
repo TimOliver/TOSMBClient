@@ -82,7 +82,8 @@
     return;
 }
 
-#pragma mark - Public Control Methods -
+#pragma mark - Public Control Methods
+
 - (void)resume
 {
     if (self.state == TOSMBSessionTaskStateRunning)
@@ -111,6 +112,18 @@
     self.state = TOSMBSessionTaskStateCancelled;
     
     self.taskOperation = nil;
+}
+
+#pragma mark - Private Control Methods
+
+- (void)fail
+{
+    if (self.state != TOSMBSessionTaskStateRunning)
+        return;
+    
+    [self cancel];
+    
+    self.state = TOSMBSessionTaskStateFailed;
 }
 
 @end
