@@ -26,7 +26,7 @@
 @class TOSMBSession;
 @class TOSMBSessionDownloadTask;
 
-@protocol TOSMBSessionDownloadTaskDelegate <NSObject>
+@protocol TOSMBSessionDownloadTaskDelegate <TOSMBSessionTaskDelegate>
 
 @optional
 
@@ -70,7 +70,7 @@ totalBytesExpectedToReceive:(uint64_t)totalBytesToReceive;
  @param downloadTask The download task object calling this delegate method.
  @param error The error describing why the task failed.
  */
-- (void)downloadTask:(TOSMBSessionDownloadTask *)downloadTask didCompleteWithError:(NSError *)error;
+- (void)downloadTask:(TOSMBSessionDownloadTask *)downloadTask didCompleteWithError:(NSError *)error __deprecated_msg("See -task:didCompleteWithError:");
 
 @end
 

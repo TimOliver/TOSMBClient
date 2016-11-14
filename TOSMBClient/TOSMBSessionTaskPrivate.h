@@ -50,9 +50,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, null_resettable) NSBlockOperation *taskOperation;
 @property (nonatomic, readonly) void (^cleanupBlock)(smb_tid treeID, smb_fd fileID);
 
+/** Feedback handlers */
+@property (nonatomic, weak) id<TOSMBSessionTaskDelegate> delegate;
+@property (nonatomic, copy) void (^failHandler)(NSError *error);
+
 - (instancetype)initWithSession:(TOSMBSession *)session;
 
 - (void)fail;
+
+- (void)didFailWithError:(NSError *)error;
 
 @end
 

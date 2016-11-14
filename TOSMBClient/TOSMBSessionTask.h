@@ -24,7 +24,20 @@
 
 #import "TOSMBConstants.h"
 
+@class TOSMBSessionTask;
 @class TOSMBSession;
+
+@protocol TOSMBSessionTaskDelegate <NSObject>
+@optional
+/**
+ Delegate event that is called when the file did not successfully complete.
+ 
+ @param downloadTask The download task object calling this delegate method.
+ @param error The error describing why the task failed.
+ */
+- (void)task:(TOSMBSessionTask *)task didCompleteWithError:(NSError *)error;
+
+@end
 
 @interface TOSMBSessionTask : NSObject
 

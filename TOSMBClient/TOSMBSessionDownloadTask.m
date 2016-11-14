@@ -46,7 +46,6 @@
 
 @property (nonatomic, copy) void (^progressHandler)(uint64_t totalBytesWritten, uint64_t totalBytesExpected);
 @property (nonatomic, copy) void (^successHandler)(NSString *filePath);
-@property (nonatomic, copy) void (^failHandler)(NSError *error);
 
 /* Download methods */
 - (TOSMBSessionFile *)requestFileForItemAtPath:(NSString *)filePath inTree:(smb_tid)treeID;
@@ -59,7 +58,6 @@
 
 /* Feedback events sent to either the delegate or callback blocks */
 - (void)didSucceedWithFilePath:(NSString *)filePath;
-- (void)didFailWithError:(NSError *)error;
 - (void)didUpdateWriteBytes:(uint64_t)bytesWritten totalBytesWritten:(uint64_t)totalBytesWritten totalBytesExpected:(uint64_t)totalBytesExpected;
 - (void)didResumeAtOffset:(uint64_t)bytesWritten totalBytesExpected:(uint64_t)totalBytesExpected;
 
@@ -67,6 +65,8 @@
 
 @implementation TOSMBSessionDownloadTask
 
+@dynamic delegate;
+@dynamic failHandler;
 @dynamic state;
 
 - (instancetype)init
@@ -81,7 +81,7 @@
     if ((self = [super initWithSession:session])) {
         _sourceFilePath = filePath;
         _destinationFilePath = destinationPath.length ? destinationPath : [self documentsDirectory];
-        _delegate = delegate;
+        self.delegate = delegate;
         
         _tempFilePath = [self filePathForTemporaryDestination];
     }
@@ -98,7 +98,7 @@
         
         _progressHandler = progressHandler;
         _successHandler = successHandler;
-        _failHandler = failHandler;
+        self.failHandler = failHandler;
         
         _tempFilePath = [self filePathForTemporaryDestination];
     }
@@ -231,10 +231,13 @@
 
 - (void)didFailWithError:(NSError *)error
 {
+    [super didFailWithError:error];
     dispatch_sync(dispatch_get_main_queue(), ^{
         if (self.delegate && [self.delegate respondsToSelector:@selector(downloadTask:didCompleteWithError:)])
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             [self.delegate downloadTask:self didCompleteWithError:error];
-        
+#pragma clang diagnostic pop        
         if (self.failHandler)
             self.failHandler(error);
     });

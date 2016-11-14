@@ -126,4 +126,16 @@
     self.state = TOSMBSessionTaskStateFailed;
 }
 
+#pragma mark - Feedback Methods -
+
+- (void)didFailWithError:(NSError *)error
+{
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        if (self.delegate && [self.delegate respondsToSelector:@selector(task:didCompleteWithError:)])
+            [self.delegate task:self didCompleteWithError:error];
+        if (self.failHandler)
+            self.failHandler(error);
+    });
+}
+
 @end
