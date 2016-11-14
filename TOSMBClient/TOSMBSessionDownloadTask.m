@@ -23,49 +23,28 @@
 #import <CommonCrypto/CommonDigest.h>
 #import <UIKit/UIKit.h>
 
-#import "TOSMBSessionDownloadTask.h"
-#import "TOSMBClient.h"
+#import "TOSMBSessionDownloadTaskPrivate.h"
+#import "TOSMBSessionPrivate.h"
+#import "TOSMBSessionTaskPrivate.h"
 #import "TOSMBSessionFilePrivate.h"
-#import "smb_session.h"
 #import "smb_share.h"
 #import "smb_file.h"
 #import "smb_defs.h"
 
 // -------------------------------------------------------------------------
-// Private methods in TOSMBSession shared here
-
-@interface TOSMBSession ()
-
-@property (readonly) NSOperationQueue *downloadsQueue;
-
-@property (readonly) dispatch_queue_t serialQueue;
-
-- (NSError *)attemptConnectionWithSessionPointer:(smb_session *)session;
-- (NSString *)shareNameFromPath:(NSString *)path;
-- (NSString *)filePathExcludingSharePathFromPath:(NSString *)path;
-- (void)resumeDownloadTask:(TOSMBSessionDownloadTask *)task;
-
-@end
-
-// -------------------------------------------------------------------------
 
 @interface TOSMBSessionDownloadTask ()
 
-@property (assign, readwrite) TOSMBSessionDownloadTaskState state;
+@property (nonatomic, assign, readwrite) TOSMBSessionDownloadTaskState state;
 
 @property (nonatomic, strong, readwrite) NSString *sourceFilePath;
 @property (nonatomic, strong, readwrite) NSString *destinationFilePath;
 @property (nonatomic, strong) NSString *tempFilePath;
 
-@property (nonatomic, weak, readwrite) TOSMBSession *session;
 @property (nonatomic, strong) TOSMBSessionFile *file;
-@property (assign) smb_session *downloadSession;
-@property (nonatomic, strong) NSBlockOperation *downloadOperation;
 
 @property (assign, readwrite) int64_t countOfBytesReceived;
 @property (assign, readwrite) int64_t countOfBytesExpectedToReceive;
-
-@property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
 
 /** Feedback handlers */
 @property (nonatomic, weak) id<TOSMBSessionDownloadTaskDelegate> delegate;
@@ -95,6 +74,8 @@
 
 @implementation TOSMBSessionDownloadTask
 
+@dynamic state;
+
 - (instancetype)init
 {
     //This class cannot be instantiated on its own.
@@ -105,7 +86,7 @@
 - (instancetype)initWithSession:(TOSMBSession *)session filePath:(NSString *)filePath destinationPath:(NSString *)destinationPath delegate:(id<TOSMBSessionDownloadTaskDelegate>)delegate
 {
     if (self = [super init]) {
-        _session = session;
+        self.session = session;
         _sourceFilePath = filePath;
         _destinationFilePath = destinationPath.length ? destinationPath : [self documentsDirectory];
         _delegate = delegate;
@@ -119,7 +100,7 @@
 - (instancetype)initWithSession:(TOSMBSession *)session filePath:(NSString *)filePath destinationPath:(NSString *)destinationPath progressHandler:(id)progressHandler successHandler:(id)successHandler failHandler:(id)failHandler
 {
     if (self = [super init]) {
-        _session = session;
+        self.session = session;
         _sourceFilePath = filePath;
         _destinationFilePath = destinationPath.length ? destinationPath : [self documentsDirectory];
         
@@ -214,7 +195,7 @@
         return;
     
     [self setupDownloadOperation];
-    [self.session.downloadsQueue addOperation:self.downloadOperation];
+    [self.session.downloadsQueue addOperation:self.smbBlockOperation];
     self.state = TOSMBSessionDownloadTaskStateRunning;
 }
 
@@ -223,9 +204,9 @@
     if (self.state != TOSMBSessionDownloadTaskStateRunning)
         return;
     
-    [self.downloadOperation cancel];
+    [self.smbBlockOperation cancel];
     self.state = TOSMBSessionDownloadTaskStateSuspended;
-    self.downloadOperation = nil;
+    self.smbBlockOperation = nil;
 }
 
 - (void)cancel
@@ -239,15 +220,15 @@
     
     NSBlockOperation *deleteOperation = [[NSBlockOperation alloc] init];
     [deleteOperation addExecutionBlock:deleteBlock];
-    if (self.downloadOperation) { // if the download operation doesn't exist, we can delete file even immediately
-        [deleteOperation addDependency:self.downloadOperation];
+    if (self.smbBlockOperation) { // if the download operation doesn't exist, we can delete file even immediately
+        [deleteOperation addDependency:self.smbBlockOperation];
     }
     [self.session.downloadsQueue addOperation:deleteOperation];
     
-    [self.downloadOperation cancel];
+    [self.smbBlockOperation cancel];
     self.state = TOSMBSessionDownloadTaskStateCancelled;
     
-    self.downloadOperation = nil;
+    self.smbBlockOperation = nil;
 }
 
 #pragma mark - Private Control Methods -
@@ -320,7 +301,7 @@
 - (TOSMBSessionFile *)requestFileForItemAtPath:(NSString *)filePath inTree:(smb_tid)treeID
 {
     const char *fileCString = [filePath cStringUsingEncoding:NSUTF8StringEncoding];
-    smb_stat fileStat = smb_fstat(self.downloadSession, treeID, fileCString);
+    smb_stat fileStat = smb_fstat(self.smbSession, treeID, fileCString);
     if (!fileStat)
         return nil;
     
@@ -333,7 +314,7 @@
 
 - (void)setupDownloadOperation
 {
-    if (self.downloadOperation)
+    if (self.smbBlockOperation)
         return;
     
     NSBlockOperation *operation = [[NSBlockOperation alloc] init];
@@ -346,10 +327,10 @@
     };
     [operation addExecutionBlock:executionBlock];
     operation.completionBlock = ^{
-        weakSelf.downloadOperation = nil;
+        weakSelf.smbBlockOperation = nil;
     };
     
-    self.downloadOperation = operation;
+    self.smbBlockOperation = operation;
 }
 
 - (void)performDownloadWithOperation:(__weak NSBlockOperation *)weakOperation
@@ -370,27 +351,27 @@
             self.backgroundTaskIdentifier = 0;
         }
         
-        if (self.downloadSession && treeID)
-            smb_tree_disconnect(self.downloadSession, treeID);
+        if (self.smbBlockOperation && treeID)
+            smb_tree_disconnect(self.smbSession, treeID);
         
-        if (self.downloadSession && fileID)
-            smb_fclose(self.downloadSession, fileID);
+        if (self.smbSession && fileID)
+            smb_fclose(self.smbSession, fileID);
         
-        if (self.downloadSession) {
-            smb_session_destroy(self.downloadSession);
-            self.downloadSession = nil;
+        if (self.smbSession) {
+            smb_session_destroy(self.smbSession);
+            self.smbSession = nil;
         }
     };
     
     //---------------------------------------------------------------------------------------
     //Connect to SMB device
     
-    self.downloadSession = smb_session_new();
+    self.smbSession = smb_session_new();
     
     //First, check to make sure the server is there, and to acquire its attributes
     __block NSError *error = nil;
     dispatch_sync(self.session.serialQueue, ^{
-        error = [self.session attemptConnectionWithSessionPointer:self.downloadSession];
+        error = [self.session attemptConnectionWithSessionPointer:self.smbSession];
     });
     if (error) {
         [self didFailWithError:error];
@@ -409,7 +390,7 @@
     //Next attach to the share we'll be using
     NSString *shareName = [self.session shareNameFromPath:self.sourceFilePath];
     const char *shareCString = [shareName cStringUsingEncoding:NSUTF8StringEncoding];
-    smb_tree_connect(self.downloadSession, shareCString, &treeID);
+    smb_tree_connect(self.smbSession, shareCString, &treeID);
     if (!treeID) {
         [self didFailWithError:errorForErrorCode(TOSMBSessionErrorCodeShareConnectionFailed)];
         cleanup();
@@ -452,7 +433,7 @@
     //---------------------------------------------------------------------------------------
     //Open the file handle
     
-    smb_fopen(self.downloadSession, treeID, [formattedPath cStringUsingEncoding:NSUTF8StringEncoding], SMB_MOD_RO, &fileID);
+    smb_fopen(self.smbSession, treeID, [formattedPath cStringUsingEncoding:NSUTF8StringEncoding], SMB_MOD_RO, &fileID);
     if (!fileID) {
         [self didFailWithError:errorForErrorCode(TOSMBSessionErrorCodeFileNotFound)];
         cleanup();
@@ -484,7 +465,7 @@
     self.backgroundTaskIdentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{ [self suspend]; }];
     
     if (seekOffset > 0) {
-        smb_fseek(self.downloadSession, fileID, (ssize_t)seekOffset, SMB_SEEK_SET);
+        smb_fseek(self.smbSession, fileID, (ssize_t)seekOffset, SMB_SEEK_SET);
         [self didResumeAtOffset:seekOffset totalBytesExpected:self.countOfBytesExpectedToReceive];
     }
     
@@ -495,7 +476,7 @@
     
     do {
         //Read the bytes from the network device
-        bytesRead = smb_fread(self.downloadSession, fileID, buffer, bufferSize);
+        bytesRead = smb_fread(self.smbSession, fileID, buffer, bufferSize);
         if (bytesRead < 0) {
             [self fail];
             [self didFailWithError:errorForErrorCode(TOSMBSessionErrorCodeFileDownloadFailed)];

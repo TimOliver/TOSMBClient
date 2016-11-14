@@ -55,6 +55,16 @@ typedef NS_ENUM(NSInteger, TOSMBSessionDownloadTaskState) {
     TOSMBSessionDownloadTaskStateFailed
 };
 
+/** SMB Connection State */
+typedef NS_ENUM(NSUInteger, TOSMBSessionTaskState) {
+    TOSMBSessionTaskStateReady,
+    TOSMBSessionTaskStateRunning,
+    TOSMBSessionTaskStateSuspended,
+    TOSMBSessionTaskStateCancelled,
+    TOSMBSessionTaskStateCompleted,
+    TOSMBSessionTaskStateFailed
+};
+
 extern TONetBIOSNameServiceType TONetBIOSNameServiceTypeForCType(char type);
 extern char TONetBIOSNameServiceCTypeForType(char type);
 

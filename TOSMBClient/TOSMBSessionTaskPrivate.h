@@ -1,5 +1,5 @@
 //
-// TOSMBClient.h
+// TOSMBSessionTaskPrivate.h
 // Copyright 2015-2016 Timothy Oliver
 //
 // This file is dual-licensed under both the MIT License, and the LGPL v2.1 License.
@@ -20,28 +20,24 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 // -------------------------------------------------------------------------------
 
-//! Project version number for TOSMBClient.
-FOUNDATION_EXPORT double TOSMBClientVersionNumber;
+#ifndef TOSMBSessionTaskPrivate_h
+#define TOSMBSessionTaskPrivate_h
 
-//! Project version string for TOSMBClient.
-FOUNDATION_EXPORT const unsigned char TOSMBClientVersionString[];
+@import UIKit;
 
-#import "TOSMBConstants.h"
-
-#import "TOSMBSession.h"
-#import "TOSMBSessionFile.h"
 #import "TOSMBSessionTask.h"
-#import "TOSMBSessionDownloadTask.h"
-#import "TOSMBSessionUploadTask.h"
-
-#import "TONetBIOSNameService.h"
-#import "TONetBIOSNameServiceEntry.h"
-
-#import "TOSMBConstants.h"
-
 #import "TOSMBSession.h"
-#import "TOSMBSessionFile.h"
-#import "TOSMBSessionDownloadTask.h"
+#import "smb_session.h"
 
-#import "TONetBIOSNameService.h"
-#import "TONetBIOSNameServiceEntry.h"
+@interface TOSMBSessionTask ()
+
+@property (nonatomic, weak, readwrite) TOSMBSession *session;
+@property (nonatomic, assign, readwrite) TOSMBSessionTaskState state;
+@property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskIdentifier;
+
+@property (assign) smb_session *smbSession;
+@property (nonatomic, strong) NSBlockOperation *smbBlockOperation;
+
+@end
+
+#endif /* TOSMBSessionTaskPrivate_h */

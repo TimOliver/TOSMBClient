@@ -1,5 +1,5 @@
 //
-// TOSMBClient.h
+// TOSMBSessionTask.h
 // Copyright 2015-2016 Timothy Oliver
 //
 // This file is dual-licensed under both the MIT License, and the LGPL v2.1 License.
@@ -20,28 +20,39 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 // -------------------------------------------------------------------------------
 
-//! Project version number for TOSMBClient.
-FOUNDATION_EXPORT double TOSMBClientVersionNumber;
-
-//! Project version string for TOSMBClient.
-FOUNDATION_EXPORT const unsigned char TOSMBClientVersionString[];
+#import <Foundation/Foundation.h>
 
 #import "TOSMBConstants.h"
 
-#import "TOSMBSession.h"
-#import "TOSMBSessionFile.h"
-#import "TOSMBSessionTask.h"
-#import "TOSMBSessionDownloadTask.h"
-#import "TOSMBSessionUploadTask.h"
+@class TOSMBSession;
 
-#import "TONetBIOSNameService.h"
-#import "TONetBIOSNameServiceEntry.h"
+@interface TOSMBSessionTask : NSObject
 
-#import "TOSMBConstants.h"
+/** The parent session that is managing this download task. (Retained by this class) */
+@property (readonly, weak) TOSMBSession *session;
 
-#import "TOSMBSession.h"
-#import "TOSMBSessionFile.h"
-#import "TOSMBSessionDownloadTask.h"
+/** Returns if download data from a suspended task exists */
+@property (readonly) BOOL canBeResumed;
 
-#import "TONetBIOSNameService.h"
-#import "TONetBIOSNameServiceEntry.h"
+/** The state of the task. */
+@property (readonly) TOSMBSessionTaskState state;
+
+/**
+ Resumes an existing task, or starts a new one otherwise.
+ 
+ Downloads are resumed if there is already data for this file on disk,
+ and the modification date of that file matches the one on the network device.
+ */
+- (void)resume;
+
+/**
+ Suspends a task and halts network activity.
+ */
+- (void)suspend;
+
+/**
+ Cancels a task, and deletes all related transient data on disk.
+ */
+- (void)cancel;
+
+@end

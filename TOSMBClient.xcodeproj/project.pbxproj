@@ -68,6 +68,10 @@
 		22CB5AEB1B78929B006F05F2 /* TORootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22CB5AEA1B78929B006F05F2 /* TORootViewController.m */; };
 		22FA84951DC098B700634DB7 /* TONetBIOSNameServiceEntryPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 22FA84931DC098B700634DB7 /* TONetBIOSNameServiceEntryPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		22FA849A1DC0996900634DB7 /* TOSMBSessionFilePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 22FA84981DC0996900634DB7 /* TOSMBSessionFilePrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		E82FE0301DD91955008E82FA /* TOSMBSessionTask.h in Headers */ = {isa = PBXBuildFile; fileRef = E82FE02E1DD91955008E82FA /* TOSMBSessionTask.h */; };
+		E82FE0311DD91955008E82FA /* TOSMBSessionTask.m in Sources */ = {isa = PBXBuildFile; fileRef = E82FE02F1DD91955008E82FA /* TOSMBSessionTask.m */; };
+		E8431A081DCD53DD0007BCFA /* TOSMBSessionUploadTask.h in Headers */ = {isa = PBXBuildFile; fileRef = E8431A061DCD53DD0007BCFA /* TOSMBSessionUploadTask.h */; };
+		E8431A091DCD53DD0007BCFA /* TOSMBSessionUploadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = E8431A071DCD53DD0007BCFA /* TOSMBSessionUploadTask.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -129,6 +133,14 @@
 		22CB5AEA1B78929B006F05F2 /* TORootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TORootViewController.m; sourceTree = "<group>"; };
 		22FA84931DC098B700634DB7 /* TONetBIOSNameServiceEntryPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TONetBIOSNameServiceEntryPrivate.h; sourceTree = "<group>"; };
 		22FA84981DC0996900634DB7 /* TOSMBSessionFilePrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TOSMBSessionFilePrivate.h; sourceTree = "<group>"; };
+		E82FE02E1DD91955008E82FA /* TOSMBSessionTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TOSMBSessionTask.h; sourceTree = "<group>"; };
+		E82FE02F1DD91955008E82FA /* TOSMBSessionTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOSMBSessionTask.m; sourceTree = "<group>"; };
+		E82FE0321DD91C46008E82FA /* TOSMBSessionTaskPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOSMBSessionTaskPrivate.h; sourceTree = "<group>"; };
+		E82FE0331DD920E1008E82FA /* TOSMBSessionPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOSMBSessionPrivate.h; sourceTree = "<group>"; };
+		E82FE0341DD930CD008E82FA /* TOSMBSessionDownloadTaskPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOSMBSessionDownloadTaskPrivate.h; sourceTree = "<group>"; };
+		E82FE0351DD930DA008E82FA /* TOSMBSessionUploadTaskPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOSMBSessionUploadTaskPrivate.h; sourceTree = "<group>"; };
+		E8431A061DCD53DD0007BCFA /* TOSMBSessionUploadTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TOSMBSessionUploadTask.h; sourceTree = "<group>"; };
+		E8431A071DCD53DD0007BCFA /* TOSMBSessionUploadTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOSMBSessionUploadTask.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -242,11 +254,19 @@
 				22FA84931DC098B700634DB7 /* TONetBIOSNameServiceEntryPrivate.h */,
 				22236CF71B67C2C700176C34 /* TOSMBSession.h */,
 				22236CF81B67C2C700176C34 /* TOSMBSession.m */,
+				E82FE0331DD920E1008E82FA /* TOSMBSessionPrivate.h */,
 				22301F6E1B6DED2500326F84 /* TOSMBSessionFile.h */,
 				22301F6F1B6DED2500326F84 /* TOSMBSessionFile.m */,
 				22FA84981DC0996900634DB7 /* TOSMBSessionFilePrivate.h */,
+				E82FE02E1DD91955008E82FA /* TOSMBSessionTask.h */,
+				E82FE02F1DD91955008E82FA /* TOSMBSessionTask.m */,
+				E82FE0321DD91C46008E82FA /* TOSMBSessionTaskPrivate.h */,
 				22AE8B861B6F66E4008412CF /* TOSMBSessionDownloadTask.h */,
 				22AE8B871B6F66E4008412CF /* TOSMBSessionDownloadTask.m */,
+				E82FE0341DD930CD008E82FA /* TOSMBSessionDownloadTaskPrivate.h */,
+				E8431A061DCD53DD0007BCFA /* TOSMBSessionUploadTask.h */,
+				E8431A071DCD53DD0007BCFA /* TOSMBSessionUploadTask.m */,
+				E82FE0351DD930DA008E82FA /* TOSMBSessionUploadTaskPrivate.h */,
 			);
 			path = TOSMBClient;
 			sourceTree = "<group>";
@@ -296,6 +316,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E8431A081DCD53DD0007BCFA /* TOSMBSessionUploadTask.h in Headers */,
 				227D6F4C1CBD4EF4000E8A78 /* TOSMBClient.h in Headers */,
 				227D6F241CBD4ACA000E8A78 /* TOSMBConstants.h in Headers */,
 				229EC87D1CF3240B0007FE4A /* smb_session.h in Headers */,
@@ -311,6 +332,7 @@
 				229EC87C1CF3240B0007FE4A /* smb_file.h in Headers */,
 				227D6F251CBD4ACA000E8A78 /* TONetBIOSNameService.h in Headers */,
 				227D6F261CBD4ACA000E8A78 /* TONetBIOSNameServiceEntry.h in Headers */,
+				E82FE0301DD91955008E82FA /* TOSMBSessionTask.h in Headers */,
 				227D6F271CBD4ACA000E8A78 /* TOSMBSession.h in Headers */,
 				22FA84951DC098B700634DB7 /* TONetBIOSNameServiceEntryPrivate.h in Headers */,
 				22FA849A1DC0996900634DB7 /* TOSMBSessionFilePrivate.h in Headers */,
@@ -497,8 +519,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				224899531DC0A642006CA7B3 /* TOSMBConstants.m in Sources */,
+				E82FE0311DD91955008E82FA /* TOSMBSessionTask.m in Sources */,
 				224899551DC0A642006CA7B3 /* TONetBIOSNameService.m in Sources */,
 				224899571DC0A642006CA7B3 /* TONetBIOSNameServiceEntry.m in Sources */,
+				E8431A091DCD53DD0007BCFA /* TOSMBSessionUploadTask.m in Sources */,
 				2248995B1DC0A642006CA7B3 /* TOSMBSession.m in Sources */,
 				2248995D1DC0A642006CA7B3 /* TOSMBSessionFile.m in Sources */,
 				224899611DC0A642006CA7B3 /* TOSMBSessionDownloadTask.m in Sources */,
@@ -811,6 +835,7 @@
 				22F243FF1DC0AD4900ED6395 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

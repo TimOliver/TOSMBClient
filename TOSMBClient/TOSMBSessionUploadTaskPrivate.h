@@ -1,5 +1,5 @@
 //
-// TOSMBClient.h
+// TOSMBSessionUploadTaskPrivate.h
 // Copyright 2015-2016 Timothy Oliver
 //
 // This file is dual-licensed under both the MIT License, and the LGPL v2.1 License.
@@ -20,28 +20,14 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 // -------------------------------------------------------------------------------
 
-//! Project version number for TOSMBClient.
-FOUNDATION_EXPORT double TOSMBClientVersionNumber;
 
-//! Project version string for TOSMBClient.
-FOUNDATION_EXPORT const unsigned char TOSMBClientVersionString[];
+#ifndef TOSMBSessionUploadTaskPrivate_h
+#define TOSMBSessionUploadTaskPrivate_h
 
-#import "TOSMBConstants.h"
-
-#import "TOSMBSession.h"
-#import "TOSMBSessionFile.h"
-#import "TOSMBSessionTask.h"
-#import "TOSMBSessionDownloadTask.h"
 #import "TOSMBSessionUploadTask.h"
 
-#import "TONetBIOSNameService.h"
-#import "TONetBIOSNameServiceEntry.h"
+@interface TOSMBSessionUploadTask ()
 
-#import "TOSMBConstants.h"
+@end
 
-#import "TOSMBSession.h"
-#import "TOSMBSessionFile.h"
-#import "TOSMBSessionDownloadTask.h"
-
-#import "TONetBIOSNameService.h"
-#import "TONetBIOSNameServiceEntry.h"
+#endif /* TOSMBSessionUploadTaskPrivate_h */

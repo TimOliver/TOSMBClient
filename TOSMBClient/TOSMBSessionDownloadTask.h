@@ -20,7 +20,7 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 // -------------------------------------------------------------------------------
 
-#import <Foundation/Foundation.h>
+#import "TOSMBSessionTask.h"
 #import "TOSMBConstants.h"
 
 @class TOSMBSession;
@@ -74,10 +74,7 @@ totalBytesExpectedToReceive:(uint64_t)totalBytesToReceive;
 
 @end
 
-@interface TOSMBSessionDownloadTask : NSObject
-
-/** The parent session that is managing this download task. (Retained by this class) */
-@property (readonly, weak) TOSMBSession *session;
+@interface TOSMBSessionDownloadTask : TOSMBSessionTask
 
 /** The file path to the target file on the SMB network device. */
 @property (readonly) NSString *sourceFilePath;
@@ -90,29 +87,5 @@ totalBytesExpectedToReceive:(uint64_t)totalBytesToReceive;
 
 /** The total number of bytes we expect to download */
 @property (readonly) int64_t countOfBytesExpectedToReceive;
-
-/** Returns if download data from a suspended task exists */
-@property (readonly) BOOL canBeResumed;
-
-/** The state of the download task. */
-@property (readonly) TOSMBSessionDownloadTaskState state;
-
-/**
- Resumes an existing download, or starts a new one otherwise.
- 
- Downloads are resumed if there is already data for this file on disk,
- and the modification date of that file matches the one on the network device.
- */
-- (void)resume;
-
-/**
- Suspends a download and halts network activity.
- */
-- (void)suspend;
-
-/**
- Cancels a download, and deletes all related transient data on disk.
- */
-- (void)cancel;
 
 @end

@@ -24,6 +24,8 @@
 #import "TOSMBConstants.h"
 
 @class TOSMBSessionDownloadTask;
+@class TOSMBSessionUploadTask;
+
 @protocol TOSMBSessionDownloadTaskDelegate;
 
 @interface TOSMBSession : NSObject
@@ -37,7 +39,8 @@
 @property (nonatomic, readonly) BOOL connected;
 @property (nonatomic, readonly) NSInteger guest;
 
-@property (nonatomic, readonly) NSArray *downloadTasks;
+@property (nonatomic, readonly) NSArray <TOSMBSessionDownloadTask *> *downloadTasks;
+@property (nonatomic, readonly) NSArray <TOSMBSessionUploadTask *> *uploadTasks;
 
 /** Defines the number of concurrent download operations. Default:
  * NSOperationQueueDefaultMaxConcurrentOperationCount. */
@@ -123,5 +126,19 @@
                                         progressHandler:(void (^)(uint64_t totalBytesWritten, uint64_t totalBytesExpected))progressHandler
                                       completionHandler:(void (^)(NSString *filePath))completionHandler
                                             failHandler:(void (^)(NSError *error))error;
+/**
+ Creates an upload task object for asynchronously uploading a file to disk.
+ 
+ @param data The path on the SMB device for the file to download.
+ @param destinationPath The destination path (Either just the directory, or even a new name) for this file.
+ @param completionHandler A block called once the download has completed.
+ @param failHandler A block called if the download fails
+ 
+ @return An upload task object ready to be started, or nil upon failure.
+ */
+- (TOSMBSessionUploadTask *)uploadTaskForData:(NSData *)data
+                              destinationPath:(NSString *)destinationPath
+                            completionHandler:(void (^)())completionHandler
+                                  failHandler:(void (^)(NSError *error))error;
 
 @end

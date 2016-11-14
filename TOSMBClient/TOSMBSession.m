@@ -27,29 +27,12 @@
 #import "TOSMBSessionFile.h"
 #import "TOSMBSessionFilePrivate.h"
 #import "TONetBIOSNameService.h"
-#import "TOSMBSessionDownloadTask.h"
+#import "TOSMBSessionDownloadTaskPrivate.h"
+#import "TOSMBSessionUploadTaskPrivate.h"
 
 #import "smb_session.h"
 #import "smb_share.h"
 #import "smb_stat.h"
-
-@interface TOSMBSessionDownloadTask ()
-
-- (instancetype)initWithSession:(TOSMBSession *)session
-                       filePath:(NSString *)filePath
-                destinationPath:(NSString *)destinationPath
-                       delegate:(id<TOSMBSessionDownloadTaskDelegate>)delegate;
-
-- (instancetype)initWithSession:(TOSMBSession *)session
-                       filePath:(NSString *)filePath
-                destinationPath:(NSString *)destinationPath
-                progressHandler:(id)progressHandler
-                 successHandler:(id)successHandler
-                    failHandler:(id)failHandler;
-
-- (NSBlockOperation *)downloadOperation;
-
-@end
 
 @interface TOSMBSession ()
 
@@ -62,7 +45,8 @@
 @property (nonatomic, strong) NSOperationQueue *dataQueue; /* Operation queue for asynchronous data requests. */
 @property (nonatomic, strong) NSOperationQueue *downloadsQueue; /* Operation queue for file downloads. */
 
-@property (nonatomic, strong, readwrite) NSArray *downloadTasks;
+@property (nonatomic, strong, readwrite) NSArray <TOSMBSessionDownloadTask *> *downloadTasks;
+@property (nonatomic, strong, readwrite) NSArray <TOSMBSessionUploadTask *> *uploadTasks;
 
 @property (nonatomic, strong) NSDate *lastRequestDate;
 
@@ -416,6 +400,21 @@
     
     TOSMBSessionDownloadTask *task = [[TOSMBSessionDownloadTask alloc] initWithSession:self filePath:path destinationPath:destinationPath progressHandler:progressHandler successHandler:completionHandler failHandler:failHandler];
     self.downloadTasks = [self.downloadTasks ? : @[] arrayByAddingObjectsFromArray:@[task]];
+    return task;
+}
+
+#pragma mark - Upload Tasks -
+
+- (TOSMBSessionUploadTask *)uploadTaskForData:(NSData *)data
+                              destinationPath:(NSString *)destinationPath
+                            completionHandler:(void (^)())completionHandler
+                                  failHandler:(void (^)(NSError *error))error {
+    [self setupDownloadQueue];
+    
+    TOSMBSessionUploadTask *task = [[TOSMBSessionUploadTask alloc] init];
+    
+    self.uploadTasks = [self.uploadTasks ?: @[] arrayByAddingObject:task];
+    
     return task;
 }
 

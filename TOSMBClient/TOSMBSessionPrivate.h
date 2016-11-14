@@ -1,5 +1,5 @@
 //
-// TOSMBClient.h
+// TOSMBSessionPrivate.h
 // Copyright 2015-2016 Timothy Oliver
 //
 // This file is dual-licensed under both the MIT License, and the LGPL v2.1 License.
@@ -20,28 +20,24 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 // -------------------------------------------------------------------------------
 
-//! Project version number for TOSMBClient.
-FOUNDATION_EXPORT double TOSMBClientVersionNumber;
-
-//! Project version string for TOSMBClient.
-FOUNDATION_EXPORT const unsigned char TOSMBClientVersionString[];
-
-#import "TOSMBConstants.h"
+#ifndef TOSMBSessionPrivate_h
+#define TOSMBSessionPrivate_h
 
 #import "TOSMBSession.h"
-#import "TOSMBSessionFile.h"
-#import "TOSMBSessionTask.h"
-#import "TOSMBSessionDownloadTask.h"
-#import "TOSMBSessionUploadTask.h"
+#import "smb_session.h"
 
-#import "TONetBIOSNameService.h"
-#import "TONetBIOSNameServiceEntry.h"
+@interface TOSMBSession ()
 
-#import "TOSMBConstants.h"
+@property (readonly) NSOperationQueue *downloadsQueue;
 
-#import "TOSMBSession.h"
-#import "TOSMBSessionFile.h"
-#import "TOSMBSessionDownloadTask.h"
+@property (readonly) dispatch_queue_t serialQueue;
 
-#import "TONetBIOSNameService.h"
-#import "TONetBIOSNameServiceEntry.h"
+- (NSError *)attemptConnectionWithSessionPointer:(smb_session *)session;
+- (NSString *)shareNameFromPath:(NSString *)path;
+- (NSString *)filePathExcludingSharePathFromPath:(NSString *)path;
+- (void)resumeDownloadTask:(TOSMBSessionDownloadTask *)task;
+
+@end
+
+
+#endif /* TOSMBSessionPrivate_h */
