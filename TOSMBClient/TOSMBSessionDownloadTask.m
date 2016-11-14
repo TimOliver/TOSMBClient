@@ -192,7 +192,7 @@
         return;
     
     [self setupDownloadOperation];
-    [self.session.downloadsQueue addOperation:self.smbBlockOperation];
+    [self.session.taskQueue addOperation:self.smbBlockOperation];
     self.state = TOSMBSessionDownloadTaskStateRunning;
 }
 
@@ -220,7 +220,7 @@
     if (self.smbBlockOperation) { // if the download operation doesn't exist, we can delete file even immediately
         [deleteOperation addDependency:self.smbBlockOperation];
     }
-    [self.session.downloadsQueue addOperation:deleteOperation];
+    [self.session.taskQueue addOperation:deleteOperation];
     
     [self.smbBlockOperation cancel];
     self.state = TOSMBSessionDownloadTaskStateCancelled;

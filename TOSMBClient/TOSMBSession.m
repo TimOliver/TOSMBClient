@@ -23,7 +23,7 @@
 #import <arpa/inet.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 
-#import "TOSMBSession.h"
+#import "TOSMBSessionPrivate.h"
 #import "TOSMBSessionFile.h"
 #import "TOSMBSessionFilePrivate.h"
 #import "TONetBIOSNameService.h"
@@ -43,7 +43,7 @@
 @property (nonatomic, assign, readwrite) NSInteger guest;
 
 @property (nonatomic, strong) NSOperationQueue *dataQueue; /* Operation queue for asynchronous data requests. */
-@property (nonatomic, strong) NSOperationQueue *downloadsQueue; /* Operation queue for file downloads. */
+@property (nonatomic, strong, readwrite) NSOperationQueue *taskQueue; /* Operation queue for task. */
 
 @property (nonatomic, strong, readwrite) NSArray <TOSMBSessionDownloadTask *> *downloadTasks;
 @property (nonatomic, strong, readwrite) NSArray <TOSMBSessionUploadTask *> *uploadTasks;
@@ -52,7 +52,7 @@
 
 @property (nonatomic, assign, readwrite) BOOL connected;
 
-@property (readonly) dispatch_queue_t serialQueue;
+@property (nonatomic, readwrite) dispatch_queue_t serialQueue;
 
 /* Connection/Authentication handling */
 - (BOOL)deviceIsOnWiFi;
@@ -377,7 +377,7 @@
 - (void)cancelAllRequests
 {
     [self.dataQueue cancelAllOperations];
-    [self.downloadsQueue cancelAllOperations];
+    [self.taskQueue cancelAllOperations];
 }
 
 #pragma mark - Download Tasks -
@@ -404,11 +404,7 @@
 }
 
 #pragma mark - Upload Tasks -
-
-- (TOSMBSessionUploadTask *)uploadTaskForFileAtPath:(NSString *)path
-                                               Data:(NSData *)data
-                                  completionHandler:(void (^)())completionHandler
-                                        failHandler:(void (^)(NSError *error))failHandler {
+- (TOSMBSessionUploadTask *)uploadTaskForFileAtPath:(NSString *)path data:(NSData *)data completionHandler:(void (^)())completionHandler failHandler:(void (^)(NSError *error))failHandler {
     [self setupDownloadQueue];
     
     TOSMBSessionUploadTask *task = [[TOSMBSessionUploadTask alloc] initWithSession:self
@@ -434,11 +430,11 @@
 
 - (void)setupDownloadQueue
 {
-    if (self.downloadsQueue)
+    if (self.taskQueue)
         return;
     
-    self.downloadsQueue = [[NSOperationQueue alloc] init];
-    self.downloadsQueue.maxConcurrentOperationCount = self.maxDownloadOperationCount;
+    self.taskQueue = [[NSOperationQueue alloc] init];
+    self.taskQueue.maxConcurrentOperationCount = self.maxDownloadOperationCount;
 }
 
 #pragma mark - String Parsing -
@@ -498,7 +494,7 @@
 {
     _maxDownloadOperationCount = maxDownloadOperationCount;
     
-    self.downloadsQueue.maxConcurrentOperationCount = maxDownloadOperationCount;
+    self.taskQueue.maxConcurrentOperationCount = maxDownloadOperationCount;
 }
 
 @end

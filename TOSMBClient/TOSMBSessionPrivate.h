@@ -28,16 +28,11 @@
 
 @interface TOSMBSession ()
 
-@property (readonly) NSOperationQueue *downloadsQueue;
-
-@property (readonly) dispatch_queue_t serialQueue;
-
 - (NSError *)attemptConnectionWithSessionPointer:(smb_session *)session;
 - (NSString *)shareNameFromPath:(NSString *)path;
 - (NSString *)filePathExcludingSharePathFromPath:(NSString *)path;
-- (void)resumeDownloadTask:(TOSMBSessionDownloadTask *)task;
+//- (void)resumeDownloadTask:(TOSMBSessionDownloadTask *)task;
 
 @end
-
 
 #endif /* TOSMBSessionPrivate_h */
