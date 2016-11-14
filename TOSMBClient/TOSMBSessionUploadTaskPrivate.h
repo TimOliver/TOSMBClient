@@ -32,6 +32,11 @@
 - (instancetype)initWithSession:(TOSMBSession *)session
                            path:(NSString *)path
                            data:(NSData *)data
+                       delegate:(id <TOSMBSessionUploadTaskDelegate>)delegate;
+
+- (instancetype)initWithSession:(TOSMBSession *)session
+                           path:(NSString *)path
+                           data:(NSData *)data
                  successHandler:(id)successHandler
                     failHandler:(id)failHandler;
 

@@ -27,23 +27,43 @@
 @property (nonatomic, copy) NSString *path;
 @property (nonatomic, strong) NSData *data;
 
+@property (nonatomic, weak) id <TOSMBSessionUploadTaskDelegate> delegate;
 @property (nonatomic, copy) void (^successHandler)();
-@property (nonatomic, copy) void (^failHandler)(NSError *error);
 
 @end
 
 @implementation TOSMBSessionUploadTask
 
-@dynamic taskOperation;
+@dynamic delegate;
+
+- (instancetype)initWithSession:(TOSMBSession *)session
+                           path:(NSString *)path
+                           data:(NSData *)data {
+    if ((self = [super initWithSession:session])) {
+        self.path = path;
+        self.data = data;
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithSession:(TOSMBSession *)session
+                           path:(NSString *)path
+                           data:(NSData *)data
+                       delegate:(id<TOSMBSessionUploadTaskDelegate>)delegate {
+    if ((self = [self initWithSession:session path:path data:data])) {
+        self.delegate = delegate;
+    }
+    
+    return self;
+}
 
 - (instancetype)initWithSession:(TOSMBSession *)session
                            path:(NSString *)path
                            data:(NSData *)data
                  successHandler:(id)successHandler
                     failHandler:(id)failHandler {
-    if ((self = [super initWithSession:session])) {
-        self.path = path;
-        self.data = data;
+    if ((self = [self initWithSession:session path:path data:data])) {
         self.successHandler = successHandler;
         self.failHandler = failHandler;
     }

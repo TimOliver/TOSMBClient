@@ -24,7 +24,8 @@
 
 @class TOSMBSessionUploadTask;
 
-@protocol TOSMBSessionUploadTaskDelegate <NSObject>
+@protocol TOSMBSessionUploadTaskDelegate <TOSMBSessionTaskDelegate>
+@optional
 
 - (void)uploadTask:(TOSMBSessionUploadTask *)task
       didSendBytes:(uint64_t)bytesSent
@@ -34,7 +35,5 @@ totalBytesExpectedToSend:(uint64_t)totalBytesExpectedToSend;
 @end
 
 @interface TOSMBSessionUploadTask : TOSMBSessionTask
-
-@property (nonatomic, weak) id <TOSMBSessionUploadTaskDelegate> delegate;
 
 @end
