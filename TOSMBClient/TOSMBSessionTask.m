@@ -78,6 +78,20 @@
 
 #pragma mark - Task Methods
 
+- (TOSMBSessionFile *)requestFileForItemAtPath:(NSString *)filePath inTree:(smb_tid)treeID
+{
+    const char *fileCString = [filePath cStringUsingEncoding:NSUTF8StringEncoding];
+    smb_stat fileStat = smb_fstat(self.smbSession, treeID, fileCString);
+    if (!fileStat)
+        return nil;
+    
+    TOSMBSessionFile *file = [[TOSMBSessionFile alloc] initWithStat:fileStat session:nil parentDirectoryFilePath:filePath];
+    
+    smb_stat_destroy(fileStat);
+    
+    return file;
+}
+
 - (void)performTaskWithOperation:(__weak NSBlockOperation *)operation {
     return;
 }

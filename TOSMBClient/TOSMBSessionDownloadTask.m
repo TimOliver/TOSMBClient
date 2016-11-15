@@ -25,7 +25,6 @@
 
 #import "TOSMBSessionDownloadTaskPrivate.h"
 #import "TOSMBSessionPrivate.h"
-#import "TOSMBSessionFilePrivate.h"
 
 
 // -------------------------------------------------------------------------
@@ -46,9 +45,6 @@
 
 @property (nonatomic, copy) void (^progressHandler)(uint64_t totalBytesWritten, uint64_t totalBytesExpected);
 @property (nonatomic, copy) void (^successHandler)(NSString *filePath);
-
-/* Download methods */
-- (TOSMBSessionFile *)requestFileForItemAtPath:(NSString *)filePath inTree:(smb_tid)treeID;
 
 /* File Path Methods */
 - (NSString *)hashForFilePath;
@@ -263,19 +259,6 @@
 }
 
 #pragma mark - Downloading -
-- (TOSMBSessionFile *)requestFileForItemAtPath:(NSString *)filePath inTree:(smb_tid)treeID
-{
-    const char *fileCString = [filePath cStringUsingEncoding:NSUTF8StringEncoding];
-    smb_stat fileStat = smb_fstat(self.smbSession, treeID, fileCString);
-    if (!fileStat)
-        return nil;
-    
-    TOSMBSessionFile *file = [[TOSMBSessionFile alloc] initWithStat:fileStat session:nil parentDirectoryFilePath:filePath];
-    
-    smb_stat_destroy(fileStat);
-    
-    return file;
-}
 
 - (void)performTaskWithOperation:(__weak NSBlockOperation *)weakOperation
 {

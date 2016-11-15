@@ -27,6 +27,7 @@
 
 #import "TOSMBSessionTask.h"
 #import "TOSMBSession.h"
+#import "TOSMBSessionFilePrivate.h"
 #import "smb_defs.h"
 #import "smb_file.h"
 #import "smb_session.h"
@@ -56,8 +57,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithSession:(TOSMBSession *)session;
 
-- (void)fail;
+- (TOSMBSessionFile *)requestFileForItemAtPath:(NSString *)filePath inTree:(smb_tid)treeID;
 
+- (void)fail;
 - (void)didFailWithError:(NSError *)error;
 
 @end
