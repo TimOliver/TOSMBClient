@@ -33,6 +33,15 @@
     [super viewDidLoad];
     
     self.navigationItem.title = @"Loading...";
+    
+    if (self.path.length) {
+        UIBarButtonItem *uploadButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(upload:)];
+        self.navigationItem.rightBarButtonItems = @[self.navigationItem.rightBarButtonItems.firstObject, uploadButton];
+    }
+}
+
+- (void)upload:(id)sender {
+    NSString *fileName = [NSUUID UUID].UUIDString;
 }
 
 #pragma mark - Table view data source
@@ -68,7 +77,8 @@
     
     TOFilesTableViewController *controller = [[TOFilesTableViewController alloc] initWithSession:self.session title:file.name];
     controller.rootController = self.rootController;
-    controller.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
+    controller.path = file.filePath;
+    controller.navigationItem.rightBarButtonItems = self.navigationItem.rightBarButtonItems;
     [self.navigationController pushViewController:controller animated:YES];
     
     [self.session requestContentsOfDirectoryAtFilePath:file.filePath success:^(NSArray *files) {
@@ -79,10 +89,11 @@
     }];
 }
 
-- (void)setFiles:(NSArray *)files
+- (void)setFiles:(NSArray <TOSMBSessionFile *> *)files
 {
     _files = files;
     self.navigationItem.title = self.directoryTitle;
+    
     [self.tableView reloadData];
 }
          

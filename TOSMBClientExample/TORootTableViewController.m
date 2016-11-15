@@ -95,7 +95,7 @@
 
 - (void)pushContentOfRootDirectory {
     TOFilesTableViewController *controller = [[TOFilesTableViewController alloc] initWithSession:self.session title:@"Shares"];
-    controller.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
+    controller.navigationItem.rightBarButtonItems = @[self.navigationItem.rightBarButtonItem];
     controller.rootController = self.rootController;
     [self.navigationController pushViewController:controller animated:YES];
     
