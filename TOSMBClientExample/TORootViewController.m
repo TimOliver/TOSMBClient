@@ -15,7 +15,6 @@
 
 @property (nonatomic, strong) UIDocumentInteractionController *docController;
 
-@property (nonatomic, strong) TOSMBSession *downloadSession;
 @property (nonatomic, strong) TOSMBSessionDownloadTask *downloadTask;
 
 @property (nonatomic, strong) NSString *filePath;
@@ -23,6 +22,15 @@
 @end
 
 @implementation TORootViewController
+
+#pragma mark - Properties
+
+- (TOSMBSession *)session {
+    if (!_session) {
+        _session = [[TOSMBSession alloc] init];
+    }
+    return _session;
+}
 
 #pragma mark - View Lifecycle
 
@@ -42,6 +50,7 @@
     UINavigationController *controller = [[UINavigationController alloc] initWithRootViewController:tableController];
     controller.modalPresentationStyle = UIModalPresentationFormSheet;
     tableController.rootController = self;
+    tableController.session = self.session;
     [self presentViewController:controller animated:YES completion:nil];
     
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(modalCancelButtonTapped:)];
@@ -96,7 +105,7 @@
     self.suspendButton.hidden = NO;
     self.progressView.alpha = 1.0f;
     
-    self.downloadSession = session;
+    self.session = session;
     self.downloadTask = [session downloadTaskForFileAtPath:filePath destinationPath:nil delegate:self];
     
     [self dismissViewControllerAnimated:YES completion:^{

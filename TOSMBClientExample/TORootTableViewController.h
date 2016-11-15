@@ -12,6 +12,7 @@
 
 @interface TORootTableViewController : UITableViewController
 
-@property (nonatomic, weak) TORootViewController *rootController;
+@property (nonatomic, weak, nullable) TORootViewController *rootController;
+@property (nonatomic, strong, null_resettable) TOSMBSession *session;
 
 @end
