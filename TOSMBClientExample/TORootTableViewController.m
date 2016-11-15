@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSNetServiceBrowser *serviceBrowser;
 @property (nonatomic, strong) NSMutableArray *nameServiceEntries;
 @property (nonatomic, strong) TONetBIOSNameService *netbiosService;
+@property (nonatomic, strong) TOSMBSession *session;
 
 - (void)beginServiceBrowser;
 
@@ -31,6 +32,7 @@
     
     if (self.nameServiceEntries == nil) {
         self.nameServiceEntries = [NSMutableArray array];
+        self.session = [[TOSMBSession alloc] init];
     }
     
     [self beginServiceBrowser];
@@ -85,18 +87,66 @@
     
     TONetBIOSNameServiceEntry *entry = self.nameServiceEntries[indexPath.row];
 
-    TOSMBSession *session = [[TOSMBSession alloc] initWithHostName:entry.name ipAddress:entry.ipAddressString];
-    TOFilesTableViewController *controller = [[TOFilesTableViewController alloc] initWithSession:session title:@"Shares"];
+    self.session.hostName = entry.name;
+    self.session.ipAddress = entry.ipAddressString;
+    
+    [self pushContentOfRootDirectory];
+}
+
+- (void)pushContentOfRootDirectory {
+    TOFilesTableViewController *controller = [[TOFilesTableViewController alloc] initWithSession:self.session title:@"Shares"];
     controller.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
     controller.rootController = self.rootController;
     [self.navigationController pushViewController:controller animated:YES];
     
-    [session requestContentsOfDirectoryAtFilePath:@"/"
-                                          success:^(NSArray *files){ controller.files = files; }
-                                            error:^(NSError *error) {
-                                                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"SMB Client Error" message:error.localizedDescription delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-                                                [alert show];
-                                            }];
+    __weak typeof(self) weakSelf = self;
+    [self.session requestContentsOfDirectoryAtFilePath:@"/"
+                                               success:^(NSArray *files){ controller.files = files; }
+                                                 error:^(NSError *error) {
+                                                     [weakSelf.navigationController popViewControllerAnimated:YES];
+                                                     if ([error.domain isEqualToString:TOSMBClientErrorDomain] && error.code == TOSMBSessionErrorCodeAuthenticationFailed) {
+                                                         [weakSelf presentLogin];
+                                                     } else {
+                                                         [weakSelf presentError:error];
+                                                     }
+                                                 }];
+}
+
+#pragma mark - Error Handling
+
+- (void)presentError:(NSError *)error {
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
+    
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"SMB Client Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+    [controller addAction:okAction];
+    
+    [self.navigationController presentViewController:controller animated:YES completion:nil];
+}
+
+- (void)presentLogin {
+    UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"SMB Client Login" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    
+    [controller addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"Username";
+    }];
+    
+    [controller addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"Password";
+    }];
+    
+    __weak typeof(self) weakSelf = self;
+    UIAlertAction *loginAction = [UIAlertAction actionWithTitle:@"Login" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UITextField *usernameTextField = controller.textFields.firstObject;
+        UITextField *passwordTextField = controller.textFields.lastObject;
+        [weakSelf.session setLoginCredentialsWithUserName:usernameTextField.text password:passwordTextField.text];
+        [weakSelf pushContentOfRootDirectory];
+    }];
+    [controller addAction:loginAction];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+    [controller addAction:cancelAction];
+    
+    [self.navigationController presentViewController:controller animated:YES completion:nil];
 }
 
 @end

@@ -24,6 +24,8 @@
 #import "netbios_defs.h"
 #import "smb_defs.h"
 
+NSString * const TOSMBClientErrorDomain = @"TOSMBClient";
+
 TONetBIOSNameServiceType TONetBIOSNameServiceTypeForCType(char type)
 {
     switch (type) {
