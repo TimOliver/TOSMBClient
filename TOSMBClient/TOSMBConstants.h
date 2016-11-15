@@ -22,6 +22,8 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString * const TOSMBClientErrorDomain;
+
 /** SMB Error Values */
 typedef NS_ENUM(NSInteger, TOSMBSessionErrorCode)
 {
