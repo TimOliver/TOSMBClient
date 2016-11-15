@@ -183,8 +183,10 @@
     }
     
     //Don't attempt another connection if we already made it through
-    if (smb_session_is_guest(session) >= 0)
+    if (smb_session_is_guest(session) >= 0) {
+        self.connected = YES;
         return nil;
+    }
     
     //Ensure at least one piece of connection information was supplied
     if (self.ipAddress.length == 0 && self.hostName.length == 0) {

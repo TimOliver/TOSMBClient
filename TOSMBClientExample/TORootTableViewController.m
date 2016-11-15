@@ -17,13 +17,32 @@
 @property (nonatomic, strong) NSNetServiceBrowser *serviceBrowser;
 @property (nonatomic, strong) NSMutableArray *nameServiceEntries;
 @property (nonatomic, strong) TONetBIOSNameService *netbiosService;
-@property (nonatomic, strong) TOSMBSession *session;
 
 - (void)beginServiceBrowser;
 
 @end
 
 @implementation TORootTableViewController
+
+#pragma mark - Object Lifecycle
+
+- (void)dealloc
+{
+    if (self.netbiosService)
+        [self.netbiosService stopDiscovery];
+}
+
+#pragma mark - Properties
+
+- (TOSMBSession *)session {
+    if (!_session) {
+        _session = [[TOSMBSession alloc] init];
+        self.rootController.session = _session;
+    }
+    return _session;
+}
+
+#pragma mark - View Lifecycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -32,16 +51,13 @@
     
     if (self.nameServiceEntries == nil) {
         self.nameServiceEntries = [NSMutableArray array];
-        self.session = [[TOSMBSession alloc] init];
     }
     
     [self beginServiceBrowser];
-}
-
-- (void)dealloc
-{
-    if (self.netbiosService)
-        [self.netbiosService stopDiscovery];
+    
+    if (self.session.connected) {
+        [self pushContentOfRootDirectory];
+    }
 }
 
 #pragma mark - NetBios Service -
@@ -86,6 +102,10 @@
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     TONetBIOSNameServiceEntry *entry = self.nameServiceEntries[indexPath.row];
+    
+    if (self.session.hostName.length && ![self.session.hostName isEqualToString:entry.name]) {
+        self.session = nil;
+    }
 
     self.session.hostName = entry.name;
     self.session.ipAddress = entry.ipAddressString;
@@ -101,7 +121,7 @@
     
     __weak typeof(self) weakSelf = self;
     [self.session requestContentsOfDirectoryAtFilePath:@"/"
-                                               success:^(NSArray *files){ controller.files = files; }
+                                               success:^(NSArray *files) { controller.files = files; }
                                                  error:^(NSError *error) {
                                                      [weakSelf.navigationController popViewControllerAnimated:YES];
                                                      if ([error.domain isEqualToString:TOSMBClientErrorDomain] && error.code == TOSMBSessionErrorCodeAuthenticationFailed) {
@@ -132,6 +152,7 @@
     
     [controller addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
         textField.placeholder = @"Password";
+        textField.secureTextEntry = YES;
     }];
     
     __weak typeof(self) weakSelf = self;
@@ -143,7 +164,9 @@
     }];
     [controller addAction:loginAction];
     
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        weakSelf.session = nil;
+    }];
     [controller addAction:cancelAction];
     
     [self.navigationController presentViewController:controller animated:YES completion:nil];
