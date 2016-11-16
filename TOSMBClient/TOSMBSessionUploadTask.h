@@ -27,6 +27,8 @@
 @protocol TOSMBSessionUploadTaskDelegate <TOSMBSessionTaskDelegate>
 @optional
 
+- (void)uploadTaskDidFinishUploading:(TOSMBSessionUploadTask *)task;
+
 - (void)uploadTask:(TOSMBSessionUploadTask *)task
       didSendBytes:(uint64_t)bytesSent
     totalBytesSent:(uint64_t)totalBytesSent

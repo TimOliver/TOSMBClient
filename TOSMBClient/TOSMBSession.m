@@ -395,10 +395,11 @@
 }
 
 #pragma mark - Upload Tasks -
-- (TOSMBSessionUploadTask *)uploadTaskForFileAtPath:(NSString *)path data:(NSData *)data completionHandler:(void (^)())completionHandler failHandler:(void (^)(NSError *error))failHandler {
+- (TOSMBSessionUploadTask *)uploadTaskForFileAtPath:(NSString *)path data:(NSData *)data progressHandler:(void (^)(uint64_t, uint64_t))progressHandler completionHandler:(void (^)())completionHandler failHandler:(void (^)(NSError *))failHandler {
     TOSMBSessionUploadTask *task = [[TOSMBSessionUploadTask alloc] initWithSession:self
                                                                               path:path
                                                                               data:data
+                                                                   progressHandler:progressHandler
                                                                     successHandler:completionHandler
                                                                        failHandler:failHandler];
     

@@ -64,15 +64,45 @@
 - (instancetype)initWithSession:(TOSMBSession *)session
                            path:(NSString *)path
                            data:(NSData *)data
+                progressHandler:(id)progressHandler
                  successHandler:(id)successHandler
                     failHandler:(id)failHandler {
     if ((self = [self initWithSession:session path:path data:data])) {
+        self.progressHandler = progressHandler;
         self.successHandler = successHandler;
         self.failHandler = failHandler;
     }
     
     return self;
 }
+
+#pragma mark - delegate helpers
+
+- (void)didSendBytes:(NSInteger)recentCount bytesSent:(NSInteger)totalCount {
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([weakSelf.delegate respondsToSelector:@selector(uploadTaskForFileAtPath:data:progressHandler:completionHandler:failHandler:)]) {
+            [weakSelf.delegate uploadTask:self didSendBytes:recentCount totalBytesSent:totalCount totalBytesExpectedToSend:weakSelf.data.length];
+        }
+        if (weakSelf.progressHandler) {
+            weakSelf.progressHandler(totalCount, weakSelf.data.length);
+        }
+    });
+}
+
+- (void)didFinish {
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([weakSelf.delegate respondsToSelector:@selector(uploadTaskDidFinishUploading:)]) {
+            [weakSelf.delegate uploadTaskDidFinishUploading:self];
+        }
+        if (weakSelf.successHandler) {
+            weakSelf.successHandler();
+        }
+    });
+}
+
+#pragma mark - task
 
 - (void)performTaskWithOperation:(NSBlockOperation * _Nonnull __weak)weakOperation {
     if (weakOperation.isCancelled)
@@ -129,11 +159,6 @@
     
     //Get the file info we'll be working off
     self.file = [self requestFileForItemAtPath:formattedPath inTree:treeID];
-    if (self.file == nil) {
-        [self didFailWithError:errorForErrorCode(TOSMBSessionErrorCodeFileNotFound)];
-        self.cleanupBlock(treeID, fileID);
-        return;
-    }
     
     if (weakOperation.isCancelled) {
         self.cleanupBlock(treeID, fileID);
@@ -167,6 +192,7 @@
     size_t uploadBufferLimit = MIN(bufferSize, 65471);
     
     ssize_t bytesWritten = 0;
+    ssize_t totalBytesWritten = 0;
     
     do {
         bytesWritten = smb_fwrite(self.smbSession, fileID, buffer, uploadBufferLimit);
@@ -175,7 +201,11 @@
             [self didFailWithError:errorForErrorCode(TOSMBSessionErrorCodeFileDownloadFailed)];
             break;
         }
-    } while (bytesWritten > 0);
+        totalBytesWritten += bytesWritten;
+        [self didSendBytes:bytesWritten bytesSent:totalBytesWritten];
+    } while (totalBytesWritten < bufferSize);
+    
+    [self didFinish];
 }
 
 

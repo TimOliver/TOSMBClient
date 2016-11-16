@@ -37,6 +37,7 @@
 - (instancetype)initWithSession:(TOSMBSession *)session
                            path:(NSString *)path
                            data:(NSData *)data
+                progressHandler:(id)progressHandler
                  successHandler:(id)successHandler
                     failHandler:(id)failHandler;
 

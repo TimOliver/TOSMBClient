@@ -53,6 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** Feedback handlers */
 @property (nonatomic, weak) id<TOSMBSessionTaskDelegate> delegate;
+@property (nonatomic, copy) void (^progressHandler)(uint64_t totalBytesWritten, uint64_t totalBytesExpected);
 @property (nonatomic, copy) void (^failHandler)(NSError *error);
 
 - (instancetype)initWithSession:(TOSMBSession *)session;

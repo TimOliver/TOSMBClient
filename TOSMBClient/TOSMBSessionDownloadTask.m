@@ -42,8 +42,6 @@
 
 /** Feedback handlers */
 @property (nonatomic, weak) id<TOSMBSessionDownloadTaskDelegate> delegate;
-
-@property (nonatomic, copy) void (^progressHandler)(uint64_t totalBytesWritten, uint64_t totalBytesExpected);
 @property (nonatomic, copy) void (^successHandler)(NSString *filePath);
 
 /* File Path Methods */
@@ -92,7 +90,7 @@
         _sourceFilePath = filePath;
         _destinationFilePath = destinationPath.length ? destinationPath : [self documentsDirectory];
         
-        _progressHandler = progressHandler;
+        self.progressHandler = progressHandler;
         _successHandler = successHandler;
         self.failHandler = failHandler;
         
