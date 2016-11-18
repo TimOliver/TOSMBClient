@@ -35,7 +35,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol TOSMBSessionTaskSubclass <NSObject>
+@protocol TOSMBSessionConcreteTask <NSObject>
 
 - (void)performTaskWithOperation:(__weak NSBlockOperation *)weakOperation;
 
