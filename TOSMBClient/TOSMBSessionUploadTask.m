@@ -205,6 +205,8 @@
         [self didSendBytes:bytesWritten bytesSent:totalBytesWritten];
     } while (totalBytesWritten < bufferSize);
     
+    free(buffer);
+    
     [self didFinish];
 }
 
