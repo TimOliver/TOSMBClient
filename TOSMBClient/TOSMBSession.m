@@ -23,33 +23,16 @@
 #import <arpa/inet.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 
-#import "TOSMBSession.h"
+#import "TOSMBSessionPrivate.h"
 #import "TOSMBSessionFile.h"
 #import "TOSMBSessionFilePrivate.h"
 #import "TONetBIOSNameService.h"
-#import "TOSMBSessionDownloadTask.h"
+#import "TOSMBSessionDownloadTaskPrivate.h"
+#import "TOSMBSessionUploadTaskPrivate.h"
 
 #import "smb_session.h"
 #import "smb_share.h"
 #import "smb_stat.h"
-
-@interface TOSMBSessionDownloadTask ()
-
-- (instancetype)initWithSession:(TOSMBSession *)session
-                       filePath:(NSString *)filePath
-                destinationPath:(NSString *)destinationPath
-                       delegate:(id<TOSMBSessionDownloadTaskDelegate>)delegate;
-
-- (instancetype)initWithSession:(TOSMBSession *)session
-                       filePath:(NSString *)filePath
-                destinationPath:(NSString *)destinationPath
-                progressHandler:(id)progressHandler
-                 successHandler:(id)successHandler
-                    failHandler:(id)failHandler;
-
-- (NSBlockOperation *)downloadOperation;
-
-@end
 
 @interface TOSMBSession ()
 
@@ -59,16 +42,17 @@
 /* 1 == Guest, 0 == Logged in, -1 == Logged out */
 @property (nonatomic, assign, readwrite) NSInteger guest;
 
-@property (nonatomic, strong) NSOperationQueue *dataQueue; /* Operation queue for asynchronous data requests. */
-@property (nonatomic, strong) NSOperationQueue *downloadsQueue; /* Operation queue for file downloads. */
+@property (nonatomic, strong, null_resettable) NSOperationQueue *dataQueue; /* Operation queue for asynchronous data requests. */
+@property (nonatomic, strong, null_resettable) NSOperationQueue *taskQueue; /* Operation queue for task. */
 
-@property (nonatomic, strong, readwrite) NSArray *downloadTasks;
+@property (nonatomic, strong) NSArray <TOSMBSessionDownloadTask *> *downloadTasks;
+@property (nonatomic, strong) NSArray <TOSMBSessionUploadTask *> *uploadTasks;
 
 @property (nonatomic, strong) NSDate *lastRequestDate;
 
 @property (nonatomic, assign, readwrite) BOOL connected;
 
-@property (readonly) dispatch_queue_t serialQueue;
+@property (nonatomic, readwrite) dispatch_queue_t serialQueue;
 
 /* Connection/Authentication handling */
 - (BOOL)deviceIsOnWiFi;
@@ -79,10 +63,6 @@
 - (NSString *)shareNameFromPath:(NSString *)path;
 - (NSString *)filePathExcludingSharePathFromPath:(NSString *)path;
 
-/* Asynchronous operation management */
-- (void)setupDataQueue;
-- (void)setupDownloadQueue;
-
 @end
 
 @implementation TOSMBSession
@@ -91,7 +71,7 @@
 - (instancetype)init
 {
     if (self = [super init]) {
-        _maxDownloadOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount;
+        _maxTaskOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount;
         _session = smb_session_new();
         _serialQueue = dispatch_queue_create(nil, DISPATCH_QUEUE_SERIAL);
         if (_session == NULL) {
@@ -361,9 +341,6 @@
 
 - (void)requestContentsOfDirectoryAtFilePath:(NSString *)path success:(void (^)(NSArray *))successHandler error:(void (^)(NSError *))errorHandler
 {
-    //setup operation queue as needed
-    [self setupDataQueue];
-    
     NSBlockOperation *operation = [[NSBlockOperation alloc] init];
     
     __weak typeof(self) weakSelf = self;
@@ -395,14 +372,12 @@
 - (void)cancelAllRequests
 {
     [self.dataQueue cancelAllOperations];
-    [self.downloadsQueue cancelAllOperations];
+    [self.taskQueue cancelAllOperations];
 }
 
 #pragma mark - Download Tasks -
 - (TOSMBSessionDownloadTask *)downloadTaskForFileAtPath:(NSString *)path destinationPath:(NSString *)destinationPath delegate:(id<TOSMBSessionDownloadTaskDelegate>)delegate
 {
-    [self setupDownloadQueue];
-    
     TOSMBSessionDownloadTask *task = [[TOSMBSessionDownloadTask alloc] initWithSession:self filePath:path destinationPath:destinationPath delegate:delegate];
     self.downloadTasks = [self.downloadTasks ? : @[] arrayByAddingObjectsFromArray:@[task]];
     return task;
@@ -414,30 +389,23 @@
                                       completionHandler:(void (^)(NSString *filePath))completionHandler
                                             failHandler:(void (^)(NSError *error))failHandler
 {
-    [self setupDownloadQueue];
-    
     TOSMBSessionDownloadTask *task = [[TOSMBSessionDownloadTask alloc] initWithSession:self filePath:path destinationPath:destinationPath progressHandler:progressHandler successHandler:completionHandler failHandler:failHandler];
     self.downloadTasks = [self.downloadTasks ? : @[] arrayByAddingObjectsFromArray:@[task]];
     return task;
 }
 
-#pragma mark - Concurrency Management -
-- (void)setupDataQueue
-{
-    if (self.dataQueue)
-        return;
+#pragma mark - Upload Tasks -
+- (TOSMBSessionUploadTask *)uploadTaskForFileAtPath:(NSString *)path data:(NSData *)data progressHandler:(void (^)(uint64_t, uint64_t))progressHandler completionHandler:(void (^)())completionHandler failHandler:(void (^)(NSError *))failHandler {
+    TOSMBSessionUploadTask *task = [[TOSMBSessionUploadTask alloc] initWithSession:self
+                                                                              path:path
+                                                                              data:data
+                                                                   progressHandler:progressHandler
+                                                                    successHandler:completionHandler
+                                                                       failHandler:failHandler];
     
-    self.dataQueue = [[NSOperationQueue alloc] init];
-    self.dataQueue.maxConcurrentOperationCount = 1;
-}
-
-- (void)setupDownloadQueue
-{
-    if (self.downloadsQueue)
-        return;
+    self.uploadTasks = [self.uploadTasks ?: @[] arrayByAddingObject:task];
     
-    self.downloadsQueue = [[NSOperationQueue alloc] init];
-    self.downloadsQueue.maxConcurrentOperationCount = self.maxDownloadOperationCount;
+    return task;
 }
 
 #pragma mark - String Parsing -
@@ -493,11 +461,43 @@
     return smb_session_is_guest(self.session);
 }
 
+- (NSOperationQueue *)dataQueue
+{
+    if (!_dataQueue) {
+        _dataQueue = [[NSOperationQueue alloc] init];
+        _dataQueue.maxConcurrentOperationCount = 1;
+    }
+    
+    return _dataQueue;
+}
+
+- (NSOperationQueue *)taskQueue
+{
+    if (!_taskQueue) {
+        _taskQueue = [[NSOperationQueue alloc] init];
+        _taskQueue.maxConcurrentOperationCount = self.maxTaskOperationCount;
+    }
+    
+    return _taskQueue;
+}
+
+- (void)setMaxTaskOperationCount:(NSInteger)maxTaskOperationCount {
+    _maxTaskOperationCount = maxTaskOperationCount;
+    
+    self.taskQueue.maxConcurrentOperationCount = maxTaskOperationCount;
+}
+
+@end
+
+@implementation TOSMBSession (Deprecated)
+
+- (NSInteger)maxDownloadOperationCount {
+    return self.maxTaskOperationCount;
+}
+
 - (void)setMaxDownloadOperationCount:(NSInteger)maxDownloadOperationCount
 {
-    _maxDownloadOperationCount = maxDownloadOperationCount;
-    
-    self.downloadsQueue.maxConcurrentOperationCount = maxDownloadOperationCount;
+    self.maxTaskOperationCount = maxDownloadOperationCount;
 }
 
 @end

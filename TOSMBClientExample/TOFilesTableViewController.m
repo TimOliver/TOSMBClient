@@ -14,6 +14,7 @@
 
 @property (nonatomic, copy) NSString *directoryTitle;
 @property (nonatomic, strong) TOSMBSession *session;
+@property (nonatomic, strong) TOSMBSessionUploadTask *uploadTask;
 
 @end
 
@@ -33,6 +34,39 @@
     [super viewDidLoad];
     
     self.navigationItem.title = @"Loading...";
+    
+    if (self.path.length) {
+        UIBarButtonItem *uploadButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(upload:)];
+        self.navigationItem.rightBarButtonItems = @[self.navigationItem.rightBarButtonItems.firstObject, uploadButton];
+    }
+}
+
+- (void)upload:(id)sender {
+    self.navigationItem.rightBarButtonItems.lastObject.enabled = NO;
+    NSString *path = [[self.path stringByAppendingPathComponent:[NSUUID UUID].UUIDString] stringByAppendingPathExtension:@"txt"];
+    NSData *data = [path dataUsingEncoding:NSUTF8StringEncoding];
+    
+    __weak typeof(self) weakSelf = self;
+    self.uploadTask = [self.session uploadTaskForFileAtPath:path data:data progressHandler:nil completionHandler:^{
+        [weakSelf reloadData];
+        weakSelf.navigationItem.rightBarButtonItems.lastObject.enabled = YES;
+    } failHandler:^(NSError *error) {
+        weakSelf.navigationItem.rightBarButtonItems.lastObject.enabled = YES;
+    }];
+    
+    [self.uploadTask resume];
+}
+
+- (void)reloadData {
+    __weak typeof(self) weakSelf = self;
+    [self.session requestContentsOfDirectoryAtFilePath:self.path success:^(NSArray *files) {
+        weakSelf.files = files;
+        [weakSelf.tableView reloadData];
+    } error:^(NSError *error) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"SMB Client Error" message:error.localizedDescription delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+        [alert show];
+    }];
+    
 }
 
 #pragma mark - Table view data source
@@ -68,7 +102,8 @@
     
     TOFilesTableViewController *controller = [[TOFilesTableViewController alloc] initWithSession:self.session title:file.name];
     controller.rootController = self.rootController;
-    controller.navigationItem.rightBarButtonItem = self.navigationItem.rightBarButtonItem;
+    controller.path = file.filePath;
+    controller.navigationItem.rightBarButtonItems = self.navigationItem.rightBarButtonItems;
     [self.navigationController pushViewController:controller animated:YES];
     
     [self.session requestContentsOfDirectoryAtFilePath:file.filePath success:^(NSArray *files) {
@@ -79,10 +114,11 @@
     }];
 }
 
-- (void)setFiles:(NSArray *)files
+- (void)setFiles:(NSArray <TOSMBSessionFile *> *)files
 {
     _files = files;
     self.navigationItem.title = self.directoryTitle;
+    
     [self.tableView reloadData];
 }
          

@@ -24,6 +24,8 @@
 #import "TOSMBConstants.h"
 
 @class TOSMBSessionDownloadTask;
+@class TOSMBSessionUploadTask;
+
 @protocol TOSMBSessionDownloadTaskDelegate;
 
 @interface TOSMBSession : NSObject
@@ -37,11 +39,15 @@
 @property (nonatomic, readonly) BOOL connected;
 @property (nonatomic, readonly) NSInteger guest;
 
-@property (nonatomic, readonly) NSArray *downloadTasks;
+@property (nonatomic, readonly) NSArray <TOSMBSessionDownloadTask *> *downloadTasks;
+@property (nonatomic, readonly) NSArray <TOSMBSessionUploadTask *> *uploadTasks;
 
-/** Defines the number of concurrent download operations. Default:
+@property (nonatomic, readonly) dispatch_queue_t serialQueue;
+@property (nonatomic, readonly) NSOperationQueue *taskQueue;
+
+/** Defines the number of concurrent task operations. Default:
  * NSOperationQueueDefaultMaxConcurrentOperationCount. */
-@property (nonatomic) NSInteger maxDownloadOperationCount;
+@property (nonatomic) NSInteger maxTaskOperationCount;
 
 /**
  Creates a new SMB object, but doesn't try to connect until the first request is made.
@@ -122,6 +128,27 @@
                                         destinationPath:(NSString *)destinationPath
                                         progressHandler:(void (^)(uint64_t totalBytesWritten, uint64_t totalBytesExpected))progressHandler
                                       completionHandler:(void (^)(NSString *filePath))completionHandler
-                                            failHandler:(void (^)(NSError *error))error;
+                                            failHandler:(void (^)(NSError *error))failHandler;
+/**
+ Creates an upload task object for asynchronously uploading a file to disk.
+ 
+ @param path The destination path (Either just the directory, or even a new name) for this file.
+ @param data The path on the SMB device for the file to download.
+ @param completionHandler A block called once the download has completed.
+ @param failHandler A block called if the download fails
+ 
+ @return An upload task object ready to be started, or nil upon failure.
+ */
+- (TOSMBSessionUploadTask *)uploadTaskForFileAtPath:(NSString *)path
+                                               data:(NSData *)data
+                                    progressHandler:(void (^)(uint64_t totalBytesWritten, uint64_t totalBytesExpected))progressHandler
+                                  completionHandler:(void (^)())completionHandler
+                                        failHandler:(void (^)(NSError *error))failHandler;
+
+@end
+
+@interface TOSMBSession (Deprecated)
+
+@property (nonatomic) NSInteger maxDownloadOperationCount __deprecated_msg("Use maxTaskOperationCount instead");
 
 @end
