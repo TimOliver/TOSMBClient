@@ -1,0 +1,57 @@
+> Thanks for considering filing an issue! Before proceeding, please consider
+> the type of issue you're filing and make sure to supply the proper details 
+> needed for it! :)
+>
+> Please note that your issue may be closed without review if you do not supply 
+> the information that is requested here.
+>
+> ---
+> 
+> Please note that this library is built upon `libdsm`, which is a wholly separate third party library.
+> 
+> Before submitting, please check that your issue is related to `TOSMBClient`, and isn't a `libdsm` issue.
+>
+> ---
+>
+> **Questions**: Please check the closed issues to see if it's already been asked
+> before.
+>
+> **Feature Request**: Please fill in just the first two sections. Please be as thorough 
+> as possible and explain how you would expect this feature to work both visually, and from an
+> API perspective.
+>
+> **Bugs**: Please be as thorough as possible when describe the bug you've discovered. If it's 
+> a visual bug, please add a screenshot. If it's an animation bug, please provide a recording 
+> of the bug in action.
+>
+> ---
+>
+> Please note that since library is done as a side-project outside of work hours, 
+> a timely response cannot be guaranteed. ;)
+>
+> Please remove this line and everything above it before submitting. 
+
+## Hardware / Software
+
+Which version of the library were you using?
+Which version of iOS are you running?
+What model of iOS device were you testing on?
+If using CocoaPods, which version of CocoaPods are you on?
+
+## Goals
+
+What is the outcome result you want to achieve with this library?
+
+## Expected Results
+
+What did you expect to happen?
+
+## Actual Results
+
+What happened instead?  (Please attach a screenshot/screen recording if possible)
+
+## Steps to Reproduce
+
+What are the steps needed to reproduce this issue?
+If this bug was caused by a specific image, please post it here.
+
