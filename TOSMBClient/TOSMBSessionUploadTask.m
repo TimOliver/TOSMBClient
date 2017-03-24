@@ -189,13 +189,19 @@
     NSUInteger bufferSize = self.data.length;
     void *buffer = malloc(bufferSize);
     [self.data getBytes:buffer length:bufferSize];
-    size_t uploadBufferLimit = MIN(bufferSize, 65471);
+    // change the limit size to 63488(62KB)
+    // (if still crash, change the limit size < 63488)
+    size_t uploadBufferLimit = MIN(bufferSize, 63488);
     
     ssize_t bytesWritten = 0;
     ssize_t totalBytesWritten = 0;
     
     do {
-        bytesWritten = smb_fwrite(self.smbSession, fileID, buffer, uploadBufferLimit);
+        // change the the size of last part
+        if (bufferSize - totalBytesWritten < uploadBufferLimit) {
+            uploadBufferLimit = bufferSize - totalBytesWritten;
+        }
+        bytesWritten = smb_fwrite(self.smbSession, fileID, buffer+totalBytesWritten, uploadBufferLimit);
         if (bytesWritten < 0) {
             [self fail];
             [self didFailWithError:errorForErrorCode(TOSMBSessionErrorCodeFileDownloadFailed)];
