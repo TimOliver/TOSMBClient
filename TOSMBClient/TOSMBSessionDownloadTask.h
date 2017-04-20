@@ -1,6 +1,6 @@
 //
 // TOSMBDownloadTask.h
-// Copyright 2015-2016 Timothy Oliver
+// Copyright 2015-2017 Timothy Oliver
 //
 // This file is dual-licensed under both the MIT License, and the LGPL v2.1 License.
 //
