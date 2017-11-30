@@ -58,3 +58,8 @@ Depending on which license you are using for libDSM, `TOSMBClient` is available 
 
 For the LGPL v2.1 licensed version of libDSM, `TOSMBClient` is also available under the same license. 
 For the commercially licensed version of Defective SMb, `TOSMBClient` is available under the MIT license. ![analytics](https://ga-beacon.appspot.com/UA-5643664-16/TOSMBClient/README.md?pixel)
+
+## Support on Beerpay
+Hey dude! Help me out for a couple of :beers:!
+
+[![Beerpay](https://beerpay.io/TimOliver/TOSMBClient/badge.svg?style=beer-square)](https://beerpay.io/TimOliver/TOSMBClient)  [![Beerpay](https://beerpay.io/TimOliver/TOSMBClient/make-wish.svg?style=flat-square)](https://beerpay.io/TimOliver/TOSMBClient?focus=wish)
