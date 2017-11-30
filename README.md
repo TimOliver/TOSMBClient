@@ -1,4 +1,8 @@
 # TOSMBClient
+
+[![Beerpay](https://beerpay.io/TimOliver/TOSMBClient/badge.svg?style=flat)](https://beerpay.io/TimOliver/TOSMBClient)
+[![PayPal](https://img.shields.io/badge/paypal-donate-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=M4RKULAVKV7K8)
+
 `TOSMBClient` is a small library that serves as a simple SMB ([Server Message Block](https://en.wikipedia.org/wiki/Server_Message_Block) ) client for iOS apps. The library allows connecting to SMB devices, downloading file metadata, and subsequently allows asynchronous downloading of files from an SMB device straight to an iOS device.
 
 It is an Objective-C wrapper around [Defective SMb](http://videolabs.github.io/libdsm), or libDSM, a low level SMB client library built in C built by some of VideoLabs' developers. A copy of libDSM has been specially cross-compiled for iOS device architectures and embedded in this library, so this project has no external dependencies.
@@ -58,8 +62,3 @@ Depending on which license you are using for libDSM, `TOSMBClient` is available 
 
 For the LGPL v2.1 licensed version of libDSM, `TOSMBClient` is also available under the same license. 
 For the commercially licensed version of Defective SMb, `TOSMBClient` is available under the MIT license. ![analytics](https://ga-beacon.appspot.com/UA-5643664-16/TOSMBClient/README.md?pixel)
-
-## Support on Beerpay
-Hey dude! Help me out for a couple of :beers:!
-
-[![Beerpay](https://beerpay.io/TimOliver/TOSMBClient/badge.svg?style=beer-square)](https://beerpay.io/TimOliver/TOSMBClient)  [![Beerpay](https://beerpay.io/TimOliver/TOSMBClient/make-wish.svg?style=flat-square)](https://beerpay.io/TimOliver/TOSMBClient?focus=wish)
