@@ -46,7 +46,7 @@
  * call smb_session_connect, then authenticate with smb_authenticate.
  * @return A new Session object.
  */
-smb_session     *smb_session_new();
+smb_session     *smb_session_new(void);
 
 /**
  * @brief Close a session and deallocate its ressources

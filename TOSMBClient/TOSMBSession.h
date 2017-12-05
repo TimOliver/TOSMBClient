@@ -142,7 +142,7 @@
 - (TOSMBSessionUploadTask *)uploadTaskForFileAtPath:(NSString *)path
                                                data:(NSData *)data
                                     progressHandler:(void (^)(uint64_t totalBytesWritten, uint64_t totalBytesExpected))progressHandler
-                                  completionHandler:(void (^)())completionHandler
+                                  completionHandler:(void (^)(void))completionHandler
                                         failHandler:(void (^)(NSError *error))failHandler;
 
 @end

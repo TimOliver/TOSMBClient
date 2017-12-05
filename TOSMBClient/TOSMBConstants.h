@@ -27,15 +27,15 @@ extern NSString * const TOSMBClientErrorDomain;
 /** SMB Error Values */
 typedef NS_ENUM(NSInteger, TOSMBSessionErrorCode)
 {
-    TOSMBSessionErrorCodeUnknown = 0,                               /* Error code was not specified. */
-    TOSMBSessionErrorNotOnWiFi = 1000,                              /* The device isn't presently connected to a local network. */
-    TOSMBSessionErrorCodeUnableToResolveAddress = 1001,             /* Not enough connection information to resolve was supplied. */
-    TOSMBSessionErrorCodeUnableToConnect = 1002,                    /* The connection attempt failed. */
-    TOSMBSessionErrorCodeAuthenticationFailed = 1003,               /* The username/password failed (And guest login is not available) */
-    TOSMBSessionErrorCodeShareConnectionFailed = 1004,              /* Connection attempt to a share in the device failed. */
-    TOSMBSessionErrorCodeFileNotFound = 1005,                       /* Unable to locate the requested file. */
-    TOSMBSessionErrorCodeDirectoryDownloaded = 1006,                /* A directory was attempted to be downloaded. */
-    TOSMBSessionErrorCodeFileDownloadFailed = 1007,                /* The file could not be downloaded, possible network error. */
+    TOSMBSessionErrorCodeUnknown = 0,                    /* Error code was not specified. */
+    TOSMBSessionErrorNotOnWiFi = 1000,                   /* The device isn't presently connected to a local network. */
+    TOSMBSessionErrorCodeUnableToResolveAddress = 1001,  /* Not enough connection information to resolve was supplied. */
+    TOSMBSessionErrorCodeUnableToConnect = 1002,         /* The connection attempt failed. */
+    TOSMBSessionErrorCodeAuthenticationFailed = 1003,    /* The username/password failed (And guest login is not available) */
+    TOSMBSessionErrorCodeShareConnectionFailed = 1004,   /* Connection attempt to a share in the device failed. */
+    TOSMBSessionErrorCodeFileNotFound = 1005,            /* Unable to locate the requested file. */
+    TOSMBSessionErrorCodeDirectoryDownloaded = 1006,     /* A directory was attempted to be downloaded. */
+    TOSMBSessionErrorCodeFileDownloadFailed = 1007,      /* The file could not be downloaded, possible network error. */
 
 };
 

@@ -31,7 +31,7 @@
 @property (nonatomic, strong) TOSMBSessionFile *file;
 
 @property (nonatomic, weak) id <TOSMBSessionUploadTaskDelegate> delegate;
-@property (nonatomic, copy) void (^successHandler)();
+@property (nonatomic, copy) void (^successHandler)(void);
 
 @end
 

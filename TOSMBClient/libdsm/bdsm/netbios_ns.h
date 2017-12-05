@@ -80,7 +80,7 @@ char                netbios_ns_entry_type(netbios_ns_entry *entry);
  * @return A newly allocated netbios_ns ready for querying.
  * Deallocate with netbios_ns_destroy().
  */
-netbios_ns    *netbios_ns_new();
+netbios_ns    *netbios_ns_new(void);
 
 /**
  * @brief Destroy the netbios name service object
