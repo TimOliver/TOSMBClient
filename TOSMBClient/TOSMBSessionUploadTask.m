@@ -81,7 +81,7 @@
 - (void)didSendBytes:(NSInteger)recentCount bytesSent:(NSInteger)totalCount {
     __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
-        if ([weakSelf.delegate respondsToSelector:@selector(uploadTaskForFileAtPath:data:progressHandler:completionHandler:failHandler:)]) {
+        if ([weakSelf.delegate respondsToSelector:@selector(uploadTask:didSendBytes:totalBytesSent:totalBytesExpectedToSend:)]) {
             [weakSelf.delegate uploadTask:self didSendBytes:recentCount totalBytesSent:totalCount totalBytesExpectedToSend:weakSelf.data.length];
         }
         if (weakSelf.progressHandler) {
