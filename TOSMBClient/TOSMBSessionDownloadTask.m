@@ -293,8 +293,8 @@
     //Next attach to the share we'll be using
     NSString *shareName = [self.session shareNameFromPath:self.sourceFilePath];
     const char *shareCString = [shareName cStringUsingEncoding:NSUTF8StringEncoding];
-    smb_tree_connect(self.smbSession, shareCString, &treeID);
-    if (!treeID) {
+    
+    if (smb_tree_connect(self.smbSession, shareCString, &treeID) != 0) {
         [self didFailWithError:errorForErrorCode(TOSMBSessionErrorCodeShareConnectionFailed)];
         self.cleanupBlock(treeID, fileID);
         return;
