@@ -289,8 +289,7 @@
     //If not, make a new connection
     const char *cStringName = [shareName cStringUsingEncoding:NSUTF8StringEncoding];
     smb_tid shareID = -1;
-    smb_tree_connect(self.session, cStringName, &shareID);
-    if (shareID < 0) {
+    if (smb_tree_connect(self.session, cStringName, &shareID) != 0) {
         if (error) {
             resultError = errorForErrorCode(TOSMBSessionErrorCodeShareConnectionFailed);
             *error = resultError;
