@@ -20,6 +20,9 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 // -------------------------------------------------------------------------------
 
+#ifndef _TOSMBCLIENT_CONSTANTS_H
+#define _TOSMBCLIENT_CONSTANTS_H
+
 #import <Foundation/Foundation.h>
 
 extern NSString * const TOSMBClientErrorDomain;
@@ -66,6 +69,8 @@ typedef NS_ENUM(NSUInteger, TOSMBSessionTaskState) {
     TOSMBSessionTaskStateCompleted,
     TOSMBSessionTaskStateFailed
 };
+
+#endif
 
 extern TONetBIOSNameServiceType TONetBIOSNameServiceTypeForCType(char type);
 extern char TONetBIOSNameServiceCTypeForType(char type);

@@ -37,8 +37,6 @@ FOUNDATION_EXPORT const unsigned char TOSMBClientVersionString[];
 #import "TONetBIOSNameService.h"
 #import "TONetBIOSNameServiceEntry.h"
 
-#import "TOSMBConstants.h"
-
 #import "TOSMBSession.h"
 #import "TOSMBSessionFile.h"
 #import "TOSMBSessionDownloadTask.h"
