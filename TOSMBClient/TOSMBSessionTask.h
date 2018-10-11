@@ -32,7 +32,7 @@
 /**
  Delegate event that is called when the file did not successfully complete.
  
- @param downloadTask The download task object calling this delegate method.
+ @param task  The download task object calling this delegate method.
  @param error The error describing why the task failed.
  */
 - (void)task:(TOSMBSessionTask *)task didCompleteWithError:(NSError *)error;

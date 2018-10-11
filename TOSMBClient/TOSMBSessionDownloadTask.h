@@ -45,8 +45,8 @@
  
  @param downloadTask The download task object calling this delegate method.
  @param bytesWritten The number of bytes written in this particular iteration
- @param totalBytesWrite The total number of bytes written to disk so far
- @param totalBytesTowWrite The expected number of bytes encompassing this entire file
+ @param totalBytesReceived The total number of bytes written to disk so far
+ @param totalBytesToReceive The expected number of bytes encompassing this entire file
  */
 - (void)downloadTask:(TOSMBSessionDownloadTask *)downloadTask
        didWriteBytes:(uint64_t)bytesWritten
@@ -58,7 +58,7 @@ totalBytesExpectedToReceive:(int64_t)totalBytesToReceive;
  
  @param downloadTask The download task object calling this delegate method.
  @param byteOffset The byte offset at which the download resumed.
- @param totalBytesToWrite The number of bytes expected to write for this entire file.
+ @param totalBytesToReceive The number of bytes expected to write for this entire file.
  */
 - (void)downloadTask:(TOSMBSessionDownloadTask *)downloadTask
    didResumeAtOffset:(uint64_t)byteOffset

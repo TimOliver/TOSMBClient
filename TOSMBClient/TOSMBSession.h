@@ -56,12 +56,31 @@
  NetBIOS, but whereever possible, you should endeavour to supply both values on instantiation.
  
  @param name The host name of the network device
+ @return A new instance of a session object
+  */
+- (instancetype)initWithHostName:(NSString *)name;
+
+/**
+ Creates a new SMB object, but doesn't try to connect until the first request is made.
+ For a successful connection, most devices require both the host name and the IP address.
+ If only one of these two values is supplied, this library will attempt to resolve the other via
+ NetBIOS, but whereever possible, you should endeavour to supply both values on instantiation.
+ 
  @param address The IP address of the network device
  @return A new instance of a session object
- 
  */
-- (instancetype)initWithHostName:(NSString *)name;
 - (instancetype)initWithIPAddress:(NSString *)address;
+
+/**
+ Creates a new SMB object, but doesn't try to connect until the first request is made.
+ For a successful connection, most devices require both the host name and the IP address.
+ If only one of these two values is supplied, this library will attempt to resolve the other via
+ NetBIOS, but whereever possible, you should endeavour to supply both values on instantiation.
+ 
+ @param name The host name of the network device
+ @param ipAddress The IP address of the network device
+ @return A new instance of a session object
+ */
 - (instancetype)initWithHostName:(NSString *)name ipAddress:(NSString *)ipAddress;
 
 /**
@@ -86,8 +105,7 @@
  Performs an asynchronous request for a list of files from the network device for the given file path.
  
  @param path The file path to request. Supplying nil or "" will reuest the root list of share folders
- @param error A pointer to an NSError object that will be non-nil if an error occurs.
- @return An NSArray of TOSMBFile objects describing the contents of the file path
+ @param errorHandler A error handler taking oen argument  NSError object that will be non-nil if an error occurs.
  */
 - (void)requestContentsOfDirectoryAtFilePath:(NSString *)path success:(void (^)(NSArray *files))successHandler error:(void (^)(NSError *))errorHandler;
 

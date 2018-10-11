@@ -47,7 +47,7 @@
  *
  * @param[in] s The session object
  * @param[out] list A pointer to an opaque share_list object.
- * @param[out] pointer to the number of elements in the list
+ * @param[out] p_count A pointer to the number of elements in the list
  *
  * @return 0 on success or a DSM error code in case of error
  */
