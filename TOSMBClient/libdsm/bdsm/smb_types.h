@@ -48,22 +48,21 @@
 # define off_t off64_t
 #endif
 /**
-  * @struct smb_tid
   * @brief The id of a connection to a share within a session.
   */
 typedef uint16_t    smb_tid;
 
 /**
-  * @struct smb_fid
   * @brief The id of a file within a share within a session.
   */
 typedef uint16_t    smb_fid;
 
-// Concatenation of the two above, representing a file inside of a session
-// First 4 bytes are the TreeID (smb_tid), last 4 are the File ID (FUID)
-// A map between smb_fd and smb_file is maintained inside each session
-/** @struct smb_fd
+/**
   * @brief SMB File descriptor, represents a file within a session.
+  *
+  * Concatenation of `smb_tid` and `smb_fid`, representing a file inside of a session
+  * First 4 bytes are the TreeID (smb_tid), last 4 are the File ID (FUID)
+  * A map between smb_fd and smb_file is maintained inside each session
   */
 typedef uint32_t    smb_fd;
 
@@ -82,7 +81,6 @@ typedef struct
 typedef struct smb_session smb_session;
 
 /**
- * @struct smb_share_list
  * @brief An opaque object representing the list of share of a SMB file server.
  */
 typedef char  **smb_share_list;
@@ -93,13 +91,11 @@ typedef char  **smb_share_list;
 typedef struct smb_file smb_file;
 
 /**
- * @struct smb_stat_list
  * @brief An opaque structure containing a list of file status
  */
 typedef smb_file *smb_stat_list;
 
 /**
- * @struct smb_stat
  * @brief An opaque structure containing info about a file
  */
 typedef smb_file *smb_stat;
