@@ -22,7 +22,7 @@
 
 #import "TOSMBSessionFile.h"
 #import "TOSMBSessionFilePrivate.h"
-#import "smb_stat.h"
+#import <bdsm.h>
 
 @interface TOSMBSessionFile ()
 

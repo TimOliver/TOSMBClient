@@ -28,76 +28,13 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-/**
- * @file smb_types.h
- * @brief liBDSM types and structures
- */
+#ifndef _BDSM_NETBIOS_DEFS_H_
+#define _BDSM_NETBIOS_DEFS_H_
 
-#ifndef __BDSM_SMB_TYPES_H_
-#define __BDSM_SMB_TYPES_H_
-
-#include <stddef.h>
-#include <stdint.h>
-
-#define _FILE_OFFSET_BITS 64
-
-#include "libtasn1.h"
-
-#if defined(__ANDROID__)
-# undef  off_t
-# define off_t off64_t
-#endif
-/**
-  * @brief The id of a connection to a share within a session.
-  */
-typedef uint16_t    smb_tid;
-
-/**
-  * @brief The id of a file within a share within a session.
-  */
-typedef uint16_t    smb_fid;
-
-/**
-  * @brief SMB File descriptor, represents a file within a session.
-  *
-  * Concatenation of `smb_tid` and `smb_fid`, representing a file inside of a session
-  * First 4 bytes are the TreeID (smb_tid), last 4 are the File ID (FUID)
-  * A map between smb_fd and smb_file is maintained inside each session
-  */
-typedef uint32_t    smb_fd;
-
-// An structure to store user credentials;
-// login:password@domain (also DOMAIN\login)
-typedef struct
-{
-    char     *domain;
-    char     *login;
-    char     *password;
-}           smb_creds;
-
-/**
- * @brief An opaque data structure to represent a SMB Session.
- */
-typedef struct smb_session smb_session;
-
-/**
- * @brief An opaque object representing the list of share of a SMB file server.
- */
-typedef char  **smb_share_list;
-
-/**
- * @brief An opaque data structure to represent file
- */
-typedef struct smb_file smb_file;
-
-/**
- * @brief An opaque structure containing a list of file status
- */
-typedef smb_file *smb_stat_list;
-
-/**
- * @brief An opaque structure containing info about a file
- */
-typedef smb_file *smb_stat;
+// Netbios name types
+#define NETBIOS_WORKSTATION   0x00
+#define NETBIOS_MESSENGER     0x03
+#define NETBIOS_FILESERVER    0x20
+#define NETBIOS_DOMAINMASTER  0x1b
 
 #endif

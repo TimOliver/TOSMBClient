@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -21,6 +21,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		012ACAE5306CB2F10075BEC8 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 012ACAE4306CB2F10075BEC8 /* SceneDelegate.m */; };
+		012ACB17306CE5DF0075BEC8 /* libtasn1.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 012ACB15306CE5DF0075BEC8 /* libtasn1.xcframework */; };
+		012ACB19306CE5DF0075BEC8 /* libdsm.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 012ACB16306CE5DF0075BEC8 /* libdsm.xcframework */; };
 		2214DCC21B661CD2003E3EF1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2214DCC11B661CD2003E3EF1 /* main.m */; };
 		2214DCC51B661CD2003E3EF1 /* TOAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2214DCC41B661CD2003E3EF1 /* TOAppDelegate.m */; };
 		2214DCC81B661CD2003E3EF1 /* TORootTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2214DCC71B661CD2003E3EF1 /* TORootTableViewController.m */; };
@@ -28,7 +31,6 @@
 		2214DCCD1B661CD2003E3EF1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2214DCCC1B661CD2003E3EF1 /* Images.xcassets */; };
 		2214DCD01B661CD2003E3EF1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2214DCCE1B661CD2003E3EF1 /* LaunchScreen.xib */; };
 		2214DCDC1B661CD2003E3EF1 /* TOSMBClientExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2214DCDB1B661CD2003E3EF1 /* TOSMBClientExampleTests.m */; };
-		2214DCF31B662632003E3EF1 /* libdsm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2214DCF21B662632003E3EF1 /* libdsm.a */; };
 		2214DCF61B666766003E3EF1 /* TONetBIOSNameService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2214DCF51B666766003E3EF1 /* TONetBIOSNameService.m */; };
 		2214DCF91B6678C8003E3EF1 /* TONetBIOSNameServiceEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 2214DCF81B6678C8003E3EF1 /* TONetBIOSNameServiceEntry.m */; };
 		2214DCFC1B66847B003E3EF1 /* TOSMBConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 2214DCFB1B66847B003E3EF1 /* TOSMBConstants.m */; };
@@ -47,23 +49,7 @@
 		227D6F271CBD4ACA000E8A78 /* TOSMBSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 22236CF71B67C2C700176C34 /* TOSMBSession.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		227D6F281CBD4ACA000E8A78 /* TOSMBSessionFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 22301F6E1B6DED2500326F84 /* TOSMBSessionFile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		227D6F291CBD4ACA000E8A78 /* TOSMBSessionDownloadTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 22AE8B861B6F66E4008412CF /* TOSMBSessionDownloadTask.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		227D6F3B1CBD4B67000E8A78 /* libdsm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2214DCF21B662632003E3EF1 /* libdsm.a */; };
-		227D6F3D1CBD4B7C000E8A78 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 227D6F3C1CBD4B7C000E8A78 /* libiconv.tbd */; };
-		227D6F3E1CBD4BE1000E8A78 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 227D6F3C1CBD4B7C000E8A78 /* libiconv.tbd */; };
 		227D6F4C1CBD4EF4000E8A78 /* TOSMBClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 22416F691B712BE7007B8A8B /* TOSMBClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		229EC8691CF3219A0007FE4A /* libtasn1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 229EC8681CF3219A0007FE4A /* libtasn1.a */; };
-		229EC86A1CF3219A0007FE4A /* libtasn1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 229EC8681CF3219A0007FE4A /* libtasn1.a */; };
-		229EC8761CF3240B0007FE4A /* bdsm.h in Headers */ = {isa = PBXBuildFile; fileRef = 229EC86B1CF3240B0007FE4A /* bdsm.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		229EC8771CF3240B0007FE4A /* libtasn1.h in Headers */ = {isa = PBXBuildFile; fileRef = 229EC86C1CF3240B0007FE4A /* libtasn1.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		229EC8781CF3240B0007FE4A /* netbios_defs.h in Headers */ = {isa = PBXBuildFile; fileRef = 229EC86D1CF3240B0007FE4A /* netbios_defs.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		229EC8791CF3240B0007FE4A /* netbios_ns.h in Headers */ = {isa = PBXBuildFile; fileRef = 229EC86E1CF3240B0007FE4A /* netbios_ns.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		229EC87A1CF3240B0007FE4A /* smb_defs.h in Headers */ = {isa = PBXBuildFile; fileRef = 229EC86F1CF3240B0007FE4A /* smb_defs.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		229EC87B1CF3240B0007FE4A /* smb_dir.h in Headers */ = {isa = PBXBuildFile; fileRef = 229EC8701CF3240B0007FE4A /* smb_dir.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		229EC87C1CF3240B0007FE4A /* smb_file.h in Headers */ = {isa = PBXBuildFile; fileRef = 229EC8711CF3240B0007FE4A /* smb_file.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		229EC87D1CF3240B0007FE4A /* smb_session.h in Headers */ = {isa = PBXBuildFile; fileRef = 229EC8721CF3240B0007FE4A /* smb_session.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		229EC87E1CF3240B0007FE4A /* smb_share.h in Headers */ = {isa = PBXBuildFile; fileRef = 229EC8731CF3240B0007FE4A /* smb_share.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		229EC87F1CF3240B0007FE4A /* smb_stat.h in Headers */ = {isa = PBXBuildFile; fileRef = 229EC8741CF3240B0007FE4A /* smb_stat.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		229EC8801CF3240B0007FE4A /* smb_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 229EC8751CF3240B0007FE4A /* smb_types.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		22AE8B881B6F66E4008412CF /* TOSMBSessionDownloadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 22AE8B871B6F66E4008412CF /* TOSMBSessionDownloadTask.m */; };
 		22CB5AEB1B78929B006F05F2 /* TORootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22CB5AEA1B78929B006F05F2 /* TORootViewController.m */; };
 		22FA84951DC098B700634DB7 /* TONetBIOSNameServiceEntryPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 22FA84931DC098B700634DB7 /* TONetBIOSNameServiceEntryPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -87,6 +73,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		012ACAE3306CB2F10075BEC8 /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
+		012ACAE4306CB2F10075BEC8 /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
+		012ACB15306CE5DF0075BEC8 /* libtasn1.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = libtasn1.xcframework; path = Frameworks/libtasn1.xcframework; sourceTree = "<group>"; };
+		012ACB16306CE5DF0075BEC8 /* libdsm.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = libdsm.xcframework; path = Frameworks/libdsm.xcframework; sourceTree = "<group>"; };
 		2214DCBC1B661CD2003E3EF1 /* TOSMBClientExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TOSMBClientExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2214DCC01B661CD2003E3EF1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2214DCC11B661CD2003E3EF1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -100,7 +90,6 @@
 		2214DCD51B661CD2003E3EF1 /* TOSMBClientExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TOSMBClientExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2214DCDA1B661CD2003E3EF1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2214DCDB1B661CD2003E3EF1 /* TOSMBClientExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TOSMBClientExampleTests.m; sourceTree = "<group>"; };
-		2214DCF21B662632003E3EF1 /* libdsm.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libdsm.a; sourceTree = "<group>"; };
 		2214DCF41B666766003E3EF1 /* TONetBIOSNameService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TONetBIOSNameService.h; sourceTree = "<group>"; };
 		2214DCF51B666766003E3EF1 /* TONetBIOSNameService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TONetBIOSNameService.m; sourceTree = "<group>"; };
 		2214DCF71B6678C7003E3EF1 /* TONetBIOSNameServiceEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TONetBIOSNameServiceEntry.h; sourceTree = "<group>"; };
@@ -116,19 +105,6 @@
 		22416F691B712BE7007B8A8B /* TOSMBClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TOSMBClient.h; sourceTree = "<group>"; };
 		227D6F1C1CBD49FE000E8A78 /* TOSMBClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TOSMBClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		227D6F201CBD49FE000E8A78 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		227D6F3C1CBD4B7C000E8A78 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
-		229EC8681CF3219A0007FE4A /* libtasn1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtasn1.a; sourceTree = "<group>"; };
-		229EC86B1CF3240B0007FE4A /* bdsm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bdsm.h; sourceTree = "<group>"; };
-		229EC86C1CF3240B0007FE4A /* libtasn1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libtasn1.h; sourceTree = "<group>"; };
-		229EC86D1CF3240B0007FE4A /* netbios_defs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = netbios_defs.h; sourceTree = "<group>"; };
-		229EC86E1CF3240B0007FE4A /* netbios_ns.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = netbios_ns.h; sourceTree = "<group>"; };
-		229EC86F1CF3240B0007FE4A /* smb_defs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smb_defs.h; sourceTree = "<group>"; };
-		229EC8701CF3240B0007FE4A /* smb_dir.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smb_dir.h; sourceTree = "<group>"; };
-		229EC8711CF3240B0007FE4A /* smb_file.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smb_file.h; sourceTree = "<group>"; };
-		229EC8721CF3240B0007FE4A /* smb_session.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smb_session.h; sourceTree = "<group>"; };
-		229EC8731CF3240B0007FE4A /* smb_share.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smb_share.h; sourceTree = "<group>"; };
-		229EC8741CF3240B0007FE4A /* smb_stat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smb_stat.h; sourceTree = "<group>"; };
-		229EC8751CF3240B0007FE4A /* smb_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = smb_types.h; sourceTree = "<group>"; };
 		22AE8B861B6F66E4008412CF /* TOSMBSessionDownloadTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TOSMBSessionDownloadTask.h; sourceTree = "<group>"; };
 		22AE8B871B6F66E4008412CF /* TOSMBSessionDownloadTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOSMBSessionDownloadTask.m; sourceTree = "<group>"; };
 		22CB5AE91B78929B006F05F2 /* TORootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TORootViewController.h; sourceTree = "<group>"; };
@@ -150,9 +126,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2214DCF31B662632003E3EF1 /* libdsm.a in Frameworks */,
-				229EC8691CF3219A0007FE4A /* libtasn1.a in Frameworks */,
-				227D6F3E1CBD4BE1000E8A78 /* libiconv.tbd in Frameworks */,
+				012ACB19306CE5DF0075BEC8 /* libdsm.xcframework in Frameworks */,
+				012ACB17306CE5DF0075BEC8 /* libtasn1.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -167,15 +142,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				227D6F3D1CBD4B7C000E8A78 /* libiconv.tbd in Frameworks */,
-				229EC86A1CF3219A0007FE4A /* libtasn1.a in Frameworks */,
-				227D6F3B1CBD4B67000E8A78 /* libdsm.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		012ACB14306CE5DF0075BEC8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				012ACB16306CE5DF0075BEC8 /* libdsm.xcframework */,
+				012ACB15306CE5DF0075BEC8 /* libtasn1.xcframework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		2214DCB31B661CD2003E3EF1 = {
 			isa = PBXGroup;
 			children = (
@@ -183,6 +164,7 @@
 				2214DCBE1B661CD2003E3EF1 /* TOSMBClientExample */,
 				2214DCD81B661CD2003E3EF1 /* TOSMBClientExampleTests */,
 				227D6F1D1CBD49FE000E8A78 /* TOSMBClientFramework */,
+				012ACB14306CE5DF0075BEC8 /* Frameworks */,
 				2214DCBD1B661CD2003E3EF1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -202,6 +184,8 @@
 			children = (
 				2214DCC31B661CD2003E3EF1 /* TOAppDelegate.h */,
 				2214DCC41B661CD2003E3EF1 /* TOAppDelegate.m */,
+				012ACAE3306CB2F10075BEC8 /* SceneDelegate.h */,
+				012ACAE4306CB2F10075BEC8 /* SceneDelegate.m */,
 				22CB5AE91B78929B006F05F2 /* TORootViewController.h */,
 				22CB5AEA1B78929B006F05F2 /* TORootViewController.m */,
 				2214DCC61B661CD2003E3EF1 /* TORootTableViewController.h */,
@@ -245,7 +229,6 @@
 		2214DCE51B662632003E3EF1 /* TOSMBClient */ = {
 			isa = PBXGroup;
 			children = (
-				2214DCE61B662632003E3EF1 /* libdsm */,
 				22416F691B712BE7007B8A8B /* TOSMBClient.h */,
 				2214DCFA1B66847B003E3EF1 /* TOSMBConstants.h */,
 				2214DCFB1B66847B003E3EF1 /* TOSMBConstants.m */,
@@ -273,35 +256,6 @@
 			path = TOSMBClient;
 			sourceTree = "<group>";
 		};
-		2214DCE61B662632003E3EF1 /* libdsm */ = {
-			isa = PBXGroup;
-			children = (
-				2214DCE71B662632003E3EF1 /* bdsm */,
-				227D6F3C1CBD4B7C000E8A78 /* libiconv.tbd */,
-				229EC8681CF3219A0007FE4A /* libtasn1.a */,
-				2214DCF21B662632003E3EF1 /* libdsm.a */,
-			);
-			path = libdsm;
-			sourceTree = "<group>";
-		};
-		2214DCE71B662632003E3EF1 /* bdsm */ = {
-			isa = PBXGroup;
-			children = (
-				229EC86B1CF3240B0007FE4A /* bdsm.h */,
-				229EC86C1CF3240B0007FE4A /* libtasn1.h */,
-				229EC86D1CF3240B0007FE4A /* netbios_defs.h */,
-				229EC86E1CF3240B0007FE4A /* netbios_ns.h */,
-				229EC86F1CF3240B0007FE4A /* smb_defs.h */,
-				229EC8701CF3240B0007FE4A /* smb_dir.h */,
-				229EC8711CF3240B0007FE4A /* smb_file.h */,
-				229EC8721CF3240B0007FE4A /* smb_session.h */,
-				229EC8731CF3240B0007FE4A /* smb_share.h */,
-				229EC8741CF3240B0007FE4A /* smb_stat.h */,
-				229EC8751CF3240B0007FE4A /* smb_types.h */,
-			);
-			path = bdsm;
-			sourceTree = "<group>";
-		};
 		227D6F1D1CBD49FE000E8A78 /* TOSMBClientFramework */ = {
 			isa = PBXGroup;
 			children = (
@@ -321,17 +275,6 @@
 				E8431A081DCD53DD0007BCFA /* TOSMBSessionUploadTask.h in Headers */,
 				227D6F4C1CBD4EF4000E8A78 /* TOSMBClient.h in Headers */,
 				227D6F241CBD4ACA000E8A78 /* TOSMBConstants.h in Headers */,
-				229EC87D1CF3240B0007FE4A /* smb_session.h in Headers */,
-				229EC8781CF3240B0007FE4A /* netbios_defs.h in Headers */,
-				229EC87A1CF3240B0007FE4A /* smb_defs.h in Headers */,
-				229EC8801CF3240B0007FE4A /* smb_types.h in Headers */,
-				229EC87E1CF3240B0007FE4A /* smb_share.h in Headers */,
-				229EC8761CF3240B0007FE4A /* bdsm.h in Headers */,
-				229EC8771CF3240B0007FE4A /* libtasn1.h in Headers */,
-				229EC87F1CF3240B0007FE4A /* smb_stat.h in Headers */,
-				229EC8791CF3240B0007FE4A /* netbios_ns.h in Headers */,
-				229EC87B1CF3240B0007FE4A /* smb_dir.h in Headers */,
-				229EC87C1CF3240B0007FE4A /* smb_file.h in Headers */,
 				227D6F251CBD4ACA000E8A78 /* TONetBIOSNameService.h in Headers */,
 				227D6F261CBD4ACA000E8A78 /* TONetBIOSNameServiceEntry.h in Headers */,
 				E82FE0301DD91955008E82FA /* TOSMBSessionTask.h in Headers */,
@@ -431,6 +374,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -498,6 +442,7 @@
 				22416F681B7125A3007B8A8B /* TOFilesTableViewController.m in Sources */,
 				2214DCC81B661CD2003E3EF1 /* TORootTableViewController.m in Sources */,
 				2214DCF61B666766003E3EF1 /* TONetBIOSNameService.m in Sources */,
+				012ACAE5306CB2F10075BEC8 /* SceneDelegate.m in Sources */,
 				2214DCC51B661CD2003E3EF1 /* TOAppDelegate.m in Sources */,
 				22301F701B6DED2500326F84 /* TOSMBSessionFile.m in Sources */,
 				E842C6BE1DDA48040017A7AD /* TOSMBSessionTask.m in Sources */,
@@ -610,7 +555,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -658,7 +603,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -674,8 +619,10 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				DEVELOPMENT_TEAM = 6LF3GMKZAB;
 				INFOPLIST_FILE = TOSMBClientExample/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TOSMBClient/libdsm",
@@ -692,8 +639,10 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				DEVELOPMENT_TEAM = 6LF3GMKZAB;
 				INFOPLIST_FILE = TOSMBClientExample/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TOSMBClient/libdsm",
@@ -716,7 +665,11 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = TOSMBClientExampleTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "co.timoliver.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TOSMBClientExample.app/TOSMBClientExample";
@@ -732,7 +685,11 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = TOSMBClientExampleTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "co.timoliver.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TOSMBClientExample.app/TOSMBClientExample";
@@ -753,8 +710,11 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = TOSMBClient/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TOSMBClient/libdsm",
@@ -781,8 +741,11 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = TOSMBClient/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TOSMBClient/libdsm",

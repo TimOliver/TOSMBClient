@@ -24,7 +24,7 @@
 #define TOSMBSessionPrivate_h
 
 #import "TOSMBSession.h"
-#import "smb_session.h"
+#import <bdsm.h>
 
 @interface TOSMBSession ()
 

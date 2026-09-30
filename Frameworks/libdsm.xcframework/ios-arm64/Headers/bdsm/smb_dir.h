@@ -36,7 +36,7 @@
 #ifndef __BDSM_SMB_DIR_H_
 #define __BDSM_SMB_DIR_H_
 
-#include "smb_session.h"
+#include "bdsm/smb_session.h"
 
 
 /**
@@ -48,6 +48,7 @@
  * @param path The path of the file to delete
  * @return 0 on success or a DSM error code in case of error
  */
+BDSM_EXPORT
 int smb_directory_rm(smb_session *s, smb_tid tid, const char *path);
 
 /**
@@ -59,6 +60,7 @@ int smb_directory_rm(smb_session *s, smb_tid tid, const char *path);
  * @param path The path of the directory to create
  * @return 0 on success or a DSM error code in case of error
  */
+BDSM_EXPORT
 int smb_directory_create(smb_session *s, smb_tid tid, const char *path);
 
 #endif

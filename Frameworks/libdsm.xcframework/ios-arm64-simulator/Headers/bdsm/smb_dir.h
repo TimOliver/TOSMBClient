@@ -8,7 +8,7 @@
  *
  * This file is part of liBDSM. Copyright © 2014-2015 VideoLabs SAS
  *
- * Author: Julien 'Lta' BALLET <contact@lta.io>
+ * Author: Sylver Bruneau <sylver.bruneau@gmail.com>
  *
  * liBDSM is released under LGPLv2.1 (or later) and is also available
  * under a commercial license.
@@ -28,20 +28,39 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-#ifndef __BDSM_H_
-#define __BDSM_H_
+/**
+ * @file smb_dir.h
+ * @brief Directory operations
+ */
 
-#define BDSM_VERSION_CURRENT  4
-#define BDSM_VERSION_REVISION 0
-#define BDSM_VERSION_AGE      1
+#ifndef __BDSM_SMB_DIR_H_
+#define __BDSM_SMB_DIR_H_
 
-#include "netbios_ns.h"
-#include "netbios_defs.h"
-#include "smb_types.h"
-#include "smb_session.h"
-#include "smb_share.h"
-#include "smb_file.h"
-#include "smb_stat.h"
-#include "smb_dir.h"
+#include "bdsm/smb_session.h"
+
+
+/**
+ * @brief remove a directory on a share.
+ * @details Use this function to delete an empty directory
+ *
+ * @param s The session object
+ * @param tid The tid of the share the file is in, obtained via smb_tree_connect()
+ * @param path The path of the file to delete
+ * @return 0 on success or a DSM error code in case of error
+ */
+BDSM_EXPORT
+int smb_directory_rm(smb_session *s, smb_tid tid, const char *path);
+
+/**
+ * @brief create a directory on a share.
+ * @details Use this function to create a directory
+ *
+ * @param s The session object
+ * @param tid The tid of the share the file is in, obtained via smb_tree_connect()
+ * @param path The path of the directory to create
+ * @return 0 on success or a DSM error code in case of error
+ */
+BDSM_EXPORT
+int smb_directory_create(smb_session *s, smb_tid tid, const char *path);
 
 #endif

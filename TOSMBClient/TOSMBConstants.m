@@ -21,8 +21,7 @@
 // -------------------------------------------------------------------------------
 
 #import "TOSMBConstants.h"
-#import "netbios_defs.h"
-#import "smb_defs.h"
+#import <bdsm.h>
 
 NSString * const TOSMBClientErrorDomain = @"TOSMBClient";
 

@@ -25,7 +25,7 @@
 #import "TONetBIOSNameServiceEntry.h"
 #import "TONetBIOSNameService.h"
 #import "TONetBIOSNameServiceEntryPrivate.h"
-#import "netbios_defs.h"
+#import <bdsm.h>
 
 @interface TONetBIOSNameServiceEntry ()
 

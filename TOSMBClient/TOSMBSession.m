@@ -30,9 +30,7 @@
 #import "TOSMBSessionDownloadTaskPrivate.h"
 #import "TOSMBSessionUploadTaskPrivate.h"
 
-#import "smb_session.h"
-#import "smb_share.h"
-#import "smb_stat.h"
+#import <bdsm.h>
 
 @interface TOSMBSession ()
 

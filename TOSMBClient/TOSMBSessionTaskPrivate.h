@@ -28,10 +28,7 @@
 #import "TOSMBSessionTask.h"
 #import "TOSMBSession.h"
 #import "TOSMBSessionFilePrivate.h"
-#import "smb_defs.h"
-#import "smb_file.h"
-#import "smb_session.h"
-#import "smb_share.h"
+#import <bdsm.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

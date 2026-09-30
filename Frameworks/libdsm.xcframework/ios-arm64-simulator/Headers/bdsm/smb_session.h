@@ -31,9 +31,9 @@
 #ifndef __BDSM_SMB_SESSION_H_
 #define __BDSM_SMB_SESSION_H_
 
-
-#include "smb_defs.h"
-#include "smb_types.h"
+#include "bdsm/export.h"
+#include "bdsm/smb_defs.h"
+#include "bdsm/smb_types.h"
 
 /**
  * @file smb_session.h
@@ -46,7 +46,8 @@
  * call smb_session_connect, then authenticate with smb_authenticate.
  * @return A new Session object.
  */
-smb_session     *smb_session_new(void);
+BDSM_EXPORT
+smb_session     *smb_session_new();
 
 /**
  * @brief Close a session and deallocate its ressources
@@ -55,7 +56,19 @@ smb_session     *smb_session_new(void);
  *
  * @param s The session to destroy
  */
+BDSM_EXPORT
 void            smb_session_destroy(smb_session *s);
+
+/**
+ * @brief Interrupt any I/O smb_session functions (smb_session_connect,
+ * smb_fread...)
+ * @details This function can be called from any threads. The session is
+ * unusable after this call, only smb_session_destroy() should be called after.
+ *
+ * @param s The session to abort
+ */
+BDSM_EXPORT
+void            smb_session_abort(smb_session *s);
 
 /**
  * @brief Set the credentials for this session.
@@ -66,6 +79,7 @@ void            smb_session_destroy(smb_session *s);
  * @param login The user to login as.
  * @param password the user's password.
  */
+BDSM_EXPORT
 void            smb_session_set_creds(smb_session *s, const char *domain,
                                       const char *login, const char *password);
 #define SMB_CREDS_MAXLEN 128
@@ -87,6 +101,7 @@ void            smb_session_set_creds(smb_session *s, const char *domain,
  * or SMB_TRANSPORT_NBT (Netbios over TCP, ie legacy)
  * @return 0 on success or a DSM error code in case of error
  */
+BDSM_EXPORT
 int             smb_session_connect(smb_session *s, const char *hostname,
                                     uint32_t ip, int transport);
 
@@ -103,9 +118,11 @@ int             smb_session_connect(smb_session *s, const char *hostname,
  * on the remote host, when login fails, you are logged in as 'Guest'. Failure
  * might also indicate you didn't supplied all the credentials
  */
+BDSM_EXPORT
 int             smb_session_login(smb_session *s);
 
 
+BDSM_EXPORT
 int             smb_session_logoff(smb_session *s);
 
 /**
@@ -116,6 +133,7 @@ int             smb_session_logoff(smb_session *s);
  * 0  -> Logged in as regular user
  * -1 -> Error (not logged in, invalid session, etc.)
  */
+BDSM_EXPORT
 int             smb_session_is_guest(smb_session *s);
 
 /**
@@ -124,6 +142,7 @@ int             smb_session_is_guest(smb_session *s);
  * @param s The session object
  * @return The server name or NULL. The memory is owned by the session object.
  */
+BDSM_EXPORT
 const char      *smb_session_server_name(smb_session *s);
 
 /**
@@ -134,6 +153,7 @@ const char      *smb_session_server_name(smb_session *s);
  *
  * @return 0 if the feature is not supported, something else otherwise
  */
+BDSM_EXPORT
 int             smb_session_supports(smb_session *s, int what);
 
 /**
@@ -143,6 +163,7 @@ int             smb_session_supports(smb_session *s, int what);
  *
  * @param s The session object
  */
+BDSM_EXPORT
 uint32_t        smb_session_get_nt_status(smb_session *s);
 
 

@@ -22,7 +22,7 @@
 
 #import <Foundation/Foundation.h>
 #import "TONetBIOSNameServiceEntry.h"
-#import "netbios_ns.h"
+#import <bdsm.h>
 
 // Private Category for exposing the C-level data values
 @interface TONetBIOSNameServiceEntry ()

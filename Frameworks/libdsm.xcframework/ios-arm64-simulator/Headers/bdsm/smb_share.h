@@ -31,8 +31,8 @@
 #ifndef __BDSM_SMB_SHARE_H_
 #define __BDSM_SMB_SHARE_H_
 
-#include "smb_session.h"
-#include "smb_file.h"
+#include "bdsm/smb_session.h"
+#include "bdsm/smb_file.h"
 
 /**
  * @file smb_share.h
@@ -47,10 +47,11 @@
  *
  * @param[in] s The session object
  * @param[out] list A pointer to an opaque share_list object.
- * @param[out] p_count A pointer to the number of elements in the list
+ * @param[out] pointer to the number of elements in the list
  *
  * @return 0 on success or a DSM error code in case of error
  */
+BDSM_EXPORT
 int             smb_share_get_list(smb_session *s, smb_share_list *list, size_t *p_count);
 
 /**
@@ -59,6 +60,7 @@ int             smb_share_get_list(smb_session *s, smb_share_list *list, size_t 
  * @param list An opaque share list returned by smb_share_list()
  * @return The number of share in the opaque share_list object
  */
+BDSM_EXPORT
 size_t          smb_share_list_count(smb_share_list list);
 
 /**
@@ -69,6 +71,7 @@ size_t          smb_share_list_count(smb_share_list list);
  *
  * @return The string has been decoded from UTF16 to you local encoding
  */
+BDSM_EXPORT
 const char      *smb_share_list_at(smb_share_list list, size_t index);
 
 /**
@@ -77,6 +80,7 @@ const char      *smb_share_list_at(smb_share_list list, size_t index);
  * @param list The list to destroy. The object is not usable anymore afterward,
  * you can set it to 'NULL'
  */
+BDSM_EXPORT
 void            smb_share_list_destroy(smb_share_list list);
 
 /**
@@ -90,6 +94,7 @@ void            smb_share_list_destroy(smb_share_list list);
  * @param tid The pointer to an opaque open share
  * @return 0 on success or a DSM error code in case of error
  */
+BDSM_EXPORT
 int             smb_tree_connect(smb_session *s, const char *name, smb_tid *tid);
 
 /**
@@ -98,6 +103,7 @@ int             smb_tree_connect(smb_session *s, const char *name, smb_tid *tid)
  *
  * @return 0 on success or a DSM error code in case of error
  */
+BDSM_EXPORT
 int             smb_tree_disconnect(smb_session *s, smb_tid tid);
 
 #endif
